@@ -21,7 +21,7 @@ Le seguenti informazioni sono disponibili in questo dataset:
 
 Spero sia utile a qualcuno !
 
-# Italian Cities
+# Italian Cities List
 ## English
 A list of all (hopefully) italian cities with ZIP, Province (with two letter abbreviation), region and Centre Point (lat,lon)	
 
