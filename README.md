@@ -42,5 +42,7 @@ The following information is available on the dataset:
 
 Hope you find this helpfull !
 
+# Coming soon
 
-
+- [ ] Complete all missing coordinates
+- [ ] Include ISTAT Code
