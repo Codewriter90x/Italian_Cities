@@ -8,7 +8,7 @@ Questo file ha 14480 cittá, alcune di esse (2092) al momento non hanno le coord
 
 Le seguenti informazioni sono disponibili in questo dataset:
 
-1. Unique ID
+1. Unique Identifier
 2. Nome delle cittá
 3. Codice Avviamento Postale
 4. Provincia (Abbreviazione)
