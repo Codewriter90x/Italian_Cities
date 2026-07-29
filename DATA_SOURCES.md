@@ -19,6 +19,10 @@ attribuzione anteriori.
 
 ## Inventario delle fonti
 
+La dichiarazione machine-readable consumata dalla pipeline è
+`sources/manifest.json`. Il build verifica il checksum di ogni input prima di
+generare dati.
+
 | Fonte | Ruolo | Data di riferimento | Licenza | Stato |
 | --- | --- | --- | --- | --- |
 | File legacy del repository | Baseline e contenuto originario | artefatti del 1-2 maggio 2023; dati sottostanti ignoti | `LICENSE` dichiara CC0 1.0, ma la titolarità sui dati importati non è provata | preservata, non considerata fonte certa |
@@ -102,3 +106,11 @@ checksum registrato nei report:
 ```
 
 Data della trasformazione Milestone 1: 2026-07-29.
+
+## Milestone 2
+
+La Milestone 2 non incorpora nuove fonti geografiche e non modifica
+semanticamente i 14.480 record. Importa le fonti già dichiarate, verifica che
+riproducano la baseline M1 e costruisce nuovi schemi ed export.
+
+Data build: 2026-07-29. Schema: `2.0.0`.

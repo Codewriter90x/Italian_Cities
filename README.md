@@ -1,54 +1,68 @@
 # Italian Cities
 
-Dataset italiano di comuni e località associate a un CAP.
+Dataset riproducibile di comuni e località italiane associate a un CAP.
 
-> **Stato:** Milestone 1, working copy non pubblicata. La provenienza completa
-> del dataset legacy e l'applicabilità della licenza CC0 presente alla radice
-> non sono dimostrate. Prima di una release è necessario chiudere il gate
-> descritto in [`DATA_SOURCES.md`](DATA_SOURCES.md).
+> **Stato:** Milestone 2. Gli artefatti sotto `data/` sono generati: non
+> modificarli manualmente. La pubblicazione del dataset resta subordinata al
+> gate di provenienza e licenza descritto in
+> [`DATA_SOURCES.md`](DATA_SOURCES.md).
 
-## Dataset canonico
+## Output
 
-Il file canonico è [`data/italian_postal_localities.csv`](data/italian_postal_localities.csv).
-Contiene 14.480 record:
+La pipeline produce quattro tabelle CSV:
 
-- 7.186 corrispondenze esatte con comuni presenti nell'elenco ISTAT di
-  riferimento del 21 febbraio 2026;
-- 7.294 località postali non classificate, che possono comprendere frazioni,
-  località, denominazioni storiche o comuni non riconciliati;
-- 12.388 record con coordinate, di cui uno corretto e documentato;
-- 2.092 record senza coordinate, rappresentate da campi vuoti.
+| File | Grana | Righe |
+| --- | --- | ---: |
+| `data/municipalities.csv` | comune riconosciuto nel dataset | 7.186 |
+| `data/localities.csv` | località postale non classificata | 7.294 |
+| `data/postal_codes.csv` | relazione luogo-CAP | 14.480 |
+| `data/italian_locations.csv` | vista canonica unificata | 14.480 |
 
-Il CAP è conservato come stringa di cinque cifre e non è usato come
-identificatore. I file storici originali restano invariati sotto
-[`legacy/2023-05-02-original/`](legacy/2023-05-02-original/).
+La vista canonica è esportata anche come:
 
-## Riproduzione
+- `data/italian_locations.json`;
+- `data/italian_locations.xlsx`;
+- `data/italian_locations.sqlite`.
 
-Scaricare il riferimento ISTAT indicato in
-[`sources/README.md`](sources/README.md), quindi eseguire:
+CSV, JSON, XLSX e SQLite sono verificati record per record contro lo stesso
+contratto. I CAP restano stringhe di cinque caratteri, compresi gli zeri
+iniziali.
+
+## Build
+
+Prerequisiti:
+
+- Python 3.11 o successivo;
+- `XlsxWriter` per l'export XLSX.
+- il riferimento ISTAT dichiarato in [`sources/README.md`](sources/README.md).
 
 ```bash
-python3 scripts/normalize_legacy.py
-python3 scripts/validate_milestone1.py
+python3 -m pip install -r requirements.txt
+python3 scripts/build_dataset.py
+python3 scripts/validate_dataset.py
+python3 -m unittest discover -s tests -v
 ```
 
-La validazione controlla schema, conteggi, identificativi, formati, coordinate,
-corrispondenze ISTAT e invarianti di migrazione rispetto alla baseline.
+`build_dataset.py` è l'orchestratore: verifica i checksum delle fonti,
+normalizza, costruisce le quattro tabelle, richiama gli exporter e produce
+`reports/milestone2-diff.json`.
 
-## Documentazione
+Il workflow completo è documentato in
+[`DATASET_PIPELINE.md`](DATASET_PIPELINE.md).
 
-- [`DATA_SOURCES.md`](DATA_SOURCES.md): provenienza, date e licenze;
-- [`SCHEMA.md`](SCHEMA.md): perimetro semantico, campi e identificativi;
-- [`CONTRIBUTING.md`](CONTRIBUTING.md): regole per modifiche riproducibili;
-- [`CHANGELOG.md`](CHANGELOG.md): modifiche alla working copy;
-- [`MILESTONE1_REPORT.md`](MILESTONE1_REPORT.md): esito e questioni aperte.
+## Qualità e limiti
+
+- 7.186 record sono comuni riconosciuti tramite corrispondenza esatta con
+  ISTAT 2026-02-21;
+- 7.294 record restano località postali non classificate;
+- 2.092 record restano senza coordinate;
+- nessuna classificazione, relazione padre o coordinata viene inventata;
+- la baseline della Milestone 1 è preservata sotto
+  `legacy/milestone-1-canonical/`.
 
 ## English summary
 
-The canonical file contains Italian municipalities and postal localities. Only
-exact current ISTAT name/province matches are classified as municipalities;
-all other records remain explicitly unclassified. The original files are
-preserved unchanged. This working copy is not release-ready until the legacy
-source and data-licensing questions documented in `DATA_SOURCES.md` are
-resolved.
+This repository now uses a generated-data pipeline. Do not edit CSV, JSON,
+XLSX, SQLite or legacy exports by hand. Run `scripts/build_dataset.py`, validate
+all formats with `scripts/validate_dataset.py`, and include a declared,
+checksummed source for every data change.

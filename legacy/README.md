@@ -23,3 +23,7 @@ on `2023-05-02T06:51:41Z`. The SQL Server export header records
 
 No earlier source snapshot, import script, or source citation is present in the
 repository history.
+
+Milestone 2 removes the duplicate root-level exports so they cannot be
+mistaken for current editable data. These preserved files remain the immutable
+source baseline used by the generated-data pipeline.

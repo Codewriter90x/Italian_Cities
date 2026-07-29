@@ -1,0 +1,41 @@
+{
+  "canonical_rows": 14480,
+  "coordinate_status_counts": {
+    "available": 12387,
+    "corrected": 1,
+    "missing": 2092
+  },
+  "cross_format_equivalence": {
+    "csv": true,
+    "json": true,
+    "sqlite": true,
+    "xlsx": true
+  },
+  "errors": [],
+  "output_sha256": {
+    "italian_locations": "7f166a1247067d07e67b628e797241d101481de742be5bf826b0b46aa97ae619",
+    "json": "0b33ac6f8f7e82c6a545ea2eb0c2a03f73562e092d5d0f3979fbed09a9cd4504",
+    "localities": "67a6bad9fbfcb87cf7654c96ced75394734317113e98e52bafd2c2e9e42d066c",
+    "municipalities": "815cef2ee41d5a6e734b7512667155188934866e72c45023f74baec43b29a662",
+    "postal_codes": "058507df59c003f8043ef7f463b8b6b9abcb806fcd21d7b972b61bdd24f3b28a",
+    "sqlite": "eccfc182374714eb18be775cccd9861fdb12863e460ab462b6a6d7e74d94648d",
+    "xlsx": "b8bacc51ea7c34ce684fe0e2e16d513696edf2d99f470387cccb658491e2bcbb"
+  },
+  "record_digest": "3875b5080718139ba353ba229f4913faf926f5eb9968ed569642c4cedfab00dc",
+  "record_type_counts": {
+    "municipality": 7186,
+    "postal_locality_unclassified": 7294
+  },
+  "schema_version": "2.0.0",
+  "status": "passed",
+  "table_rows": {
+    "localities": 7294,
+    "municipalities": 7186,
+    "postal_codes": 14480
+  },
+  "warnings": [
+    "2092 records still lack coordinates",
+    "7294 localities remain unclassified",
+    "Legacy source provenance and release licensing remain unresolved"
+  ]
+}

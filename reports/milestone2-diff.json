@@ -1,0 +1,85 @@
+{
+  "baseline": {
+    "fields": [
+      "location_id",
+      "legacy_uuid",
+      "name",
+      "postal_code",
+      "record_type",
+      "municipality_istat_code",
+      "province_code",
+      "province_name",
+      "region_name",
+      "country_code",
+      "country_name",
+      "latitude",
+      "longitude",
+      "coordinate_status",
+      "source_snapshot"
+    ],
+    "path": "legacy/milestone-1-canonical/italian_postal_localities.csv",
+    "rows": 14480,
+    "sha256": "735a7e9a1e7fb4eab005022478772ceab73d0034120f4f243ca68d4c64668a3d"
+  },
+  "build_date": "2026-07-29",
+  "coordinate_status_counts": {
+    "available": 12387,
+    "corrected": 1,
+    "missing": 2092
+  },
+  "current": {
+    "fields": [
+      "location_id",
+      "legacy_uuid",
+      "name",
+      "normalized_name",
+      "location_kind",
+      "municipality_istat_code",
+      "parent_municipality_id",
+      "postal_code",
+      "province_code",
+      "province_name",
+      "region_name",
+      "country_code",
+      "country_name",
+      "latitude",
+      "longitude",
+      "coordinate_status",
+      "source_snapshot"
+    ],
+    "path": "data/italian_locations.csv",
+    "rows": 14480,
+    "sha256": "7f166a1247067d07e67b628e797241d101481de742be5bf826b0b46aa97ae619"
+  },
+  "milestone": 2,
+  "record_changes": {
+    "added": 0,
+    "added_legacy_uuids": [],
+    "changed": 0,
+    "changed_samples": [],
+    "removed": 0,
+    "removed_legacy_uuids": [],
+    "samples_truncated": false,
+    "unchanged": 14480
+  },
+  "record_type_counts": {
+    "municipality": 7186,
+    "postal_locality_unclassified": 7294
+  },
+  "schema_changes": {
+    "added_fields": [
+      "normalized_name",
+      "parent_municipality_id"
+    ],
+    "removed_fields": [],
+    "renamed_fields": {
+      "record_type": "location_kind"
+    }
+  },
+  "schema_version": "2.0.0",
+  "source_manifest": {
+    "path": "sources/manifest.json",
+    "sha256": "87d721a16e5dcd18a4094cd8ce5aff112af3456d2c14f127e95a4a3f4e959020",
+    "version": "2.0.0"
+  }
+}

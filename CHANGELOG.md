@@ -1,5 +1,36 @@
 # Changelog
 
+## Unreleased — Milestone 2 working copy
+
+### Added
+
+- Pipeline Python riproducibile orchestrata da `scripts/build_dataset.py`.
+- Tabelle separate per comuni, località, relazioni CAP e vista unificata.
+- Export equivalenti in JSON, XLSX e SQLite.
+- Manifest machine-readable delle fonti con checksum obbligatori.
+- Snapshot ISTAT versionato con attribuzione CC BY 4.0.
+- Chiave `normalized_name` per confronti senza differenze di accento,
+  apostrofo, punteggiatura o maiuscole.
+- Report strutturato delle differenze rispetto alla baseline Milestone 1.
+- Validazione incrociata dei formati e 16 test automatici di schema, integrità
+  e coordinate.
+- GitHub Action che rigenera e rifiuta artefatti divergenti.
+
+### Changed
+
+- `record_type` è rinominato `location_kind` nella vista schema 2.0.0.
+- Aggiunto `parent_municipality_id`, volutamente vuoto finché una fonte non
+  documenta la relazione.
+- Il canonico M1 è preservato sotto `legacy/milestone-1-canonical/`.
+- CSV, JSON, XLSX e SQLite sono ora artefatti generati, non file da modificare.
+- Rimossi dalla radice i tre export legacy duplicati; le copie byte-per-byte
+  restano preservate e verificabili sotto `legacy/2023-05-02-original/`.
+
+### Data comparison
+
+- 14.480 record invariati semanticamente rispetto alla Milestone 1.
+- 0 aggiunti, 0 rimossi, 0 modificati.
+
 ## Unreleased — Milestone 1 working copy
 
 ### Added
