@@ -1,0 +1,76 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v1.0.0"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build draft release
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out tagged commit
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install pipeline dependency
+        run: python -m pip install -r requirements.txt
+
+      - name: Validate tagged data
+        run: python scripts/validate_dataset.py
+
+      - name: Run tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Build release directory
+        run: >-
+          python scripts/build_release.py
+          --version "${GITHUB_REF_NAME}"
+
+      - name: Validate release directory
+        run: >-
+          python scripts/validate_release.py
+          --directory "dist/${GITHUB_REF_NAME}"
+
+      - name: Preserve release package as workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: "Italian_Cities-${{ github.ref_name }}"
+          path: "dist/${{ github.ref_name }}/*"
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Create or update draft GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if ! gh release view "${GITHUB_REF_NAME}" --repo "${GITHUB_REPOSITORY}" >/dev/null 2>&1; then
+            gh release create "${GITHUB_REF_NAME}" \
+              --repo "${GITHUB_REPOSITORY}" \
+              --verify-tag \
+              --draft \
+              --title "Italian Cities ${GITHUB_REF_NAME}" \
+              --notes-file "release/v1.0.0.md"
+          fi
+          gh release upload "${GITHUB_REF_NAME}" \
+            "dist/${GITHUB_REF_NAME}/municipalities.csv" \
+            "dist/${GITHUB_REF_NAME}/localities.csv" \
+            "dist/${GITHUB_REF_NAME}/postal_codes.csv" \
+            "dist/${GITHUB_REF_NAME}/italian_locations.csv" \
+            "dist/${GITHUB_REF_NAME}/italian_locations.json" \
+            "dist/${GITHUB_REF_NAME}/italian_locations.xlsx" \
+            "dist/${GITHUB_REF_NAME}/italian_locations.sqlite" \
+            "dist/${GITHUB_REF_NAME}/italian_locations.sql" \
+            "dist/${GITHUB_REF_NAME}/SHA256SUMS" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --clobber

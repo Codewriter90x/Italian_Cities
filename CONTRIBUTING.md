@@ -40,6 +40,8 @@ Nominatim; rispettare sempre termini, limiti e attribuzione della fonte scelta.
    python3 scripts/check_determinism.py
    python3 scripts/validate_dataset.py
    python3 -m unittest discover -s tests -v
+   python3 scripts/build_release.py
+   python3 scripts/validate_release.py
    ```
 
 5. Esaminare `reports/milestone2-diff.json`: cambi aggiunti, rimossi o
@@ -62,6 +64,10 @@ La pull request deve superare il check richiesto `Data quality gate`. Il check
 viene eseguito su ogni PR e il branch `main` non accetta merge quando manca o
 fallisce.
 
+Per una correzione dati è preferibile aprire il modulo GitHub
+`Data correction`, indicando identificativo, campo, valore precedente e
+proposto, fonte, data e licenza.
+
 ## Regole sugli identificativi
 
 - Non cambiare `legacy_uuid`.
@@ -76,6 +82,24 @@ fallisce.
 `scripts/export_formats.py` genera JSON, XLSX e SQLite esclusivamente da
 `data/italian_locations.csv`. Non correggere un formato derivato: correggere
 fonte o trasformazione e rigenerare tutti gli export.
+
+`scripts/export_sql.py` genera lo script SQL SQLite-compatible.
+`scripts/build_release.py` copia esclusivamente gli artefatti generati, crea lo
+script SQL e scrive `SHA256SUMS`. Il dump SQL Server sotto `legacy/` non entra
+mai nel bundle.
+
+## Release
+
+Il tag deve corrispondere alla versione supportata dal packaging. Il workflow
+`.github/workflows/release.yml`:
+
+1. valida dataset e test sul commit taggato;
+2. costruisce e valida `dist/<versione>/`;
+3. conserva il bundle come artifact CI;
+4. crea o aggiorna una GitHub Release **draft**.
+
+La pubblicazione della draft è un gate maintainer separato. Richiede il
+controllo di note, checksum, asset e stato di provenienza/licenze.
 
 ## Licenze
 

@@ -129,3 +129,18 @@ elaborati localmente, un'istanza propria o provider autorizzati sono descritti
 in `COORDINATE_ENRICHMENT.md`.
 
 Data quality gate: 2026-07-29. Versione: `3.0.0`.
+
+## Milestone 4 e release v1.0.0
+
+La Milestone 4 non aggiunge né modifica record. Prepara una distribuzione
+tecnica riproducibile dei dati già presenti e aggiunge attribuzioni e limiti
+direttamente nel README e nelle note di release.
+
+Il bundle non include il dump SQL Server storico. SQLite e lo script SQL
+SQLite-compatible sono entrambi derivati da `data/italian_locations.csv` e
+verificati tramite digest.
+
+Il gate di provenienza legacy resta aperto: l'autorizzazione tecnica alla
+creazione del bundle non dimostra diritti upstream. Per questo il workflow crea
+la GitHub Release come draft. La pubblicazione richiede una decisione esplicita
+del maintainer dopo aver letto l'avviso sulle licenze.
