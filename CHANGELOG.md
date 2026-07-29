@@ -1,5 +1,29 @@
 # Changelog
 
+## Unreleased — Milestone 5 community and visibility
+
+### Added
+
+- GitHub Pages statica con ricerca per nome, CAP e provincia, filtri, mappa a
+  punti e statistiche di copertura.
+- Build deterministica della Pages a partire dal CSV canonico.
+- Social preview 1280×640 riutilizzata come immagine Open Graph.
+- Issue form dedicati a località errata, CAP errato, coordinata mancante e
+  variazione amministrativa.
+- Workflow di test e deploy GitHub Pages.
+- Piano di lancio e testi adattati alle community italiane open data, .NET,
+  Python e GIS.
+
+### Changed
+
+- README con accesso diretto alla ricerca web, alle Discussions e ai moduli di
+  correzione specifici.
+- Quality gate esteso alla build Pages e ai test JavaScript di ricerca/mappa.
+
+### Data comparison
+
+- Nessuna modifica ai 14.480 record o allo schema dataset `2.0.0`.
+
 ## v1.0.0 — Milestone 4 release candidate
 
 ### Added

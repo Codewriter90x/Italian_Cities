@@ -1,0 +1,79 @@
+name: Coordinata mancante
+description: Proponi coordinate verificabili per un record che ne è privo.
+title: "[Coordinata mancante]: "
+labels:
+  - data-correction
+  - coordinates
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Le coordinate devono essere WGS84 e rappresentative della località.
+        Non usare il servizio Nominatim pubblico per interrogazioni massive.
+  - type: input
+    id: location_id
+    attributes:
+      label: Identificativo
+      description: "`location_id` o `legacy_uuid`."
+    validations:
+      required: true
+  - type: input
+    id: locality
+    attributes:
+      label: Località, CAP e provincia
+      placeholder: Abano Terme Bagni, 35031, PD
+    validations:
+      required: true
+  - type: input
+    id: latitude
+    attributes:
+      label: Latitudine proposta
+      placeholder: "45.358"
+    validations:
+      required: true
+  - type: input
+    id: longitude
+    attributes:
+      label: Longitudine proposta
+      placeholder: "11.788"
+    validations:
+      required: true
+  - type: dropdown
+    id: method
+    attributes:
+      label: Metodo
+      options:
+        - Centroide da confine geografico ufficiale
+        - Punto da estratto OpenStreetMap
+        - Provider o istanza geocoding autorizzata
+        - Rilevazione manuale documentata
+        - Altro metodo riproducibile
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Fonte verificabile
+    validations:
+      required: true
+  - type: input
+    id: reference_date
+    attributes:
+      label: Data di riferimento
+      placeholder: "2026-07-29"
+    validations:
+      required: true
+  - type: textarea
+    id: provenance
+    attributes:
+      label: Provenienza, licenza e procedura
+      description: Indica attribuzione e passaggi necessari per riprodurre il valore.
+    validations:
+      required: true
+  - type: checkboxes
+    id: policy
+    attributes:
+      label: Policy
+      options:
+        - label: La proposta non deriva da bulk geocoding sul Nominatim pubblico.
+          required: true

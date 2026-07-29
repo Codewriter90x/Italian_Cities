@@ -1,0 +1,69 @@
+name: Variazione amministrativa
+description: Segnala fusioni, soppressioni, istituzioni o cambi territoriali ufficiali.
+title: "[Variazione amministrativa]: "
+labels:
+  - data-correction
+  - administrative-change
+body:
+  - type: dropdown
+    id: change_type
+    attributes:
+      label: Tipo di variazione
+      options:
+        - Istituzione di un comune
+        - Fusione o incorporazione
+        - Soppressione
+        - Cambio denominazione
+        - Cambio provincia o regione
+        - Cambio codice ISTAT
+        - Altra variazione amministrativa
+    validations:
+      required: true
+  - type: textarea
+    id: affected_records
+    attributes:
+      label: Record interessati
+      description: Elenca `location_id`, denominazioni e codici ISTAT coinvolti.
+    validations:
+      required: true
+  - type: input
+    id: effective_date
+    attributes:
+      label: Data di efficacia
+      placeholder: "2026-01-01"
+    validations:
+      required: true
+  - type: textarea
+    id: proposed_change
+    attributes:
+      label: Modifica proposta
+      description: Descrivi il nuovo assetto comune–provincia–regione.
+    validations:
+      required: true
+  - type: input
+    id: official_source
+    attributes:
+      label: Fonte ufficiale
+      description: ISTAT, normativa o atto amministrativo verificabile.
+    validations:
+      required: true
+  - type: input
+    id: source_reference_date
+    attributes:
+      label: Data della fonte
+      placeholder: "2026-02-21"
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impatto atteso
+      description: Codici, nomi, CAP, relazioni e compatibilità da riesaminare.
+    validations:
+      required: true
+  - type: textarea
+    id: provenance
+    attributes:
+      label: Provenienza e licenza
+    validations:
+      required: true

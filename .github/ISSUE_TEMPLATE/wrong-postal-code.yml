@@ -1,0 +1,67 @@
+name: CAP errato
+description: Segnala un CAP errato, obsoleto o associato alla località sbagliata.
+title: "[CAP errato]: "
+labels:
+  - data-correction
+  - postal-code
+body:
+  - type: markdown
+    attributes:
+      value: |
+        I CAP sono conservati come stringhe di cinque cifre. Un CAP non è un
+        identificatore univoco e può essere condiviso da più località.
+  - type: input
+    id: location_id
+    attributes:
+      label: Identificativo
+      description: "`location_id` o `legacy_uuid`."
+    validations:
+      required: true
+  - type: input
+    id: locality
+    attributes:
+      label: Località e provincia
+      placeholder: Roma (RM)
+    validations:
+      required: true
+  - type: input
+    id: current_postal_code
+    attributes:
+      label: CAP attuale
+      placeholder: "00100"
+    validations:
+      required: true
+  - type: input
+    id: proposed_postal_code
+    attributes:
+      label: CAP proposto
+      placeholder: "00118"
+    validations:
+      required: true
+  - type: textarea
+    id: reason
+    attributes:
+      label: Motivazione
+      description: Descrivi se si tratta di errore, variazione o ambiguità.
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Fonte verificabile
+      description: Preferire una fonte ufficiale con data.
+    validations:
+      required: true
+  - type: input
+    id: reference_date
+    attributes:
+      label: Data di riferimento
+      placeholder: "2026-07-29"
+    validations:
+      required: true
+  - type: textarea
+    id: provenance
+    attributes:
+      label: Provenienza e licenza
+    validations:
+      required: true

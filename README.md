@@ -4,6 +4,10 @@ Dataset riproducibile di nomi geografici italiani associati a CAP, con comuni
 riconosciuti tramite ISTAT, località postali non classificate e coordinate
 quando disponibili.
 
+**[Apri la ricerca web](https://codewriter90x.github.io/Italian_Cities/)** ·
+[Download v1.0.0](https://github.com/Codewriter90x/Italian_Cities/releases/tag/v1.0.0) ·
+[Discussions](https://github.com/Codewriter90x/Italian_Cities/discussions)
+
 > **Release:** `v1.0.0` · **Schema:** `2.0.0` · **Build:** 29 luglio 2026
 > Gli artefatti sono generati: non modificare manualmente CSV, JSON, XLSX,
 > SQLite o SQL.
@@ -231,9 +235,14 @@ Versionamento:
 
 ## Segnalare una correzione
 
-Apri il modulo
-[`Data correction`](https://github.com/Codewriter90x/Italian_Cities/issues/new?template=data_correction.yml)
-indicando:
+Scegli il modulo più specifico:
+
+- [località errata](https://github.com/Codewriter90x/Italian_Cities/issues/new?template=wrong-locality.yml);
+- [CAP errato](https://github.com/Codewriter90x/Italian_Cities/issues/new?template=wrong-postal-code.yml);
+- [coordinata mancante](https://github.com/Codewriter90x/Italian_Cities/issues/new?template=missing-coordinate.yml);
+- [variazione amministrativa](https://github.com/Codewriter90x/Italian_Cities/issues/new?template=administrative-change.yml).
+
+Ogni segnalazione deve indicare:
 
 1. `location_id` o `legacy_uuid`;
 2. campo interessato;
@@ -243,6 +252,22 @@ indicando:
 
 Le correzioni vengono implementate nella pipeline e rigenerate; non si
 accettano modifiche manuali ai file sotto `data/`.
+
+Per domande, casi d'uso e proposte non ancora riconducibili a una correzione,
+usa le [GitHub Discussions](https://github.com/Codewriter90x/Italian_Cities/discussions).
+
+## Ricerca e mappa
+
+La [GitHub Pages](https://codewriter90x.github.io/Italian_Cities/) offre:
+
+- ricerca senza distinzione di accenti e maiuscole per nome, CAP e provincia;
+- filtri per provincia, tipo di località e disponibilità delle coordinate;
+- mappa a punti generata localmente dalle coordinate del dataset;
+- statistiche di copertura e download diretti della release.
+
+Il sito è statico, non usa analytics, geocoding o servizi cartografici esterni.
+Viene costruito in CI da `data/italian_locations.csv` tramite
+`scripts/build_pages.py`.
 
 ## Riprodurre la release
 
@@ -256,6 +281,8 @@ python3 scripts/validate_dataset.py
 python3 -m unittest discover -s tests -v
 python3 scripts/build_release.py
 python3 scripts/validate_release.py
+python3 scripts/build_pages.py
+node --test tests/pages_core.test.mjs
 ```
 
 La pipeline e i gate sono descritti in
