@@ -1,0 +1,33 @@
+{
+  "manifest_version": "2.0.0",
+  "sources": [
+    {
+      "id": "legacy_csv",
+      "path": "legacy/2023-05-02-original/Italian Cities.csv",
+      "role": "Historical raw input",
+      "reference_date": "unknown",
+      "artifact_date": "2023-05-02",
+      "sha256": "45f31340a6f0c390927aa1224424a75c6c968e601aa2df0a746413431e82d050",
+      "license_status": "CC0 declared in repository; upstream rights unproven",
+      "url": "https://github.com/Codewriter90x/Italian_Cities"
+    },
+    {
+      "id": "istat_municipalities",
+      "path": "sources/snapshots/istat/Elenco-comuni-italiani-2026-02-21.xlsx",
+      "role": "Exact municipality classification and ISTAT codes",
+      "reference_date": "2026-02-21",
+      "sha256": "83842076860450f7e482daecea6b7a769f5f93d0bf5b0d48802b44896d7a26d5",
+      "license_status": "CC BY 4.0 attribution required",
+      "url": "https://www.istat.it/storage/codici-unita-amministrative/Elenco-comuni-italiani.xlsx"
+    },
+    {
+      "id": "milestone1_baseline",
+      "path": "legacy/milestone-1-canonical/italian_postal_localities.csv",
+      "role": "Semantic comparison baseline",
+      "reference_date": "2026-07-29",
+      "sha256": "735a7e9a1e7fb4eab005022478772ceab73d0034120f4f243ca68d4c64668a3d",
+      "license_status": "Provisional; see DATA_SOURCES.md",
+      "url": "https://github.com/Codewriter90x/Italian_Cities/commit/86d0165b47ee3fa33df333b421880a33a84fbb61"
+    }
+  ]
+}

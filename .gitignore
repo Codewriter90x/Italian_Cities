@@ -2,3 +2,6 @@ sources/cache/*
 !sources/cache/.gitkeep
 __pycache__/
 *.pyc
+*.tmp
+*.normalized
+reports/*.png

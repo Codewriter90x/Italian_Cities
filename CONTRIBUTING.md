@@ -3,8 +3,8 @@
 ## Principi
 
 Ogni modifica ai dati deve essere verificabile, attribuibile e riproducibile.
-Non modificare manualmente `data/italian_postal_localities.csv`: è un artefatto
-generato.
+Non modificare manualmente alcun CSV, JSON, XLSX, SQLite o SQL generato.
+`data/` è interamente prodotto dalla pipeline.
 
 I file sotto `legacy/2023-05-02-original/` sono una baseline immutabile. Non
 correggerli, rinominarli o rigenerarli.
@@ -30,23 +30,27 @@ Nominatim; rispettare sempre termini, limiti e attribuzione della fonte scelta.
 
 ## Workflow locale
 
-1. Scaricare il riferimento descritto in `sources/README.md`.
-2. Modificare la trasformazione, non il CSV generato.
-3. Rigenerare e validare:
+1. Dichiarare o aggiornare la fonte in `sources/manifest.json`.
+2. Scaricare il riferimento descritto in `sources/README.md`.
+3. Modificare la trasformazione o lo schema, non gli output generati.
+4. Rigenerare e validare:
 
    ```bash
-   python3 scripts/normalize_legacy.py
-   python3 scripts/validate_milestone1.py
+   python3 scripts/build_dataset.py
+   python3 scripts/validate_dataset.py
+   python3 -m unittest discover -s tests -v
    ```
 
-4. Verificare la baseline:
+5. Esaminare `reports/milestone2-diff.json`: cambi aggiunti, rimossi o
+   modificati devono essere intenzionali e spiegati.
+6. Verificare le baseline:
 
    ```bash
    cd legacy/2023-05-02-original
    shasum -a 256 -c SHA256SUMS
    ```
 
-5. Controllare che `reports/milestone1-validation.json` abbia
+7. Controllare che `reports/milestone2-validation.json` abbia
    `"status": "passed"` e un array `errors` vuoto.
 
 I warning non vanno nascosti: descrivono debito dati o gate di pubblicazione
@@ -60,6 +64,12 @@ ancora aperti.
   se cambia un `location_id`.
 - Nuovi tipi di record richiedono prima un aggiornamento a `SCHEMA.md` e ai
   controlli automatici.
+
+## Export
+
+`scripts/export_formats.py` genera JSON, XLSX e SQLite esclusivamente da
+`data/italian_locations.csv`. Non correggere un formato derivato: correggere
+fonte o trasformazione e rigenerare tutti gli export.
 
 ## Licenze
 

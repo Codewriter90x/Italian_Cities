@@ -13,7 +13,7 @@ Stato: completata come working copy locale; pubblicazione bloccata.
 | Inventario e preservazione legacy | completato | tre file byte-per-byte, checksum in `legacy/2023-05-02-original/SHA256SUMS` |
 | Perimetro semantico | completato | definizioni e classificazione prudenziale in `SCHEMA.md` |
 | Provenienza, date e licenze | documentato con limite esplicito | `DATA_SOURCES.md`; origine completa non ricostruibile |
-| Schema canonico | completato | `SCHEMA.md` e intestazione del CSV |
+| Schema canonico | completato | baseline preservata sotto `legacy/milestone-1-canonical/` |
 | Correzione anomalie accertate | completato | una riga nulla rimossa, una longitudine corretta, coordinate mancanti esplicite |
 | Sigle provincia | verificato | nessuna sigla vuota; `NA` confermata come valore valido |
 | Identificativi stabili | completato | codici ISTAT o UUIDv5 deterministico; UUID legacy conservati |

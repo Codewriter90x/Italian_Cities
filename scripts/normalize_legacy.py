@@ -19,8 +19,13 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_LEGACY = ROOT / "legacy/2023-05-02-original/Italian Cities.csv"
-DEFAULT_ISTAT = ROOT / "sources/cache/Elenco-comuni-italiani-2026-02-21.xlsx"
-DEFAULT_OUTPUT = ROOT / "data/italian_postal_localities.csv"
+DEFAULT_ISTAT = (
+    ROOT
+    / "sources/snapshots/istat/Elenco-comuni-italiani-2026-02-21.xlsx"
+)
+DEFAULT_OUTPUT = (
+    ROOT / "legacy/milestone-1-canonical/italian_postal_localities.csv"
+)
 DEFAULT_REPORT = ROOT / "reports/milestone1-normalization.json"
 EXPECTED_LEGACY_SHA256 = (
     "45f31340a6f0c390927aa1224424a75c6c968e601aa2df0a746413431e82d050"

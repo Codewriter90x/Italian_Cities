@@ -1,4 +1,4 @@
-# Canonical schema
+# Dataset schema — version 2.0.0
 
 ## Perimetro semantico
 
@@ -20,9 +20,34 @@ un elenco ufficiale completo dei soli comuni italiani.
 `postal_locality_unclassified` è quindi una categoria prudenziale, non
 sinonimo di frazione.
 
-## File canonico
+## Tabelle generate
 
-`data/italian_postal_localities.csv` è UTF-8, delimitato da virgole, con
+### `municipalities.csv`
+
+Grana: un comune riconosciuto nel dataset. `municipality_id` è
+`IT-COM-<codice ISTAT>`. Contiene codice ISTAT, UUID legacy, nome e chiave
+normalizzata, CAP, geografia amministrativa, coordinate e provenienza.
+
+### `localities.csv`
+
+Grana: una località postale non ancora riconciliata. `locality_id` è un UUIDv5
+deterministico preceduto da `IT-LOC-`. `parent_municipality_id` resta vuoto
+finché una fonte autorevole non documenta la relazione.
+
+### `postal_codes.csv`
+
+Grana: una relazione luogo-CAP. Il CAP non è una chiave univoca. Nella
+Milestone 2 ogni luogo ha una sola relazione legacy marcata `is_primary=true`;
+lo schema consente future relazioni multiple.
+
+### `italian_locations.csv`
+
+Vista canonica unificata di comuni e località. È l'unica base degli export
+JSON, XLSX e SQLite.
+
+## Schema della vista canonica
+
+`data/italian_locations.csv` è UTF-8, delimitato da virgole, con
 intestazione e terminatori di riga LF.
 
 | Campo | Tipo/logica | Obbligatorio | Descrizione |
@@ -30,13 +55,15 @@ intestazione e terminatori di riga LF.
 | `location_id` | stringa | sì | Identificatore canonico deterministico |
 | `legacy_uuid` | UUID | sì | Identificatore originario conservato per migrazione |
 | `name` | stringa | sì | Denominazione legacy |
-| `postal_code` | stringa, `^[0-9]{5}$` | sì | CAP con eventuali zeri iniziali |
-| `record_type` | enum | sì | `municipality` o `postal_locality_unclassified` |
+| `normalized_name` | stringa | sì | Chiave di ricerca normalizzata |
+| `location_kind` | enum | sì | `municipality` o `postal_locality_unclassified` |
 | `municipality_istat_code` | stringa di 6 cifre | solo comuni | Codice ISTAT corrente del comune riconosciuto |
+| `parent_municipality_id` | identificatore | no | Relazione futura, vuota finché non documentata |
+| `postal_code` | stringa, `^[0-9]{5}$` | sì | CAP con eventuali zeri iniziali |
 | `province_code` | stringa, `^[A-Z]{2}$` | sì | Sigla legacy della provincia |
 | `province_name` | stringa | sì | Nome legacy della provincia |
 | `region_name` | stringa | sì | Nome legacy della regione |
-| `country_code` | ISO 3166-1 alpha-2 | sì | Sempre `IT` nella Milestone 1 |
+| `country_code` | ISO 3166-1 alpha-2 | sì | Sempre `IT` |
 | `country_name` | stringa | sì | Nome paese legacy |
 | `latitude` | decimale WGS84 | con longitudine | Vuoto se la coppia non è disponibile |
 | `longitude` | decimale WGS84 | con latitudine | Vuoto se la coppia non è disponibile |
@@ -45,6 +72,27 @@ intestazione e terminatori di riga LF.
 
 I campi vuoti sono l'unica rappresentazione ammessa dei valori mancanti. La
 stringa letterale `NULL` non è ammessa nel canonico.
+
+## Normalizzazione
+
+`name` non viene riscritto. `normalized_name`:
+
+1. uniforma apostrofi tipografici e backtick;
+2. applica Unicode NFKD e rimuove i segni diacritici;
+3. applica il case folding;
+4. sostituisce punteggiatura e sequenze di spazi con un singolo spazio;
+5. rimuove gli spazi iniziali e finali.
+
+Esempi: `Sant’Agata`, `SANT'AGATA` e `sant agata` producono
+`sant agata`; `Città` produce `citta`.
+
+## Equivalenza dei formati
+
+JSON conserva stringhe e ordine delle righe del CSV. SQLite usa colonne `TEXT`
+per preservare identificativi, CAP e precisione testuale delle coordinate.
+Nel workbook il CAP resta testo, mentre latitudine e longitudine sono numeriche.
+Il validatore ammette per XLSX soltanto differenze di rappresentazione numerica
+entro `1e-12`.
 
 ## Identificativi stabili
 
@@ -78,7 +126,8 @@ deve essere riutilizzato per nuove righe.
 - `visible` è stato omesso perché vale `True` per tutte le righe reali e non
   descrive una proprietà geografica.
 - `country_code=IT` rende il paese machine-readable.
-- latitudine e longitudine sono numeriche, non testo SQL generico.
+- latitudine e longitudine sono valori decimali WGS84; SQLite le conserva
+  testualmente per evitare perdita di precisione ed XLSX le espone come numeri.
 - l'ordine delle righe è deterministico e non costituisce identità.
 - `NA` è la sigla valida della provincia di Napoli nel legacy, non un valore
   mancante. La Milestone 1 non contiene sigle di provincia vuote.
