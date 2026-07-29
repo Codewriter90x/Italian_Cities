@@ -55,6 +55,10 @@ scripts/build_dataset.py
    14.480 record.
 9. La GitHub Action ricostruisce gli output e fallisce se il diff Git rileva
    un file generato obsoleto o modificato manualmente.
+10. SQLite viene confrontato semanticamente: il layout binario delle pagine
+    può cambiare tra versioni della libreria, mentre schema, metadati e record
+    devono essere identici. Gli artefatti committati vengono validati prima
+    della rigenerazione, quindi una modifica manuale non viene nascosta.
 
 ## Comandi
 

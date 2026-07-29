@@ -417,7 +417,7 @@ def validate() -> dict[str, object]:
     output_hashes = {
         name: sha256_file(path)
         for name, path in GENERATED_PATHS.items()
-        if path.exists()
+        if path.exists() and name != "sqlite"
     }
     return {
         "status": "passed" if not errors else "failed",
@@ -438,6 +438,9 @@ def validate() -> dict[str, object]:
             "sqlite": sqlite_rows == locations,
         },
         "output_sha256": output_hashes,
+        "output_semantic_sha256": {
+            "sqlite": record_digest(sqlite_rows),
+        },
         "errors": errors,
         "warnings": warnings,
     }
