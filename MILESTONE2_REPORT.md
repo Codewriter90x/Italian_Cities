@@ -67,4 +67,7 @@ inferenze o geocoding non autorizzato.
 | `data/italian_locations.csv` | `7f166a1247067d07e67b628e797241d101481de742be5bf826b0b46aa97ae619` |
 | `data/italian_locations.json` | `0b33ac6f8f7e82c6a545ea2eb0c2a03f73562e092d5d0f3979fbed09a9cd4504` |
 | `data/italian_locations.xlsx` | `b8bacc51ea7c34ce684fe0e2e16d513696edf2d99f470387cccb658491e2bcbb` |
-| `data/italian_locations.sqlite` | `eccfc182374714eb18be775cccd9861fdb12863e460ab462b6a6d7e74d94648d` |
+| `data/italian_locations.sqlite` | digest semantico `3875b5080718139ba353ba229f4913faf926f5eb9968ed569642c4cedfab00dc` |
+
+Il checksum binario SQLite non è dichiarato portabile fra versioni della
+libreria; il validatore confronta invece schema, metadati e record canonici.

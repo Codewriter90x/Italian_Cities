@@ -374,7 +374,10 @@ def export_all(
             },
             "sqlite": {
                 "path": str(sqlite_path.relative_to(ROOT)),
-                "sha256": sha256_file(sqlite_path),
+                "semantic_sha256": record_digest(rows),
+                "binary_hash_portability": (
+                    "not guaranteed across SQLite library versions"
+                ),
             },
         },
     }
