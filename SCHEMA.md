@@ -94,6 +94,12 @@ Nel workbook il CAP resta testo, mentre latitudine e longitudine sono numeriche.
 Il validatore ammette per XLSX soltanto differenze di rappresentazione numerica
 entro `1e-12`.
 
+Lo script release `italian_locations.sql` usa lo stesso ordine di colonne e
+memorizza ogni campo come `TEXT NOT NULL`, inclusi CAP, identificativi e
+coordinate. È destinato a SQLite e conserva le stringhe vuote del canonico.
+Il validatore lo importa integralmente e confronta il digest ordinato dei
+14.480 record.
+
 ## Identificativi stabili
 
 Per i comuni riconosciuti:

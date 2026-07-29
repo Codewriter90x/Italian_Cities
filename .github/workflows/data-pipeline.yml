@@ -41,6 +41,12 @@ jobs:
       - name: Run schema, integrity, coordinate and territorial tests
         run: python -m unittest discover -s tests -v
 
+      - name: Build v1.0.0 release assets
+        run: python scripts/build_release.py
+
+      - name: Validate v1.0.0 release assets
+        run: python scripts/validate_release.py
+
       - name: Reject stale, divergent or manually edited artifacts
         run: >-
           git diff --exit-code --

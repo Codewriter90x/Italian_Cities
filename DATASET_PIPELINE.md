@@ -39,6 +39,16 @@ scripts/build_dataset.py
                           v
               scripts/check_determinism.py
                     (due build)
+                          |
+                          v
+               scripts/build_release.py
+                          |
+                          +--> CSV / JSON / XLSX
+                          +--> SQLite / SQL
+                          +--> SHA256SUMS
+                          |
+                          v
+              scripts/validate_release.py
 ```
 
 ## Contratti
@@ -67,6 +77,10 @@ scripts/build_dataset.py
 11. `scripts/check_determinism.py` esegue due build consecutive e richiede
     hash byte-per-byte identici per CSV, JSON, XLSX e report; per SQLite
     confronta il digest ordinato dei record.
+12. Il bundle release copia gli output canonici, genera uno script SQL
+    SQLite-compatible e registra il checksum binario di ogni asset.
+13. Il validatore release importa il SQL in un database temporaneo, verifica
+    schema, righe e digest e rifiuta file mancanti, aggiuntivi o alterati.
 
 ## Comandi
 
@@ -94,6 +108,8 @@ Validazione e test:
 python3 scripts/check_determinism.py
 python3 scripts/validate_dataset.py
 python3 -m unittest discover -s tests -v
+python3 scripts/build_release.py
+python3 scripts/validate_release.py
 ```
 
 I risultati machine-readable sono:
@@ -122,3 +138,21 @@ Una modifica valida parte da una fonte dichiarata o da una regola nello script.
 Il contributore aggiorna manifest e trasformazione, rigenera tutto, esamina il
 diff report e infine esegue validatore e test. Una modifica diretta a un file
 generato è incompleta e deve essere rigenerata.
+
+## Release v1.0.0
+
+`dist/v1.0.0/` è temporaneo e non versionato. Contiene:
+
+- `municipalities.csv`;
+- `localities.csv`;
+- `postal_codes.csv`;
+- `italian_locations.csv`;
+- `italian_locations.json`;
+- `italian_locations.xlsx`;
+- `italian_locations.sqlite`;
+- `italian_locations.sql`;
+- `SHA256SUMS`.
+
+Il dump SQL Server preservato sotto `legacy/` non viene letto dal packaging
+come formato distribuibile. Rimane soltanto una delle baseline storiche da cui
+la pipeline ricostruisce e verifica il canonico.

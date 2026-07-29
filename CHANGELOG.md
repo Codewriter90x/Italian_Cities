@@ -1,5 +1,29 @@
 # Changelog
 
+## v1.0.0 — Milestone 4 release candidate
+
+### Added
+
+- README orientato al consumo con limiti, date, fonti, licenze, copertura,
+  schema, esempi C#/Python/JavaScript/SQL e download diretti.
+- Bundle release riproducibile con otto dataset/formati, script SQL generato e
+  `SHA256SUMS`.
+- Validatore degli asset che importa lo script SQL e confronta i digest con il
+  canonico.
+- Workflow tag che costruisce, valida e carica gli asset in una GitHub Release
+  draft.
+- Issue form strutturato per le correzioni dati.
+
+### Changed
+
+- Il dump SQL Server del 2023 è solo baseline storica; non è una fonte
+  principale né un asset della release.
+- SQLite e SQL vengono entrambi generati dalla vista canonica.
+
+### Data comparison
+
+- Nessuna modifica ai 14.480 record o allo schema dataset `2.0.0`.
+
 ## Unreleased — Milestone 3 working copy
 
 ### Added

@@ -1,0 +1,52 @@
+name: Correzione dati
+description: Segnala un valore errato o una relazione geografica da verificare.
+title: "[Data correction]: "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Grazie. Non modificare direttamente i file generati: descrivi il record
+        e allega una fonte verificabile, così la correzione potrà entrare nella
+        pipeline in modo riproducibile.
+  - type: input
+    id: location_id
+    attributes:
+      label: Identificativo del record
+      description: location_id oppure legacy_uuid.
+      placeholder: IT-COM-058091
+    validations:
+      required: true
+  - type: input
+    id: field
+    attributes:
+      label: Campo interessato
+      placeholder: postal_code
+    validations:
+      required: true
+  - type: textarea
+    id: values
+    attributes:
+      label: Valore attuale e valore proposto
+      description: Indica chiaramente entrambi i valori.
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Fonte
+      description: URL pubblico o riferimento ufficiale verificabile.
+    validations:
+      required: true
+  - type: input
+    id: reference_date
+    attributes:
+      label: Data di riferimento della fonte
+      placeholder: 2026-02-21
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Note
+      description: Licenza, attribuzione, contesto o possibili ambiguità.
