@@ -18,6 +18,7 @@ from dataset_common import (  # noqa: E402
     normalize_name,
     read_csv_rows,
 )
+from validate_dataset import completely_blank_record_lines  # noqa: E402
 
 
 class SchemaTests(unittest.TestCase):
@@ -39,6 +40,20 @@ class SchemaTests(unittest.TestCase):
             with self.subTest(name=name):
                 rows = read_csv_rows(GENERATED_PATHS[name], fields)
                 self.assertTrue(rows)
+                self.assertEqual(len(fields), len(rows[0]))
+
+    def test_no_completely_blank_csv_rows(self) -> None:
+        for name in (
+            "municipalities",
+            "localities",
+            "postal_codes",
+            "italian_locations",
+        ):
+            with self.subTest(name=name):
+                self.assertEqual(
+                    completely_blank_record_lines(GENERATED_PATHS[name]),
+                    [],
+                )
 
     def test_normalized_names_are_reproducible(self) -> None:
         for row in self.locations:
@@ -55,7 +70,18 @@ class SchemaTests(unittest.TestCase):
                 self.assertEqual(normalize_name(left), normalize_name(right))
 
     def test_postal_codes_remain_five_character_strings(self) -> None:
-        codes = [row["postal_code"] for row in self.locations]
+        codes: list[str] = []
+        contracts = (
+            ("municipalities", MUNICIPALITY_FIELDS),
+            ("localities", LOCALITY_FIELDS),
+            ("postal_codes", POSTAL_CODE_FIELDS),
+            ("italian_locations", ITALIAN_LOCATION_FIELDS),
+        )
+        for name, fields in contracts:
+            codes.extend(
+                row["postal_code"]
+                for row in read_csv_rows(GENERATED_PATHS[name], fields)
+            )
         self.assertTrue(any(code.startswith("0") for code in codes))
         self.assertTrue(all(re.fullmatch(r"\d{5}", code) for code in codes))
 

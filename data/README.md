@@ -7,6 +7,7 @@ Run:
 
 ```bash
 python3 scripts/build_dataset.py
+python3 scripts/check_determinism.py
 python3 scripts/validate_dataset.py
 ```
 

@@ -1,5 +1,28 @@
 # Changelog
 
+## Unreleased — Milestone 3 working copy
+
+### Added
+
+- Quality gate strutturato per schema, identificativi, CAP, codici ISTAT,
+  gerarchia territoriale, coordinate, righe vuote, duplicati e integrità fra
+  tabelle.
+- Verifica deterministica con due build consecutive e report machine-readable.
+- Policy per il recupero delle coordinate mancanti senza bulk geocoding sul
+  Nominatim pubblico.
+- Branch protection di `main` con status check richiesto `Data quality gate`.
+
+### Changed
+
+- La GitHub Action esegue i controlli su ogni pull request e rifiuta output
+  obsoleti, divergenti o modificati manualmente.
+- La validazione usa lo snapshot ISTAT dichiarato come riferimento per codici e
+  relazioni amministrative.
+
+### Data comparison
+
+- Nessuna modifica ai 14.480 record o allo schema dataset `2.0.0`.
+
 ## Unreleased — Milestone 2 working copy
 
 ### Added

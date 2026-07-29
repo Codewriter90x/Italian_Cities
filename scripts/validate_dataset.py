@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import json
 import math
 import re
@@ -31,11 +32,36 @@ from dataset_common import (
     sha256_file,
     write_json,
 )
+from check_determinism import (
+    DEFAULT_REPORT as DETERMINISM_REPORT,
+    collect_signatures,
+)
+from normalize_legacy import DEFAULT_ISTAT, load_istat_municipalities
 
 
-DEFAULT_REPORT = REPORTS_DIR / "milestone2-validation.json"
+DEFAULT_REPORT = REPORTS_DIR / "milestone3-validation.json"
 EXPECTED_BASELINE_SHA256 = (
     "735a7e9a1e7fb4eab005022478772ceab73d0034120f4f243ca68d4c64668a3d"
+)
+QUALITY_GATE_VERSION = "3.0.0"
+ITALY_BOUNDS = {
+    "latitude_min": 35.0,
+    "latitude_max": 48.0,
+    "longitude_min": 6.0,
+    "longitude_max": 19.0,
+}
+QUALITY_CHECK_NAMES = (
+    "schema_columns",
+    "unique_identifiers",
+    "postal_code_format",
+    "istat_code_validity",
+    "territorial_coherence",
+    "numeric_coordinates",
+    "coordinate_bounds",
+    "no_empty_rows",
+    "no_logical_duplicates",
+    "cross_table_integrity",
+    "deterministic_build",
 )
 SHEET_NS = {"x": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
 DOC_REL_NS = {
@@ -136,6 +162,165 @@ def add_error(errors: list[str], message: str, limit: int = 200) -> None:
         errors.append(message)
 
 
+def add_quality_error(
+    errors: list[str],
+    checks: dict[str, dict[str, object]],
+    check_name: str,
+    message: str,
+) -> None:
+    checks[check_name]["violations"] = int(checks[check_name]["violations"]) + 1
+    add_error(errors, f"[{check_name}] {message}")
+
+
+def completely_blank_record_lines(path: Path) -> list[int]:
+    """Return physical or delimiter-only blank data rows, excluding the header."""
+
+    lines = path.read_text(encoding="utf-8-sig").splitlines()
+    blank_lines: list[int] = []
+    for line_number, line in enumerate(lines[1:], start=2):
+        if not line.strip():
+            blank_lines.append(line_number)
+            continue
+        values = next(csv.reader([line]))
+        if values and all(not value.strip() for value in values):
+            blank_lines.append(line_number)
+    return blank_lines
+
+
+def territorial_names_compatible(left: str, right: str) -> bool:
+    """Allow an official bilingual suffix while retaining legacy display labels."""
+
+    left_key = normalize_name(left)
+    right_key = normalize_name(right)
+    return (
+        left_key == right_key
+        or left_key.startswith(f"{right_key} ")
+        or right_key.startswith(f"{left_key} ")
+    )
+
+
+def validate_unique_key(
+    *,
+    rows: list[dict[str, str]],
+    fields: tuple[str, ...],
+    dataset: str,
+    errors: list[str],
+    checks: dict[str, dict[str, object]],
+) -> None:
+    seen: set[tuple[str, ...]] = set()
+    for line_number, row in enumerate(rows, start=2):
+        key = tuple(row[field] for field in fields)
+        if any(not value for value in key):
+            add_quality_error(
+                errors,
+                checks,
+                "unique_identifiers",
+                f"{dataset}:{line_number}: empty identifier in {fields}",
+            )
+        if key in seen:
+            add_quality_error(
+                errors,
+                checks,
+                "unique_identifiers",
+                f"{dataset}:{line_number}: duplicate identifier {fields}={key}",
+            )
+        seen.add(key)
+
+
+def validate_logical_key(
+    *,
+    rows: list[dict[str, str]],
+    fields: tuple[str, ...],
+    dataset: str,
+    errors: list[str],
+    checks: dict[str, dict[str, object]],
+) -> None:
+    seen: set[tuple[str, ...]] = set()
+    for line_number, row in enumerate(rows, start=2):
+        key = tuple(row[field] for field in fields)
+        if key in seen:
+            add_quality_error(
+                errors,
+                checks,
+                "no_logical_duplicates",
+                f"{dataset}:{line_number}: duplicate logical key {fields}={key}",
+            )
+        seen.add(key)
+
+
+def validate_coordinate_table(
+    *,
+    rows: list[dict[str, str]],
+    dataset: str,
+    errors: list[str],
+    checks: dict[str, dict[str, object]],
+) -> None:
+    for line_number, row in enumerate(rows, start=2):
+        latitude = row["latitude"]
+        longitude = row["longitude"]
+        label = f"{dataset}:{line_number}"
+        if bool(latitude) != bool(longitude):
+            add_quality_error(
+                errors,
+                checks,
+                "numeric_coordinates",
+                f"{label}: partial coordinate pair",
+            )
+            continue
+        if not latitude:
+            continue
+        try:
+            lat = float(latitude)
+            lon = float(longitude)
+        except ValueError:
+            add_quality_error(
+                errors,
+                checks,
+                "numeric_coordinates",
+                f"{label}: non-numeric coordinates",
+            )
+            continue
+        if not (math.isfinite(lat) and math.isfinite(lon)):
+            add_quality_error(
+                errors,
+                checks,
+                "numeric_coordinates",
+                f"{label}: non-finite coordinates",
+            )
+            continue
+        if not (
+            ITALY_BOUNDS["latitude_min"]
+            <= lat
+            <= ITALY_BOUNDS["latitude_max"]
+            and ITALY_BOUNDS["longitude_min"]
+            <= lon
+            <= ITALY_BOUNDS["longitude_max"]
+        ):
+            add_quality_error(
+                errors,
+                checks,
+                "coordinate_bounds",
+                f"{label}: coordinates outside broad Italy bounds",
+            )
+
+
+def validate_postal_code_table(
+    *,
+    rows: list[dict[str, str]],
+    dataset: str,
+    errors: list[str],
+    checks: dict[str, dict[str, object]],
+) -> None:
+    for line_number, row in enumerate(rows, start=2):
+        if not re.fullmatch(r"\d{5}", row["postal_code"]):
+            add_quality_error(
+                errors,
+                checks,
+                "postal_code_format",
+                f"{dataset}:{line_number}: CAP must contain exactly five digits",
+            )
+
+
 def coordinates_equal(left: str, right: str) -> bool:
     if left == right:
         return True
@@ -230,6 +415,10 @@ def expected_postal_code(row: dict[str, str]) -> dict[str, str]:
 def validate() -> dict[str, object]:
     errors: list[str] = []
     warnings: list[str] = []
+    quality_checks: dict[str, dict[str, object]] = {
+        name: {"status": "passed", "violations": 0}
+        for name in QUALITY_CHECK_NAMES
+    }
     locations = read_csv_rows(
         GENERATED_PATHS["italian_locations"],
         ITALIAN_LOCATION_FIELDS,
@@ -243,6 +432,198 @@ def validate() -> dict[str, object]:
         GENERATED_PATHS["postal_codes"],
         POSTAL_CODE_FIELDS,
     )
+
+    table_rows = {
+        "data/municipalities.csv": municipalities,
+        "data/localities.csv": localities,
+        "data/postal_codes.csv": postal_codes,
+        "data/italian_locations.csv": locations,
+    }
+    for dataset, rows in table_rows.items():
+        path = ROOT / dataset
+        for line_number in completely_blank_record_lines(path):
+            add_quality_error(
+                errors,
+                quality_checks,
+                "no_empty_rows",
+                f"{dataset}:{line_number}: completely empty row",
+            )
+        for line_number, row in enumerate(rows, start=2):
+            if all(not (value or "").strip() for value in row.values()):
+                add_quality_error(
+                    errors,
+                    quality_checks,
+                    "no_empty_rows",
+                    f"{dataset}:{line_number}: completely empty record",
+                )
+        validate_postal_code_table(
+            rows=rows,
+            dataset=dataset,
+            errors=errors,
+            checks=quality_checks,
+        )
+
+    unique_contracts = (
+        (
+            municipalities,
+            "data/municipalities.csv",
+            (("municipality_id",), ("istat_code",), ("legacy_uuid",)),
+        ),
+        (
+            localities,
+            "data/localities.csv",
+            (("locality_id",), ("legacy_uuid",)),
+        ),
+        (
+            postal_codes,
+            "data/postal_codes.csv",
+            (("location_id", "postal_code"),),
+        ),
+        (
+            locations,
+            "data/italian_locations.csv",
+            (("location_id",), ("legacy_uuid",)),
+        ),
+    )
+    for rows, dataset, keys in unique_contracts:
+        for fields in keys:
+            validate_unique_key(
+                rows=rows,
+                fields=fields,
+                dataset=dataset,
+                errors=errors,
+                checks=quality_checks,
+            )
+
+    logical_contracts = (
+        (
+            municipalities,
+            "data/municipalities.csv",
+            ("normalized_name", "postal_code", "province_code"),
+        ),
+        (
+            localities,
+            "data/localities.csv",
+            ("normalized_name", "postal_code", "province_code"),
+        ),
+        (
+            postal_codes,
+            "data/postal_codes.csv",
+            ("location_id", "postal_code", "province_code"),
+        ),
+        (
+            locations,
+            "data/italian_locations.csv",
+            ("normalized_name", "postal_code", "province_code"),
+        ),
+    )
+    for rows, dataset, fields in logical_contracts:
+        validate_logical_key(
+            rows=rows,
+            fields=fields,
+            dataset=dataset,
+            errors=errors,
+            checks=quality_checks,
+        )
+
+    for rows, dataset in (
+        (municipalities, "data/municipalities.csv"),
+        (localities, "data/localities.csv"),
+        (locations, "data/italian_locations.csv"),
+    ):
+        validate_coordinate_table(
+            rows=rows,
+            dataset=dataset,
+            errors=errors,
+            checks=quality_checks,
+        )
+
+    official_records = load_istat_municipalities(DEFAULT_ISTAT)
+    official_by_istat = {
+        record["istat_code"]: record for record in official_records.values()
+    }
+    official_province_codes = {
+        record["province_code"] for record in official_by_istat.values()
+    }
+    municipality_province_codes = {
+        row["province_code"] for row in municipalities
+    }
+    for line_number, row in enumerate(municipalities, start=2):
+        label = f"data/municipalities.csv:{line_number}"
+        istat_code = row["istat_code"]
+        if not re.fullmatch(r"\d{6}", istat_code):
+            add_quality_error(
+                errors,
+                quality_checks,
+                "istat_code_validity",
+                f"{label}: ISTAT code must contain exactly six digits",
+            )
+            continue
+        official = official_by_istat.get(istat_code)
+        if official is None:
+            add_quality_error(
+                errors,
+                quality_checks,
+                "istat_code_validity",
+                f"{label}: ISTAT code {istat_code} is absent from the declared snapshot",
+            )
+            continue
+        if row["municipality_id"] != f"IT-COM-{istat_code}":
+            add_quality_error(
+                errors,
+                quality_checks,
+                "istat_code_validity",
+                f"{label}: municipality_id disagrees with ISTAT code",
+            )
+        if row["province_code"] != official["province_code"]:
+            add_quality_error(
+                errors,
+                quality_checks,
+                "territorial_coherence",
+                f"{label}: municipality and official province code disagree",
+            )
+        if not territorial_names_compatible(
+            row["region_name"],
+            official["region_name"],
+        ):
+            add_quality_error(
+                errors,
+                quality_checks,
+                "territorial_coherence",
+                f"{label}: municipality and official region disagree",
+            )
+
+    territories_by_province: dict[str, set[tuple[str, str]]] = {}
+    for line_number, row in enumerate(locations, start=2):
+        province_code = row["province_code"]
+        territories_by_province.setdefault(province_code, set()).add(
+            (row["province_name"], row["region_name"])
+        )
+        if province_code not in official_province_codes:
+            add_quality_error(
+                errors,
+                quality_checks,
+                "territorial_coherence",
+                f"data/italian_locations.csv:{line_number}: "
+                f"province code {province_code!r} is absent from ISTAT",
+            )
+    for province_code, labels in sorted(territories_by_province.items()):
+        if len(labels) != 1:
+            add_quality_error(
+                errors,
+                quality_checks,
+                "territorial_coherence",
+                f"province {province_code} maps to multiple province/region labels: "
+                f"{sorted(labels)}",
+            )
+    for line_number, row in enumerate(localities, start=2):
+        if row["province_code"] not in municipality_province_codes:
+            add_quality_error(
+                errors,
+                quality_checks,
+                "territorial_coherence",
+                f"data/localities.csv:{line_number}: province has no municipality",
+            )
 
     if sha256_file(MILESTONE1_BASELINE) != EXPECTED_BASELINE_SHA256:
         add_error(errors, "Milestone 1 comparison baseline checksum mismatch")
@@ -354,11 +735,26 @@ def validate() -> dict[str, object]:
         ),
     )
     if municipalities != expected_municipalities:
-        add_error(errors, "municipalities.csv diverges from the canonical partition")
+        add_quality_error(
+            errors,
+            quality_checks,
+            "cross_table_integrity",
+            "municipalities.csv diverges from the canonical partition",
+        )
     if localities != expected_localities:
-        add_error(errors, "localities.csv diverges from the canonical partition")
+        add_quality_error(
+            errors,
+            quality_checks,
+            "cross_table_integrity",
+            "localities.csv diverges from the canonical partition",
+        )
     if postal_codes != expected_postal_codes:
-        add_error(errors, "postal_codes.csv diverges from canonical relations")
+        add_quality_error(
+            errors,
+            quality_checks,
+            "cross_table_integrity",
+            "postal_codes.csv diverges from canonical relations",
+        )
 
     json_payload = json.loads(GENERATED_PATHS["json"].read_text(encoding="utf-8"))
     if tuple(json_payload.get("fields", ())) != ITALIAN_LOCATION_FIELDS:
@@ -402,6 +798,39 @@ def validate() -> dict[str, object]:
     if any(record_changes.get(field) for field in ("added", "removed", "changed")):
         add_error(errors, "Milestone 2 contains undocumented semantic record changes")
 
+    if not DETERMINISM_REPORT.exists():
+        add_quality_error(
+            errors,
+            quality_checks,
+            "deterministic_build",
+            f"{DETERMINISM_REPORT.relative_to(ROOT)} is missing",
+        )
+    else:
+        determinism_report = json.loads(
+            DETERMINISM_REPORT.read_text(encoding="utf-8")
+        )
+        if determinism_report.get("status") != "passed":
+            add_quality_error(
+                errors,
+                quality_checks,
+                "deterministic_build",
+                "the last two-build comparison did not pass",
+            )
+        if determinism_report.get("runs") != 2:
+            add_quality_error(
+                errors,
+                quality_checks,
+                "deterministic_build",
+                "the determinism report must compare exactly two builds",
+            )
+        if determinism_report.get("signatures") != collect_signatures():
+            add_quality_error(
+                errors,
+                quality_checks,
+                "deterministic_build",
+                "the determinism report is stale for the committed outputs",
+            )
+
     if coordinate_counts["missing"]:
         warnings.append(
             f"{coordinate_counts['missing']} records still lack coordinates"
@@ -419,9 +848,13 @@ def validate() -> dict[str, object]:
         for name, path in GENERATED_PATHS.items()
         if path.exists() and name != "sqlite"
     }
+    for check in quality_checks.values():
+        if check["violations"]:
+            check["status"] = "failed"
     return {
         "status": "passed" if not errors else "failed",
         "schema_version": "2.0.0",
+        "quality_gate_version": QUALITY_GATE_VERSION,
         "canonical_rows": len(locations),
         "record_digest": record_digest(locations),
         "record_type_counts": dict(sorted(kind_counts.items())),
@@ -440,6 +873,12 @@ def validate() -> dict[str, object]:
         "output_sha256": output_hashes,
         "output_semantic_sha256": {
             "sqlite": record_digest(sqlite_rows),
+        },
+        "quality_checks": quality_checks,
+        "coordinate_bounds": ITALY_BOUNDS,
+        "territorial_reference": {
+            "source": str(DEFAULT_ISTAT.relative_to(ROOT)),
+            "municipalities": len(official_by_istat),
         },
         "errors": errors,
         "warnings": warnings,

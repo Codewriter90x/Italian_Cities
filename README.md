@@ -2,7 +2,7 @@
 
 Dataset riproducibile di comuni e località italiane associate a un CAP.
 
-> **Stato:** Milestone 2. Gli artefatti sotto `data/` sono generati: non
+> **Stato:** Milestone 3. Gli artefatti sotto `data/` sono generati: non
 > modificarli manualmente. La pubblicazione del dataset resta subordinata al
 > gate di provenienza e licenza descritto in
 > [`DATA_SOURCES.md`](DATA_SOURCES.md).
@@ -39,6 +39,7 @@ Prerequisiti:
 ```bash
 python3 -m pip install -r requirements.txt
 python3 scripts/build_dataset.py
+python3 scripts/check_determinism.py
 python3 scripts/validate_dataset.py
 python3 -m unittest discover -s tests -v
 ```
@@ -50,6 +51,10 @@ normalizza, costruisce le quattro tabelle, richiama gli exporter e produce
 Il workflow completo è documentato in
 [`DATASET_PIPELINE.md`](DATASET_PIPELINE.md).
 
+Ogni pull request esegue il check bloccante `Data quality gate`: schema,
+identificativi, CAP, codici ISTAT, gerarchia territoriale, coordinate,
+duplicati, integrità fra tabelle e doppia build deterministica devono passare.
+
 ## Qualità e limiti
 
 - 7.186 record sono comuni riconosciuti tramite corrispondenza esatta con
@@ -57,6 +62,9 @@ Il workflow completo è documentato in
 - 7.294 record restano località postali non classificate;
 - 2.092 record restano senza coordinate;
 - nessuna classificazione, relazione padre o coordinata viene inventata;
+- il Nominatim pubblico non viene usato per il bulk geocoding; la strategia
+  ammessa è descritta in
+  [`COORDINATE_ENRICHMENT.md`](COORDINATE_ENRICHMENT.md);
 - la baseline della Milestone 1 è preservata sotto
   `legacy/milestone-1-canonical/`.
 

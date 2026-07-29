@@ -24,6 +24,10 @@ from dataset_common import (  # noqa: E402
 from build_dataset import validate_declared_sources  # noqa: E402
 from normalize_legacy import DEFAULT_ISTAT  # noqa: E402
 from validate_dataset import validate  # noqa: E402
+from check_determinism import (  # noqa: E402
+    DEFAULT_REPORT as DETERMINISM_REPORT,
+    collect_signatures,
+)
 
 
 class IntegrityTests(unittest.TestCase):
@@ -55,6 +59,54 @@ class IntegrityTests(unittest.TestCase):
             len({row["legacy_uuid"] for row in self.locations}),
             len(self.locations),
         )
+        self.assertEqual(
+            len({row["municipality_id"] for row in self.municipalities}),
+            len(self.municipalities),
+        )
+        self.assertEqual(
+            len({row["istat_code"] for row in self.municipalities}),
+            len(self.municipalities),
+        )
+        self.assertEqual(
+            len({row["locality_id"] for row in self.localities}),
+            len(self.localities),
+        )
+        self.assertEqual(
+            len(
+                {
+                    (row["location_id"], row["postal_code"])
+                    for row in self.postal_codes
+                }
+            ),
+            len(self.postal_codes),
+        )
+
+    def test_logical_keys_are_unique_in_every_dataset(self) -> None:
+        for name, rows, fields in (
+            (
+                "municipalities",
+                self.municipalities,
+                ("normalized_name", "postal_code", "province_code"),
+            ),
+            (
+                "localities",
+                self.localities,
+                ("normalized_name", "postal_code", "province_code"),
+            ),
+            (
+                "postal_codes",
+                self.postal_codes,
+                ("location_id", "postal_code", "province_code"),
+            ),
+            (
+                "italian_locations",
+                self.locations,
+                ("normalized_name", "postal_code", "province_code"),
+            ),
+        ):
+            with self.subTest(name=name):
+                keys = [tuple(row[field] for field in fields) for row in rows]
+                self.assertEqual(len(keys), len(set(keys)))
 
     def test_partition_counts_reconcile(self) -> None:
         self.assertEqual(len(self.locations), 14_480)
@@ -99,6 +151,28 @@ class IntegrityTests(unittest.TestCase):
         report = validate()
         self.assertEqual(report["status"], "passed", report["errors"])
         self.assertTrue(all(report["cross_format_equivalence"].values()))
+        self.assertTrue(
+            all(
+                check["status"] == "passed"
+                for check in report["quality_checks"].values()
+            ),
+            report["quality_checks"],
+        )
+
+    def test_istat_and_territorial_quality_gates_pass(self) -> None:
+        report = validate()
+        for check_name in ("istat_code_validity", "territorial_coherence"):
+            with self.subTest(check=check_name):
+                self.assertEqual(
+                    report["quality_checks"][check_name],
+                    {"status": "passed", "violations": 0},
+                )
+
+    def test_committed_determinism_report_matches_outputs(self) -> None:
+        report = json.loads(DETERMINISM_REPORT.read_text(encoding="utf-8"))
+        self.assertEqual(report["status"], "passed")
+        self.assertEqual(report["runs"], 2)
+        self.assertEqual(report["signatures"], collect_signatures())
 
     def test_source_checksum_gate_rejects_modified_input(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

@@ -114,3 +114,18 @@ semanticamente i 14.480 record. Importa le fonti già dichiarate, verifica che
 riproducano la baseline M1 e costruisce nuovi schemi ed export.
 
 Data build: 2026-07-29. Schema: `2.0.0`.
+
+## Milestone 3
+
+La Milestone 3 non importa nuove coordinate. Usa lo snapshot ISTAT già
+dichiarato anche come riferimento bloccante per validare codici comunali,
+province e regioni.
+
+Il servizio pubblico `nominatim.openstreetmap.org` non è una fonte ammessa per
+scaricare sistematicamente l'elenco delle coordinate mancanti. La policy
+ufficiale vieta le interrogazioni sistematiche per liste complete e scoraggia
+il bulk geocoding su larga scala. Confini ISTAT, estratti OpenStreetMap
+elaborati localmente, un'istanza propria o provider autorizzati sono descritti
+in `COORDINATE_ENRICHMENT.md`.
+
+Data quality gate: 2026-07-29. Versione: `3.0.0`.

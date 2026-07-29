@@ -35,6 +35,10 @@ scripts/build_dataset.py
                           |
                           v
               scripts/validate_dataset.py
+                          |
+                          v
+              scripts/check_determinism.py
+                    (due build)
 ```
 
 ## Contratti
@@ -53,12 +57,16 @@ scripts/build_dataset.py
    contro la baseline M1 e separa cambi schema da cambi semantici.
 8. Il validatore carica ogni formato e confronta campo per campo gli stessi
    14.480 record.
-9. La GitHub Action ricostruisce gli output e fallisce se il diff Git rileva
-   un file generato obsoleto o modificato manualmente.
+9. La GitHub Action esegue il job bloccante `Data quality gate` su ogni pull
+   request e fallisce per violazioni di schema, identità, CAP, ISTAT,
+   gerarchia territoriale, coordinate, righe vuote, duplicati o integrità.
 10. SQLite viene confrontato semanticamente: il layout binario delle pagine
     può cambiare tra versioni della libreria, mentre schema, metadati e record
     devono essere identici. Gli artefatti committati vengono validati prima
     della rigenerazione, quindi una modifica manuale non viene nascosta.
+11. `scripts/check_determinism.py` esegue due build consecutive e richiede
+    hash byte-per-byte identici per CSV, JSON, XLSX e report; per SQLite
+    confronta il digest ordinato dei record.
 
 ## Comandi
 
@@ -83,9 +91,15 @@ python3 scripts/export_formats.py
 Validazione e test:
 
 ```bash
+python3 scripts/check_determinism.py
 python3 scripts/validate_dataset.py
 python3 -m unittest discover -s tests -v
 ```
+
+I risultati machine-readable sono:
+
+- `reports/milestone3-determinism.json`;
+- `reports/milestone3-validation.json`.
 
 ## XLSX
 

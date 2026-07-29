@@ -33,3 +33,7 @@ date-stamped filename, update `manifest.json`, document the new reference date
 and regenerate all outputs. Never overwrite an existing snapshot.
 
 See `DATA_SOURCES.md` for provenance and licensing analysis.
+
+Before adding a geographic source for missing coordinates, follow
+`COORDINATE_ENRICHMENT.md`. In particular, do not query the public Nominatim
+service systematically for this dataset.

@@ -1,4 +1,4 @@
-name: Data pipeline
+name: Data quality
 
 on:
   pull_request:
@@ -12,8 +12,10 @@ permissions:
   contents: read
 
 jobs:
-  validate:
+  data-quality:
+    name: Data quality gate
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Check out repository
         uses: actions/checkout@v5
@@ -27,23 +29,24 @@ jobs:
       - name: Install pipeline dependency
         run: python -m pip install -r requirements.txt
 
-      - name: Validate committed generated data
+      - name: Validate committed data and quality contracts
         run: python scripts/validate_dataset.py
 
-      - name: Rebuild generated data
-        run: python scripts/build_dataset.py
+      - name: Build twice and verify determinism
+        run: python scripts/check_determinism.py
 
-      - name: Validate rebuilt cross-format equivalence
+      - name: Validate rebuilt data and cross-format equivalence
         run: python scripts/validate_dataset.py
 
-      - name: Run schema, integrity and coordinate tests
+      - name: Run schema, integrity, coordinate and territorial tests
         run: python -m unittest discover -s tests -v
 
-      - name: Reject stale or manually edited generated files
+      - name: Reject stale, divergent or manually edited artifacts
         run: >-
           git diff --exit-code --
           data
           ":(exclude)data/italian_locations.sqlite"
           reports/milestone2-diff.json
           reports/milestone2-exports.json
-          reports/milestone2-validation.json
+          reports/milestone3-determinism.json
+          reports/milestone3-validation.json
