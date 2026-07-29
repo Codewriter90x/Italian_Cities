@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "canonical_sha256": "735a7e9a1e7fb4eab005022478772ceab73d0034120f4f243ca68d4c64668a3d",
+  "legacy_sha256": "45f31340a6f0c390927aa1224424a75c6c968e601aa2df0a746413431e82d050",
+  "istat_sha256": "83842076860450f7e482daecea6b7a769f5f93d0bf5b0d48802b44896d7a26d5",
+  "canonical_rows": 14480,
+  "removed_all_null_rows": 1,
+  "record_type_counts": {
+    "municipality": 7186,
+    "postal_locality_unclassified": 7294
+  },
+  "coordinate_status_counts": {
+    "available": 12387,
+    "corrected": 1,
+    "missing": 2092
+  },
+  "corrected_rows": 1,
+  "errors": [],
+  "warnings": [
+    "2092 records still lack coordinates",
+    "7294 records remain postal localities without a conservative current ISTAT municipality match",
+    "Legacy source provenance and the applicability of the root CC0 license remain unproven"
+  ]
+}

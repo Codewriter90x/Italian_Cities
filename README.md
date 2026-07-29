@@ -1,48 +1,54 @@
-[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/codewriter90x)
+# Italian Cities
 
-# Lista delle cittá Italiane
-## Italiano
-Una lista di tutte (o almeno spero) le cittá italiane con il relativo CAP, provincia (estesa e abbreviata), regione e coordinate del punto centrale (lat,lon)
+Dataset italiano di comuni e località associate a un CAP.
 
-Questo file ha 14480 cittá, alcune di esse (2092) al momento non hanno le coordinate, ma ci sto lavorando per aggiungerle !
+> **Stato:** Milestone 1, working copy non pubblicata. La provenienza completa
+> del dataset legacy e l'applicabilità della licenza CC0 presente alla radice
+> non sono dimostrate. Prima di una release è necessario chiudere il gate
+> descritto in [`DATA_SOURCES.md`](DATA_SOURCES.md).
 
-Le seguenti informazioni sono disponibili in questo dataset:
+## Dataset canonico
 
-1. Unique Identifier
-2. Nome delle cittá
-3. Codice Avviamento Postale
-4. Provincia (Abbreviazione)
-5. Provincia (Estesa)
-6. Regione
-7. Paese
-8. Latitudine
-9. Longitudine
-10. Visibilitá
+Il file canonico è [`data/italian_postal_localities.csv`](data/italian_postal_localities.csv).
+Contiene 14.480 record:
 
-Spero sia utile a qualcuno !
+- 7.186 corrispondenze esatte con comuni presenti nell'elenco ISTAT di
+  riferimento del 21 febbraio 2026;
+- 7.294 località postali non classificate, che possono comprendere frazioni,
+  località, denominazioni storiche o comuni non riconciliati;
+- 12.388 record con coordinate, di cui uno corretto e documentato;
+- 2.092 record senza coordinate, rappresentate da campi vuoti.
 
-# Italian Cities List
-## English
-A list of all (hopefully) italian cities with ZIP, Province (with two letter abbreviation), region and Centre Point (lat,lon)	
+Il CAP è conservato come stringa di cinque cifre e non è usato come
+identificatore. I file storici originali restano invariati sotto
+[`legacy/2023-05-02-original/`](legacy/2023-05-02-original/).
 
-This file has 14480 cities, some of them (2092) at the moment doesn't have the center point coordinates, but I'm working on it 
+## Riproduzione
 
-The following information is available on the dataset:
+Scaricare il riferimento ISTAT indicato in
+[`sources/README.md`](sources/README.md), quindi eseguire:
 
-1. Unique ID
-2. City Name
-3. Postal Code
-4. Province (short)
-5. Province (extended)
-6. Region
-7. Country
-8. Latitude
-9. Longitude
-10. Visibility
+```bash
+python3 scripts/normalize_legacy.py
+python3 scripts/validate_milestone1.py
+```
 
-Hope you find this helpfull !
+La validazione controlla schema, conteggi, identificativi, formati, coordinate,
+corrispondenze ISTAT e invarianti di migrazione rispetto alla baseline.
 
-# Coming soon
+## Documentazione
 
-- [ ] Complete all missing coordinates
-- [ ] Include ISTAT Code
+- [`DATA_SOURCES.md`](DATA_SOURCES.md): provenienza, date e licenze;
+- [`SCHEMA.md`](SCHEMA.md): perimetro semantico, campi e identificativi;
+- [`CONTRIBUTING.md`](CONTRIBUTING.md): regole per modifiche riproducibili;
+- [`CHANGELOG.md`](CHANGELOG.md): modifiche alla working copy;
+- [`MILESTONE1_REPORT.md`](MILESTONE1_REPORT.md): esito e questioni aperte.
+
+## English summary
+
+The canonical file contains Italian municipalities and postal localities. Only
+exact current ISTAT name/province matches are classified as municipalities;
+all other records remain explicitly unclassified. The original files are
+preserved unchanged. This working copy is not release-ready until the legacy
+source and data-licensing questions documented in `DATA_SOURCES.md` are
+resolved.
