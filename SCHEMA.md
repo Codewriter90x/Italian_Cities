@@ -121,6 +121,25 @@ provincia modifica l'identificativo della località. Le future riconciliazioni
 devono quindi conservare una tabella di alias/migrazione. `legacy_uuid` non
 deve essere riutilizzato per nuove righe.
 
+## Contratto di qualità
+
+Il quality gate `3.0.0` non modifica lo schema dati `2.0.0`. Verifica:
+
+- intestazioni esatte e nessuna colonna aggiunta, rimossa o rinominata;
+- identificativi non vuoti e unici alla grana di ogni tabella;
+- CAP di cinque cifre;
+- codici ISTAT di sei cifre presenti nello snapshot dichiarato;
+- coerenza fra codice ISTAT, sigla di provincia e regione;
+- coordinate complete, numeriche, finite e comprese nel bounding box
+  prudenziale Italia `latitudine 35–48`, `longitudine 6–19`;
+- nessuna riga completamente vuota e nessun duplicato logico;
+- ricostruzione esatta del canonico tramite comuni, località e relazioni CAP;
+- equivalenza degli export e due build consecutive deterministiche.
+
+I nomi di provincia e regione sono display label legacy. La relazione
+amministrativa autorevole usa il codice ISTAT e la sigla di provincia; il
+validatore accetta i suffissi bilingui ufficiali nelle denominazioni regionali.
+
 ## Scelte di migrazione
 
 - `visible` è stato omesso perché vale `True` per tutte le righe reali e non

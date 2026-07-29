@@ -37,6 +37,7 @@ Nominatim; rispettare sempre termini, limiti e attribuzione della fonte scelta.
 
    ```bash
    python3 scripts/build_dataset.py
+   python3 scripts/check_determinism.py
    python3 scripts/validate_dataset.py
    python3 -m unittest discover -s tests -v
    ```
@@ -50,11 +51,16 @@ Nominatim; rispettare sempre termini, limiti e attribuzione della fonte scelta.
    shasum -a 256 -c SHA256SUMS
    ```
 
-7. Controllare che `reports/milestone2-validation.json` abbia
-   `"status": "passed"` e un array `errors` vuoto.
+7. Controllare che `reports/milestone3-determinism.json` e
+   `reports/milestone3-validation.json` abbiano `"status": "passed"` e che
+   ogni voce `quality_checks` sia superata.
 
 I warning non vanno nascosti: descrivono debito dati o gate di pubblicazione
 ancora aperti.
+
+La pull request deve superare il check richiesto `Data quality gate`. Il check
+viene eseguito su ogni PR e il branch `main` non accetta merge quando manca o
+fallisce.
 
 ## Regole sugli identificativi
 
