@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Italian Cities — ricerca comuni, località e CAP</title>
+    <meta
+      name="description"
+      content="Cerca 14.480 comuni e località italiane per nome, CAP e provincia. Esplora coordinate e copertura del dataset Italian Cities."
+    >
+    <meta name="theme-color" content="#081522">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Italian Cities — open data geografici italiani">
+    <meta
+      property="og:description"
+      content="Ricerca 14.480 comuni e località per nome, CAP e provincia."
+    >
+    <meta
+      property="og:url"
+      content="https://codewriter90x.github.io/Italian_Cities/"
+    >
+    <meta
+      property="og:image"
+      content="https://codewriter90x.github.io/Italian_Cities/assets/social-preview.jpg"
+    >
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="canonical" href="https://codewriter90x.github.io/Italian_Cities/">
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="./assets/styles.css">
+    <script type="module" src="./assets/app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#search">Vai alla ricerca</a>
+
+    <header class="site-header">
+      <a class="brand" href="./">
+        <span class="brand-mark" aria-hidden="true"></span>
+        Italian Cities
+      </a>
+      <nav class="site-nav" aria-label="Navigazione principale">
+        <a href="#map">Copertura</a>
+        <a href="https://github.com/Codewriter90x/Italian_Cities">GitHub</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div>
+          <p class="eyebrow">Open data · Release v1.0.0</p>
+          <h1 id="hero-title">Trova un luogo italiano.</h1>
+          <p class="hero-copy">
+            Esplora comuni riconosciuti tramite ISTAT e località postali
+            non ancora classificate. Cerca per nome, CAP o provincia e verifica
+            subito la disponibilità delle coordinate.
+          </p>
+          <div class="hero-actions">
+            <a class="button" href="#search">Inizia la ricerca</a>
+            <a
+              class="button secondary"
+              href="https://github.com/Codewriter90x/Italian_Cities/releases/tag/v1.0.0"
+            >Scarica i dati</a>
+          </div>
+        </div>
+
+        <div class="hero-stats" aria-label="Statistiche principali">
+          <div class="stat">
+            <strong class="stat-value" data-stat="total">14.480</strong>
+            <span class="stat-label">relazioni luogo–CAP</span>
+          </div>
+          <div class="stat">
+            <strong class="stat-value" data-stat="municipalities">7.186</strong>
+            <span class="stat-label">comuni riconosciuti</span>
+          </div>
+          <div class="stat">
+            <strong class="stat-value" data-stat="postalCodes">4.459</strong>
+            <span class="stat-label">CAP distinti</span>
+          </div>
+          <div class="stat">
+            <strong class="stat-value" data-stat="coordinates">85,55%</strong>
+            <span class="stat-label">coordinate disponibili</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="page-shell">
+        <section class="search-panel" id="search" aria-labelledby="search-title">
+          <h2 id="search-title">Ricerca nel dataset</h2>
+          <p class="section-intro">
+            Accenti e maiuscole non cambiano il risultato. I CAP restano
+            stringhe di cinque cifre.
+          </p>
+
+          <form id="search-form" role="search">
+            <div class="search-grid">
+              <div class="field field-query">
+                <label for="query">Nome, CAP o provincia</label>
+                <input
+                  id="query"
+                  name="query"
+                  type="search"
+                  placeholder="Es. Firenze, 00100, Torino o RM"
+                  autocomplete="off"
+                >
+              </div>
+              <div class="field">
+                <label for="province">Provincia</label>
+                <select id="province" name="province">
+                  <option value="">Tutte</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="kind">Tipo</label>
+                <select id="kind" name="kind">
+                  <option value="">Tutti</option>
+                  <option value="municipality">Comune ISTAT</option>
+                  <option value="postal_locality_unclassified">
+                    Località non classificata
+                  </option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="coordinate-status">Coordinate</label>
+                <select id="coordinate-status" name="coordinate-status">
+                  <option value="">Qualsiasi stato</option>
+                  <option value="available">Disponibili</option>
+                  <option value="missing">Mancanti</option>
+                </select>
+              </div>
+            </div>
+          </form>
+
+          <div class="search-toolbar">
+            <strong id="result-count" aria-live="polite">Caricamento…</strong>
+            <button id="reset-search" type="button">Azzera filtri</button>
+          </div>
+          <ul class="result-list" id="result-list"></ul>
+        </section>
+
+        <section class="map-panel" id="map" aria-labelledby="map-title">
+          <div class="map-header">
+            <div>
+              <p class="eyebrow">12.388 punti disponibili</p>
+              <h2 id="map-title">Copertura geografica</h2>
+            </div>
+            <div class="map-legend" aria-label="Legenda">
+              <span>
+                <i class="legend-dot municipality" aria-hidden="true"></i>
+                comuni
+              </span>
+              <span>
+                <i class="legend-dot locality" aria-hidden="true"></i>
+                località
+              </span>
+            </div>
+          </div>
+          <canvas
+            id="coverage-map"
+            role="img"
+            aria-label="Mappa a punti delle coordinate disponibili in Italia"
+          ></canvas>
+          <p class="map-detail" id="map-detail" aria-live="polite">
+            Seleziona un risultato per evidenziarlo sulla mappa.
+          </p>
+        </section>
+      </div>
+
+      <section class="download-strip" aria-labelledby="download-title">
+        <p class="eyebrow">Dati riproducibili</p>
+        <h2 id="download-title">Usali nel formato che preferisci.</h2>
+        <p>
+          CSV, JSON, XLSX, SQLite e SQL derivano dalla stessa vista canonica.
+          Gli asset della release includono checksum SHA-256. Il dataset non è
+          un elenco postale ufficiale: consulta sempre fonti e limiti.
+        </p>
+        <div class="download-actions">
+          <a
+            class="button"
+            href="https://github.com/Codewriter90x/Italian_Cities/releases/download/v1.0.0/italian_locations.csv"
+          >CSV canonico</a>
+          <a
+            class="button secondary"
+            href="https://github.com/Codewriter90x/Italian_Cities/releases/download/v1.0.0/italian_locations.json"
+          >JSON</a>
+          <a
+            class="button secondary"
+            href="https://github.com/Codewriter90x/Italian_Cities/releases/download/v1.0.0/italian_locations.sqlite"
+          >SQLite</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>
+        Snapshot legacy 2023-05-02 · riferimento comuni ISTAT 2026-02-21.
+        Coordinate WGS84 legacy, non confini amministrativi.
+      </p>
+      <p>
+        <a href="https://github.com/Codewriter90x/Italian_Cities/issues/new/choose">
+          Segnala una correzione
+        </a>
+      </p>
+    </footer>
+
+    <p class="load-status" id="load-status" role="status">
+      Caricamento del dataset…
+    </p>
+  </body>
+</html>

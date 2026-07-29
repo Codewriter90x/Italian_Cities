@@ -41,6 +41,12 @@ jobs:
       - name: Run schema, integrity, coordinate and territorial tests
         run: python -m unittest discover -s tests -v
 
+      - name: Test Pages search and map logic
+        run: node --test tests/pages_core.test.mjs
+
+      - name: Build deterministic GitHub Pages site
+        run: python scripts/build_pages.py
+
       - name: Build v1.0.0 release assets
         run: python scripts/build_release.py
 

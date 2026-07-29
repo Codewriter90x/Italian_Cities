@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Domande e idee
+    url: https://github.com/Codewriter90x/Italian_Cities/discussions
+    about: Usa Discussions per domande, proposte e casi d'uso.
+  - name: Documentazione fonti e licenze
+    url: https://github.com/Codewriter90x/Italian_Cities/blob/agent/milestone-5-community/DATA_SOURCES.md
+    about: Leggi provenienza, attribuzioni e limiti prima di proporre nuovi dati.

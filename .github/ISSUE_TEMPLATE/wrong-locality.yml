@@ -1,0 +1,67 @@
+name: Località errata
+description: Segnala una denominazione, classificazione o relazione territoriale errata.
+title: "[Località errata]: "
+labels:
+  - data-correction
+  - locality
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Grazie per la segnalazione. Gli output vengono rigenerati dalla pipeline:
+        non modificare direttamente CSV, JSON, XLSX, SQLite o SQL.
+  - type: input
+    id: location_id
+    attributes:
+      label: Identificativo
+      description: "`location_id` o `legacy_uuid` del record."
+      placeholder: IT-LOC-e6b0bc3e-1acf-5509-8923-238575fc9025
+    validations:
+      required: true
+  - type: input
+    id: current_name
+    attributes:
+      label: Denominazione attuale
+    validations:
+      required: true
+  - type: input
+    id: proposed_name
+    attributes:
+      label: Denominazione o classificazione proposta
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Cosa non torna
+      description: Indica anche comune, provincia o regione coinvolti.
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Fonte verificabile
+      description: URL pubblico o riferimento ufficiale.
+    validations:
+      required: true
+  - type: input
+    id: reference_date
+    attributes:
+      label: Data di riferimento
+      placeholder: "2026-02-21"
+    validations:
+      required: true
+  - type: textarea
+    id: provenance
+    attributes:
+      label: Provenienza e licenza
+      description: Specifica licenza, attribuzione e possibili ambiguità.
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirmation
+    attributes:
+      label: Conferma
+      options:
+        - label: Ho verificato che non esista già una segnalazione equivalente.
+          required: true

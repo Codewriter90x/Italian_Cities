@@ -64,9 +64,16 @@ La pull request deve superare il check richiesto `Data quality gate`. Il check
 viene eseguito su ogni PR e il branch `main` non accetta merge quando manca o
 fallisce.
 
-Per una correzione dati è preferibile aprire il modulo GitHub
-`Data correction`, indicando identificativo, campo, valore precedente e
-proposto, fonte, data e licenza.
+Per una correzione dati aprire il modulo GitHub più specifico:
+
+- `Località errata`;
+- `CAP errato`;
+- `Coordinata mancante`;
+- `Variazione amministrativa`.
+
+Il modulo generico `Data correction` resta disponibile per casi che non
+rientrano nelle categorie precedenti. Domande, proposte e casi d'uso vanno
+invece nelle GitHub Discussions.
 
 ## Regole sugli identificativi
 
@@ -100,6 +107,25 @@ Il tag deve corrispondere alla versione supportata dal packaging. Il workflow
 
 La pubblicazione della draft è un gate maintainer separato. Richiede il
 controllo di note, checksum, asset e stato di provenienza/licenze.
+
+## GitHub Pages
+
+`scripts/build_pages.py` costruisce il sito statico esclusivamente dal CSV
+canonico. La build deve essere deterministica e non deve introdurre:
+
+- geocoding lato client o server;
+- analytics o cookie;
+- dipendenze da tile provider;
+- copie divergenti del dataset;
+- HTML generato manualmente contenente dati.
+
+Prima di modificare ricerca o mappa eseguire:
+
+```bash
+node --test tests/pages_core.test.mjs
+python3 -m unittest discover -s tests -p 'test_pages.py' -v
+python3 scripts/build_pages.py
+```
 
 ## Licenze
 
