@@ -19,9 +19,9 @@ coordinate, costruito con una pipeline **clean room**.
 **Structural quality:** `passed` · **Operational data readiness:**
 `experimental_non_official`
 
-Il tag e la release `v2.0.0` non sono ancora pubblicati. Gli output presenti
-su `main` sono il candidato di release. L'ultima release pubblicata resta
-[`v1.1.0`](https://github.com/Codewriter90x/Italian_Cities/releases/tag/v1.1.0).
+Il tag e la prerelease
+[`v2.0.0`](https://github.com/Codewriter90x/Italian_Cities/releases/tag/v2.0.0)
+sono pubblicati con asset immutabili e checksum SHA-256.
 
 ## Fonti canoniche
 
@@ -36,7 +36,7 @@ Entrambe le fonti richiedono attribuzione CC BY 4.0. Il file GeoNames originale
 ma non contribuisce ad alcun CSV, JSON, XLSX, SQLite, SQL o dato della Pages.
 È letto soltanto per [`reports/legacy-comparison.json`](reports/legacy-comparison.json).
 
-## Copertura del candidato v2
+## Copertura della v2
 
 | Contenuto | Conteggio | Interpretazione |
 | --- | ---: | --- |
@@ -76,7 +76,7 @@ Alla grana del luogo univoco: 7.498 comuni hanno coordinate
 | `data/italian_locations.xlsx` | stessa vista più foglio informativo |
 | `data/italian_locations.sqlite` | stessa vista e metadata |
 
-Il bundle preparato aggiunge `italian_locations.sql` e `SHA256SUMS`.
+Il bundle pubblicato aggiunge `italian_locations.sql` e `SHA256SUMS`.
 Tutti gli output sono generati: non modificarli manualmente.
 
 ## Stati principali
@@ -93,17 +93,17 @@ Tutti gli output sono generati: non modificarli manualmente.
 Nessun candidato multiplo viene scelto automaticamente. Lo schema completo è
 in [`SCHEMA.md`](SCHEMA.md).
 
-## Download del candidato
+## Download della release v2.0.0
 
-Fino alla pubblicazione della release v2:
-
-- [municipalities.csv](https://github.com/Codewriter90x/Italian_Cities/raw/refs/heads/main/data/municipalities.csv)
-- [localities.csv](https://github.com/Codewriter90x/Italian_Cities/raw/refs/heads/main/data/localities.csv)
-- [postal_codes.csv](https://github.com/Codewriter90x/Italian_Cities/raw/refs/heads/main/data/postal_codes.csv)
-- [italian_locations.csv](https://github.com/Codewriter90x/Italian_Cities/raw/refs/heads/main/data/italian_locations.csv)
-- [italian_locations.json](https://github.com/Codewriter90x/Italian_Cities/raw/refs/heads/main/data/italian_locations.json)
-- [italian_locations.xlsx](https://github.com/Codewriter90x/Italian_Cities/raw/refs/heads/main/data/italian_locations.xlsx)
-- [italian_locations.sqlite](https://github.com/Codewriter90x/Italian_Cities/raw/refs/heads/main/data/italian_locations.sqlite)
+- [municipalities.csv](https://github.com/Codewriter90x/Italian_Cities/releases/download/v2.0.0/municipalities.csv)
+- [localities.csv](https://github.com/Codewriter90x/Italian_Cities/releases/download/v2.0.0/localities.csv)
+- [postal_codes.csv](https://github.com/Codewriter90x/Italian_Cities/releases/download/v2.0.0/postal_codes.csv)
+- [italian_locations.csv](https://github.com/Codewriter90x/Italian_Cities/releases/download/v2.0.0/italian_locations.csv)
+- [italian_locations.json](https://github.com/Codewriter90x/Italian_Cities/releases/download/v2.0.0/italian_locations.json)
+- [italian_locations.xlsx](https://github.com/Codewriter90x/Italian_Cities/releases/download/v2.0.0/italian_locations.xlsx)
+- [italian_locations.sqlite](https://github.com/Codewriter90x/Italian_Cities/releases/download/v2.0.0/italian_locations.sqlite)
+- [italian_locations.sql](https://github.com/Codewriter90x/Italian_Cities/releases/download/v2.0.0/italian_locations.sql)
+- [SHA256SUMS](https://github.com/Codewriter90x/Italian_Cities/releases/download/v2.0.0/SHA256SUMS)
 
 ## Esempi
 
@@ -113,8 +113,8 @@ Fino alla pubblicazione della release v2:
 using System.Net.Http;
 using System.Text.Json;
 
-var url = "https://raw.githubusercontent.com/Codewriter90x/" +
-          "Italian_Cities/main/data/italian_locations.json";
+var url = "https://github.com/Codewriter90x/Italian_Cities/" +
+          "releases/download/v2.0.0/italian_locations.json";
 using var http = new HttpClient();
 await using var stream = await http.GetStreamAsync(url);
 using var document = await JsonDocument.ParseAsync(stream);

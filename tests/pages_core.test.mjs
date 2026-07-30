@@ -5,6 +5,7 @@ import {
   filtersFromSearchParams,
   filtersToSearchParams,
   formatInteger,
+  inflateRows,
   normalizeTerm,
   projectCoordinates,
   searchLocations,
@@ -57,6 +58,18 @@ const rows = [
 
 test("normalization ignores accents, apostrophes and case", () => {
   assert.equal(normalizeTerm("  CITTÀ d’Italia  "), "citta d italia");
+});
+
+test("inflates compact page rows without changing legacy object rows", () => {
+  assert.deepEqual(
+    inflateRows(["name", "postal_code"], [["Roma", "00186"]]),
+    [{ name: "Roma", postal_code: "00186" }],
+  );
+  assert.equal(inflateRows([], rows), rows);
+  assert.throws(
+    () => inflateRows([], [["Roma"]]),
+    /require a field list/,
+  );
 });
 
 test("searches by name, postal code and province", () => {

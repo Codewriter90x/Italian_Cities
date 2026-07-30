@@ -3,17 +3,24 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Italian Cities — dataset clean-room ISTAT e GeoNames</title>
+    <title>Dataset comuni italiani, CAP e coordinate | Italian Cities</title>
     <meta
       name="description"
-      content="Esplora la prerelease clean-room v2 costruita da comuni ISTAT e relazioni CAP GeoNames non ufficiali."
+      content="Cerca e scarica comuni italiani, codici ISTAT, CAP GeoNames non ufficiali e coordinate. Dataset open data in CSV, JSON, XLSX, SQLite e SQL."
     >
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="author" content="Codewriter90x">
     <meta name="theme-color" content="#081522">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Italian Cities — dataset geografico sperimentale">
+    <meta property="og:locale" content="it_IT">
+    <meta property="og:site_name" content="Italian Cities">
+    <meta
+      property="og:title"
+      content="Dataset comuni italiani, CAP e coordinate"
+    >
     <meta
       property="og:description"
-      content="Ricerca comuni ISTAT, località e CAP GeoNames con provenienza e affidabilità esplicite."
+      content="Open data di comuni ISTAT, località, CAP GeoNames e coordinate, scaricabile in CSV, JSON, XLSX, SQLite e SQL."
     >
     <meta
       property="og:url"
@@ -23,10 +30,35 @@
       property="og:image"
       content="https://codewriter90x.github.io/Italian_Cities/assets/social-preview.jpg"
     >
+    <meta property="og:image:width" content="1280">
+    <meta property="og:image:height" content="640">
+    <meta
+      property="og:image:alt"
+      content="Italian Cities, open dataset geografico italiano"
+    >
     <meta name="twitter:card" content="summary_large_image">
+    <meta
+      name="twitter:title"
+      content="Dataset comuni italiani, CAP e coordinate"
+    >
+    <meta
+      name="twitter:description"
+      content="Open data di comuni ISTAT, località, CAP GeoNames e coordinate."
+    >
+    <meta
+      name="twitter:image"
+      content="https://codewriter90x.github.io/Italian_Cities/assets/social-preview.jpg"
+    >
     <link rel="canonical" href="https://codewriter90x.github.io/Italian_Cities/">
+    <link
+      rel="alternate"
+      type="text/csv"
+      title="Italian Cities CSV"
+      href="{{RELEASE_DOWNLOAD_ROOT}}/italian_locations.csv"
+    >
     <link rel="icon" href="./favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="./assets/styles.css">
+    <script type="application/ld+json">{{JSON_LD}}</script>
     <script type="module" src="./assets/app.js"></script>
   </head>
   <body>
@@ -38,7 +70,8 @@
         Italian Cities
       </a>
       <nav class="site-nav" aria-label="Navigazione principale">
-        <a href="#map">Copertura</a>
+        <a href="./dataset/">Dataset</a>
+        <a href="./regioni/">Regioni</a>
         <a href="https://github.com/Codewriter90x/Italian_Cities">GitHub</a>
       </nav>
     </header>
@@ -50,50 +83,84 @@
         garanzia; alcune coordinate sono stimate algoritmicamente. Non usare
         questi dati per certificare o indirizzare spedizioni.
       </aside>
+
       <section class="hero" aria-labelledby="hero-title">
         <div>
-          <p class="eyebrow">Clean-room dataset v2.0.0 · prerelease</p>
-          <h1 id="hero-title">Trova un luogo italiano.</h1>
+          <p class="eyebrow">
+            Clean-room dataset {{DATASET_VERSION}} · {{RELEASE_STATUS_LABEL}}
+          </p>
+          <h1 id="hero-title">Comuni italiani, CAP e coordinate.</h1>
           <p class="hero-copy">
-            Tutti i comuni provengono dallo snapshot ISTAT. CAP, località e
-            coordinate provengono dal dump gratuito GeoNames CC BY 4.0, con
-            stato di riconciliazione e accuracy conservati.
+            Cerca nei comuni ISTAT e nelle località GeoNames. Scarica un
+            dataset open data riproducibile con codici ISTAT, CAP a cinque
+            cifre, province, regioni e coordinate WGS84.
           </p>
           <div class="hero-actions">
-            <a class="button" href="#search">Inizia la ricerca</a>
-            <a
-              class="button secondary"
-              href="https://github.com/Codewriter90x/Italian_Cities/tree/main/data"
-            >Scarica la prerelease v2 da main</a>
+            <a class="button" href="#search">Cerca nel dataset</a>
+            <a class="button secondary" href="{{RELEASE_URL}}">
+              Apri la release {{DATASET_VERSION}}
+            </a>
           </div>
         </div>
 
         <div class="hero-stats" aria-label="Statistiche principali">
           <div class="stat">
-            <strong class="stat-value" data-stat="total">18.811</strong>
+            <strong class="stat-value" data-stat="total">{{POSTAL_CODE_RELATIONS}}</strong>
             <span class="stat-label">relazioni luogo–CAP</span>
           </div>
           <div class="stat">
-            <strong class="stat-value" data-stat="municipalities">7.894</strong>
+            <strong class="stat-value" data-stat="municipalities">{{MUNICIPALITIES}}</strong>
             <span class="stat-label">comuni ISTAT</span>
           </div>
           <div class="stat">
-            <strong class="stat-value" data-stat="postalCodes">4.735</strong>
+            <strong class="stat-value" data-stat="postalCodes">{{UNIQUE_POSTAL_CODES}}</strong>
             <span class="stat-label">CAP distinti</span>
           </div>
           <div class="stat">
-            <strong class="stat-value" data-stat="coordinates">17.768</strong>
+            <strong class="stat-value" data-stat="coordinates">{{WITH_COORDINATES}}</strong>
             <span class="stat-label">luoghi con coordinate GeoNames</span>
           </div>
         </div>
       </section>
 
+      <section class="seo-intro" aria-labelledby="dataset-overview-title">
+        <p class="eyebrow">Open data Italia</p>
+        <h2 id="dataset-overview-title">
+          Un dataset geografico italiano documentato e riproducibile
+        </h2>
+        <p>
+          Italian Cities unisce l’elenco dei comuni italiani e i codici
+          amministrativi ISTAT con relazioni CAP, località e coordinate
+          GeoNames. La provenienza rimane esplicita e ogni formato è generato
+          dalla stessa pipeline.
+        </p>
+        <ul class="feature-links">
+          <li>
+            <a href="./dataset/"><strong>Dataset e download</strong>
+              <span>Copertura, formati e limiti d’uso</span></a>
+          </li>
+          <li>
+            <a href="./schema/"><strong>Schema delle colonne</strong>
+              <span>Comuni, località, CAP e provenienza</span></a>
+          </li>
+          <li>
+            <a href="./fonti/"><strong>Fonti e licenze</strong>
+              <span>ISTAT e GeoNames CC BY 4.0</span></a>
+          </li>
+          <li>
+            <a href="./regioni/"><strong>Copertura per regione</strong>
+              <span>Elenco indicizzabile dei comuni italiani</span></a>
+          </li>
+        </ul>
+      </section>
+
       <div class="page-shell">
         <section class="search-panel" id="search" aria-labelledby="search-title">
-          <h2 id="search-title">Ricerca nel dataset</h2>
+          <h2 id="search-title">Cerca comuni, CAP e province</h2>
           <p class="section-intro">
             Accenti e maiuscole non cambiano il risultato. I CAP restano
-            stringhe di cinque cifre.
+            stringhe di cinque cifre. I filtri possono essere condivisi tramite
+            l’URL.
           </p>
 
           <form id="search-form" role="search">
@@ -215,39 +282,67 @@
       </div>
 
       <section class="download-strip" aria-labelledby="download-title">
-        <p class="eyebrow">Dati riproducibili</p>
-        <h2 id="download-title">Usali nel formato che preferisci.</h2>
+        <p class="eyebrow">Release {{DATASET_VERSION}} pubblicata</p>
+        <h2 id="download-title">Scarica CSV, JSON, XLSX, SQLite o SQL.</h2>
         <p>
-          CSV, JSON, XLSX, SQLite e SQL derivano dalla stessa vista canonica.
-          Gli asset della release includono checksum SHA-256. Il dataset non è
-          un elenco postale ufficiale. La release v2 è preparata ma non ancora
-          pubblicata; questi link scaricano gli output correnti da <code>main</code>.
+          Tutti i formati derivano dalla stessa vista canonica. Gli asset della
+          release sono accompagnati da checksum SHA-256. Il dataset non è un
+          elenco postale ufficiale.
         </p>
         <div class="download-actions">
-          <a
-            class="button"
-            href="https://github.com/Codewriter90x/Italian_Cities/raw/refs/heads/main/data/italian_locations.csv"
-          >CSV v2 prerelease</a>
-          <a
-            class="button secondary"
-            href="https://github.com/Codewriter90x/Italian_Cities/raw/refs/heads/main/data/italian_locations.json"
-          >JSON v2 prerelease</a>
-          <a
-            class="button secondary"
-            href="https://github.com/Codewriter90x/Italian_Cities/raw/refs/heads/main/data/italian_locations.sqlite"
-          >SQLite v2 prerelease</a>
-          <a
-            class="button secondary"
-            href="https://github.com/Codewriter90x/Italian_Cities/releases/tag/v1.1.0"
-          >Ultima release pubblicata: v1.1.0</a>
+          <a class="button" href="{{RELEASE_DOWNLOAD_ROOT}}/italian_locations.csv">
+            CSV {{DATASET_VERSION}}
+          </a>
+          <a class="button secondary" href="{{RELEASE_DOWNLOAD_ROOT}}/italian_locations.json">
+            JSON {{DATASET_VERSION}}
+          </a>
+          <a class="button secondary" href="{{RELEASE_DOWNLOAD_ROOT}}/italian_locations.xlsx">
+            XLSX {{DATASET_VERSION}}
+          </a>
+          <a class="button secondary" href="{{RELEASE_DOWNLOAD_ROOT}}/italian_locations.sqlite">
+            SQLite {{DATASET_VERSION}}
+          </a>
+          <a class="button secondary" href="{{RELEASE_DOWNLOAD_ROOT}}/italian_locations.sql">
+            SQL {{DATASET_VERSION}}
+          </a>
+          <a class="button secondary" href="{{RELEASE_URL}}">
+            Note della release
+          </a>
         </div>
+      </section>
+
+      <section class="faq-section" id="faq" aria-labelledby="faq-title">
+        <p class="eyebrow">Domande frequenti</p>
+        <h2 id="faq-title">Come usare correttamente Italian Cities</h2>
+        <details>
+          <summary>I CAP del dataset sono ufficiali?</summary>
+          <p>
+            No. I CAP provengono dal dump GeoNames e non da Poste Italiane;
+            non sono dati postali certificati.
+          </p>
+        </details>
+        <details>
+          <summary>Quali formati sono disponibili?</summary>
+          <p>
+            La release offre CSV, JSON, XLSX, SQLite e SQL, generati dalla
+            stessa vista canonica.
+          </p>
+        </details>
+        <details>
+          <summary>Quali fonti usa Italian Cities?</summary>
+          <p>
+            I comuni e i codici amministrativi provengono da ISTAT; località,
+            CAP e coordinate da GeoNames. Entrambe le fonti sono attribuite
+            CC BY 4.0.
+          </p>
+        </details>
       </section>
     </main>
 
     <footer class="site-footer">
       <p>
-        Comuni ISTAT 2026-02-21 · GeoNames Postal Codes 2026-07-30.
-        Il legacy è escluso dal canonico e usato solo nel report comparativo.
+        Comuni ISTAT {{ISTAT_REFERENCE_DATE}} · GeoNames Postal Codes
+        {{GEONAMES_REFERENCE_DATE}} · build {{BUILD_DATE}}.
       </p>
       <p>
         <a href="https://github.com/Codewriter90x/Italian_Cities/issues/new/choose">
