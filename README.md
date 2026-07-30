@@ -37,9 +37,14 @@ La v2 deriva esclusivamente da:
 
 Entrambe le fonti richiedono attribuzione CC BY 4.0. Il file GeoNames originale
 è conservato e verificato tramite SHA-256. Il precedente materiale storico a
-provenienza non dimostrata è stato ritirato dal repository, dalle release
-storiche e dalla cronologia pubblica. Non è un input, una baseline o un output
-della pipeline corrente.
+provenienza non dimostrata è stato ritirato dal tree corrente, dai branch e
+tag controllati dal maintainer e dagli asset delle release storiche. Non è un
+input, una baseline o un output della pipeline corrente.
+
+GitHub conserva ancora refs interne di vecchie pull request e due fork di
+terzi contengono copie della precedente cronologia. Il maintainer non può
+modificarli direttamente: quelle copie non sono distribuzioni autorizzate dal
+progetto e non devono essere riutilizzate.
 
 ## Copertura della v2
 

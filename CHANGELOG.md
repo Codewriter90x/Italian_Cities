@@ -26,7 +26,9 @@
 ### Changed
 
 - Pre-clean-room material with unresolved redistribution rights was withdrawn
-  from the current tree, public history and affected release assets.
+  from the current tree, maintainer-controlled branches and tags, and affected
+  release assets. Pull-request refs and third-party copies remain an external
+  cleanup boundary.
 - Coordinates are labelled `geonames_place_match`,
   `geonames_estimated` or `missing`; none are official.
 - Pages uses absolute counts rather than a potentially misleading coverage
