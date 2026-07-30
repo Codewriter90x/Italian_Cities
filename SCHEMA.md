@@ -125,3 +125,8 @@ foglio `Dataset Info` con attribuzione e warning.
 
 CSV, JSON, XLSX, SQLite e SQL devono avere lo stesso ordine di campi, record e
 digest semantico. Due build consecutive devono essere identiche.
+
+La tabella e gli asset v2 originali restano invariati. Una preview separata
+del contratto tipizzato della prossima major può essere generata senza
+sovrascriverli; è descritta in
+[`docs/TYPED_CONTRACT_MIGRATION.md`](docs/TYPED_CONTRACT_MIGRATION.md).

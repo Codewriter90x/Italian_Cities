@@ -9,7 +9,6 @@ from datetime import date
 from pathlib import Path
 from typing import Any
 
-
 ROOT = Path(__file__).resolve().parents[1]
 PROJECT_METADATA_PATH = ROOT / "project.json"
 SEMVER = re.compile(r"^v\d+\.\d+\.\d+$")

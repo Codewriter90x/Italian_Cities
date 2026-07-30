@@ -213,8 +213,14 @@
 
           <div class="search-toolbar">
             <strong id="result-count" aria-live="polite">Caricamento…</strong>
-            <button id="reset-search" type="button">Azzera filtri</button>
+            <div class="search-actions">
+              <button id="copy-filter-link" type="button">
+                Copia link dei filtri
+              </button>
+              <button id="reset-search" type="button">Azzera filtri</button>
+            </div>
           </div>
+          <p class="copy-status" id="copy-status" role="status"></p>
           <ul class="result-list" id="result-list"></ul>
         </section>
 
@@ -305,6 +311,9 @@
           <a class="button secondary" href="{{RELEASE_DOWNLOAD_ROOT}}/italian_locations.sql">
             SQL {{DATASET_VERSION}}
           </a>
+          <a class="button secondary" href="{{RELEASE_DOWNLOAD_ROOT}}/SHA256SUMS">
+            SHA256SUMS
+          </a>
           <a class="button secondary" href="{{RELEASE_URL}}">
             Note della release
           </a>
@@ -352,7 +361,7 @@
     </footer>
 
     <p class="load-status" id="load-status" role="status">
-      Caricamento del dataset…
+      La ricerca interattiva verrà caricata quando raggiungi questa sezione.
     </p>
   </body>
 </html>

@@ -14,7 +14,7 @@ body:
     id: location_id
     attributes:
       label: Identificativo
-      description: "`location_id` o `legacy_uuid`."
+      description: "`location_id` del record corrente."
     validations:
       required: true
   - type: input

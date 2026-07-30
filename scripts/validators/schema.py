@@ -6,7 +6,6 @@ import re
 
 from validators.common import QualityChecks, add_quality_error
 
-
 POSTAL_CODE_STATUSES = {
     "geonames_matched",
     "geonames_ambiguous",

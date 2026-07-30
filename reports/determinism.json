@@ -17,6 +17,7 @@
       "localities_csv": "8071405388fdf96f4f46013d3ff83e3fd4768ea05d77629f6fdc99ab1c950747",
       "municipalities_csv": "905af234a403be1750d6e697de04d812766ceb829a62aceaa8796970b461bfd6",
       "postal_codes_csv": "2059b5e36af6a21a6f73efd36945b67185500b5e2c15eb599c0fd1a8139efe9a",
+      "reconciliation_backlog": "8c3a13633cb1d21362581bb64239ccf90d6113b819d6d495bb95909c8081eca8",
       "release_diff_report": "ed57759aabe4e79b6c7542eccaaa27248a9c39d74e5ca7edfb666901fd73d610"
     },
     "semantic_sha256": {

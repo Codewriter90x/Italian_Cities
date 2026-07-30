@@ -7,13 +7,14 @@ import tempfile
 import unittest
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from build_dataset import build_clean_room  # noqa: E402
 from check_determinism import (  # noqa: E402
     DEFAULT_REPORT as DETERMINISM_REPORT,
+)
+from check_determinism import (
     collect_signatures,
 )
 from dataset_common import (  # noqa: E402
@@ -28,6 +29,7 @@ from dataset_common import (  # noqa: E402
     record_digest,
 )
 from legacy_comparison import build_legacy_comparison  # noqa: E402
+from reconciliation_backlog import build_backlog  # noqa: E402
 from source_data import (  # noqa: E402
     DEFAULT_GEONAMES,
     DEFAULT_LEGACY,
@@ -188,6 +190,19 @@ class IntegrityTests(unittest.TestCase):
             record_digest(self.locations),
             sqlite_output["semantic_sha256"],
         )
+
+    def test_reconciliation_backlog_is_evidence_first(self) -> None:
+        report = build_backlog(self.municipalities, self.localities)
+        self.assertEqual(10270, report["summary"]["unreconciled_localities"])
+        self.assertEqual(
+            396,
+            report["summary"]["municipalities_without_geonames_postal_match"],
+        )
+        self.assertIn(
+            "SU",
+            report["summary"]["noncurrent_source_province_codes"],
+        )
+        self.assertFalse(report["policy"]["automatic_fuzzy_promotion"])
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 # Dataset licensing
 
-Il candidato v2 combina esclusivamente due fonti canoniche attribuite:
+La release v2 combina esclusivamente due fonti canoniche attribuite:
 
 | Componente | Licenza |
 | --- | --- |

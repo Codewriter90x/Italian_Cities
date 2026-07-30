@@ -1,0 +1,625 @@
+{
+  "dataset_version": "v2.0.0",
+  "missing_municipality_match_by_region": [
+    {
+      "name": "Sardegna",
+      "records": 103
+    },
+    {
+      "name": "Calabria",
+      "records": 100
+    },
+    {
+      "name": "Lombardia",
+      "records": 79
+    },
+    {
+      "name": "Trentino-Alto Adige/Südtirol",
+      "records": 32
+    },
+    {
+      "name": "Piemonte",
+      "records": 22
+    },
+    {
+      "name": "Veneto",
+      "records": 19
+    },
+    {
+      "name": "Emilia-Romagna",
+      "records": 12
+    },
+    {
+      "name": "Marche",
+      "records": 6
+    },
+    {
+      "name": "Friuli-Venezia Giulia",
+      "records": 5
+    },
+    {
+      "name": "Toscana",
+      "records": 5
+    },
+    {
+      "name": "Liguria",
+      "records": 4
+    },
+    {
+      "name": "Sicilia",
+      "records": 3
+    },
+    {
+      "name": "Puglia",
+      "records": 2
+    },
+    {
+      "name": "Abruzzo",
+      "records": 1
+    },
+    {
+      "name": "Campania",
+      "records": 1
+    },
+    {
+      "name": "Lazio",
+      "records": 1
+    },
+    {
+      "name": "Umbria",
+      "records": 1
+    }
+  ],
+  "policy": {
+    "automatic_fuzzy_promotion": false,
+    "evidence_required": [
+      "source",
+      "reference_date",
+      "license",
+      "reproducible_transformation"
+    ],
+    "public_nominatim_bulk_geocoding": false
+  },
+  "review_order": [
+    {
+      "priority": 1,
+      "reason": "Historical source codes need explicit aliases.",
+      "segment": "noncurrent_source_province_codes"
+    },
+    {
+      "priority": 2,
+      "reason": "Municipalities remain canonical but lack CAP/coordinates.",
+      "segment": "municipalities_without_geonames_postal_match"
+    },
+    {
+      "priority": 3,
+      "reason": "Review high-volume segments using licensed evidence.",
+      "segment": "highest_unreconciled_regions"
+    }
+  ],
+  "schema_version": "3.0.0",
+  "status": "review_required",
+  "summary": {
+    "municipalities": 7894,
+    "municipalities_without_geonames_postal_match": 396,
+    "noncurrent_source_province_codes": [
+      "SU"
+    ],
+    "reconciliation_outcomes": {
+      "unmatched_no_parent": 10270
+    },
+    "unreconciled_localities": 10270
+  },
+  "unreconciled_by_province": [
+    {
+      "name": "Bolzano/Bozen (BZ)",
+      "records": 639
+    },
+    {
+      "name": "Trento (TN)",
+      "records": 301
+    },
+    {
+      "name": "Salerno (SA)",
+      "records": 249
+    },
+    {
+      "name": "Modena (MO)",
+      "records": 241
+    },
+    {
+      "name": "Reggio Calabria (RC)",
+      "records": 240
+    },
+    {
+      "name": "Perugia (PG)",
+      "records": 232
+    },
+    {
+      "name": "Firenze (FI)",
+      "records": 199
+    },
+    {
+      "name": "Udine (UD)",
+      "records": 185
+    },
+    {
+      "name": "Messina (ME)",
+      "records": 184
+    },
+    {
+      "name": "Parma (PR)",
+      "records": 176
+    },
+    {
+      "name": "Bologna (BO)",
+      "records": 173
+    },
+    {
+      "name": "Treviso (TV)",
+      "records": 168
+    },
+    {
+      "name": "Brescia (BS)",
+      "records": 167
+    },
+    {
+      "name": "Cosenza (CS)",
+      "records": 167
+    },
+    {
+      "name": "Lucca (LU)",
+      "records": 158
+    },
+    {
+      "name": "Verona (VR)",
+      "records": 157
+    },
+    {
+      "name": "Roma (RM)",
+      "records": 155
+    },
+    {
+      "name": "Cuneo (CN)",
+      "records": 147
+    },
+    {
+      "name": "Torino (TO)",
+      "records": 146
+    },
+    {
+      "name": "Sassari (SS)",
+      "records": 142
+    },
+    {
+      "name": "L'Aquila (AQ)",
+      "records": 141
+    },
+    {
+      "name": "Vicenza (VI)",
+      "records": 136
+    },
+    {
+      "name": "Grosseto (GR)",
+      "records": 133
+    },
+    {
+      "name": "Venezia (VE)",
+      "records": 133
+    },
+    {
+      "name": "Caserta (CE)",
+      "records": 131
+    },
+    {
+      "name": "Genova (GE)",
+      "records": 125
+    },
+    {
+      "name": "Arezzo (AR)",
+      "records": 122
+    },
+    {
+      "name": "Napoli (NA)",
+      "records": 122
+    },
+    {
+      "name": "Pisa (PI)",
+      "records": 122
+    },
+    {
+      "name": "Belluno (BL)",
+      "records": 121
+    },
+    {
+      "name": "Teramo (TE)",
+      "records": 119
+    },
+    {
+      "name": "Reggio nell'Emilia (RE)",
+      "records": 117
+    },
+    {
+      "name": "Padova (PD)",
+      "records": 113
+    },
+    {
+      "name": "Pistoia (PT)",
+      "records": 111
+    },
+    {
+      "name": "Milano (MI)",
+      "records": 110
+    },
+    {
+      "name": "Forlì-Cesena (FC)",
+      "records": 108
+    },
+    {
+      "name": "Mantova (MN)",
+      "records": 105
+    },
+    {
+      "name": "Pesaro e Urbino (PU)",
+      "records": 105
+    },
+    {
+      "name": "Siena (SI)",
+      "records": 101
+    },
+    {
+      "name": "Ancona (AN)",
+      "records": 99
+    },
+    {
+      "name": "Piacenza (PC)",
+      "records": 99
+    },
+    {
+      "name": "Ferrara (FE)",
+      "records": 98
+    },
+    {
+      "name": "Bergamo (BG)",
+      "records": 96
+    },
+    {
+      "name": "Como (CO)",
+      "records": 95
+    },
+    {
+      "name": "Rieti (RI)",
+      "records": 95
+    },
+    {
+      "name": "La Spezia (SP)",
+      "records": 93
+    },
+    {
+      "name": "Ravenna (RA)",
+      "records": 92
+    },
+    {
+      "name": "Terni (TR)",
+      "records": 91
+    },
+    {
+      "name": "Monza e della Brianza (MB)",
+      "records": 90
+    },
+    {
+      "name": "Frosinone (FR)",
+      "records": 87
+    },
+    {
+      "name": "Massa-Carrara (MS)",
+      "records": 87
+    },
+    {
+      "name": "Varese (VA)",
+      "records": 87
+    },
+    {
+      "name": "Avellino (AV)",
+      "records": 86
+    },
+    {
+      "name": "Alessandria (AL)",
+      "records": 84
+    },
+    {
+      "name": "Catania (CT)",
+      "records": 82
+    },
+    {
+      "name": "Pordenone (PN)",
+      "records": 81
+    },
+    {
+      "name": "Catanzaro (CZ)",
+      "records": 80
+    },
+    {
+      "name": "Sondrio (SO)",
+      "records": 77
+    },
+    {
+      "name": "Rovigo (RO)",
+      "records": 76
+    },
+    {
+      "name": "Sud Sardegna (SU)",
+      "records": 76
+    },
+    {
+      "name": "Latina (LT)",
+      "records": 75
+    },
+    {
+      "name": "Nuoro (NU)",
+      "records": 74
+    },
+    {
+      "name": "Palermo (PA)",
+      "records": 70
+    },
+    {
+      "name": "Trapani (TP)",
+      "records": 70
+    },
+    {
+      "name": "Asti (AT)",
+      "records": 67
+    },
+    {
+      "name": "Lecce (LE)",
+      "records": 66
+    },
+    {
+      "name": "Potenza (PZ)",
+      "records": 65
+    },
+    {
+      "name": "Rimini (RN)",
+      "records": 63
+    },
+    {
+      "name": "Chieti (CH)",
+      "records": 62
+    },
+    {
+      "name": "Macerata (MC)",
+      "records": 62
+    },
+    {
+      "name": "Livorno (LI)",
+      "records": 61
+    },
+    {
+      "name": "Pavia (PV)",
+      "records": 61
+    },
+    {
+      "name": "Valle d'Aosta/Vallée d'Aoste (AO)",
+      "records": 61
+    },
+    {
+      "name": "Cremona (CR)",
+      "records": 59
+    },
+    {
+      "name": "Vibo Valentia (VV)",
+      "records": 59
+    },
+    {
+      "name": "Verbano-Cusio-Ossola (VB)",
+      "records": 57
+    },
+    {
+      "name": "Savona (SV)",
+      "records": 53
+    },
+    {
+      "name": "Bari (BA)",
+      "records": 48
+    },
+    {
+      "name": "Biella (BI)",
+      "records": 48
+    },
+    {
+      "name": "Ascoli Piceno (AP)",
+      "records": 47
+    },
+    {
+      "name": "Lecco (LC)",
+      "records": 47
+    },
+    {
+      "name": "Imperia (IM)",
+      "records": 44
+    },
+    {
+      "name": "Pescara (PE)",
+      "records": 43
+    },
+    {
+      "name": "Viterbo (VT)",
+      "records": 42
+    },
+    {
+      "name": "Benevento (BN)",
+      "records": 38
+    },
+    {
+      "name": "Foggia (FG)",
+      "records": 36
+    },
+    {
+      "name": "Prato (PO)",
+      "records": 36
+    },
+    {
+      "name": "Gorizia (GO)",
+      "records": 35
+    },
+    {
+      "name": "Novara (NO)",
+      "records": 34
+    },
+    {
+      "name": "Oristano (OR)",
+      "records": 31
+    },
+    {
+      "name": "Fermo (FM)",
+      "records": 30
+    },
+    {
+      "name": "Isernia (IS)",
+      "records": 27
+    },
+    {
+      "name": "Vercelli (VC)",
+      "records": 27
+    },
+    {
+      "name": "Brindisi (BR)",
+      "records": 22
+    },
+    {
+      "name": "Lodi (LO)",
+      "records": 22
+    },
+    {
+      "name": "Taranto (TA)",
+      "records": 21
+    },
+    {
+      "name": "Cagliari (CA)",
+      "records": 20
+    },
+    {
+      "name": "Siracusa (SR)",
+      "records": 20
+    },
+    {
+      "name": "Trieste (TS)",
+      "records": 20
+    },
+    {
+      "name": "Crotone (KR)",
+      "records": 19
+    },
+    {
+      "name": "Matera (MT)",
+      "records": 17
+    },
+    {
+      "name": "Agrigento (AG)",
+      "records": 16
+    },
+    {
+      "name": "Ragusa (RG)",
+      "records": 16
+    },
+    {
+      "name": "Campobasso (CB)",
+      "records": 11
+    },
+    {
+      "name": "Enna (EN)",
+      "records": 9
+    },
+    {
+      "name": "Caltanissetta (CL)",
+      "records": 5
+    },
+    {
+      "name": "Barletta-Andria-Trani (BT)",
+      "records": 2
+    }
+  ],
+  "unreconciled_by_region": [
+    {
+      "name": "Emilia-Romagna",
+      "records": 1167
+    },
+    {
+      "name": "Toscana",
+      "records": 1130
+    },
+    {
+      "name": "Lombardia",
+      "records": 1016
+    },
+    {
+      "name": "Trentino-Alto Adige/Südtirol",
+      "records": 940
+    },
+    {
+      "name": "Veneto",
+      "records": 904
+    },
+    {
+      "name": "Campania",
+      "records": 626
+    },
+    {
+      "name": "Piemonte",
+      "records": 610
+    },
+    {
+      "name": "Calabria",
+      "records": 565
+    },
+    {
+      "name": "Sicilia",
+      "records": 472
+    },
+    {
+      "name": "Lazio",
+      "records": 454
+    },
+    {
+      "name": "Abruzzo",
+      "records": 365
+    },
+    {
+      "name": "Marche",
+      "records": 343
+    },
+    {
+      "name": "Sardegna",
+      "records": 343
+    },
+    {
+      "name": "Umbria",
+      "records": 323
+    },
+    {
+      "name": "Friuli-Venezia Giulia",
+      "records": 321
+    },
+    {
+      "name": "Liguria",
+      "records": 315
+    },
+    {
+      "name": "Puglia",
+      "records": 195
+    },
+    {
+      "name": "Basilicata",
+      "records": 82
+    },
+    {
+      "name": "Valle d'Aosta/Vallée d'Aoste",
+      "records": 61
+    },
+    {
+      "name": "Molise",
+      "records": 38
+    }
+  ]
+}

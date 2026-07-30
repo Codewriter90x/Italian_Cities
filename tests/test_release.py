@@ -5,7 +5,6 @@ import tempfile
 import unittest
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
@@ -22,8 +21,8 @@ from dataset_common import (  # noqa: E402
     sha256_file,
 )
 from export_sql import export_sql  # noqa: E402
-from validate_release import EXPECTED_ASSETS, validate_release  # noqa: E402
 from project_metadata import DATASET_VERSION  # noqa: E402
+from validate_release import EXPECTED_ASSETS, validate_release  # noqa: E402
 
 
 class ReleaseTests(unittest.TestCase):

@@ -30,7 +30,6 @@ from normalize_legacy import (
     normalize_name,
 )
 
-
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_REPORT = ROOT / "reports/milestone1-validation.json"
 

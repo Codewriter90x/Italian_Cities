@@ -23,8 +23,8 @@ from project_metadata import (
     SCHEMA_VERSION,
     STRUCTURAL_QUALITY,
 )
-from validators.common import QualityChecks, add_quality_error
 
+from validators.common import QualityChecks, add_quality_error
 
 SHEET_NS = {"x": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
 DOC_REL_NS = {

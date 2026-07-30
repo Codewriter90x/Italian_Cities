@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from validators.common import QualityChecks, add_quality_error
 
-
 CANONICAL_SOURCES = {
     "istat_municipalities",
     "geonames_postal_codes",
@@ -69,11 +68,13 @@ def validate_verification_and_provenance(
                     "provenance_completeness",
                     f"{label}: ambiguous match lacks candidate ids",
                 )
-        if row.get("reconciliation_outcome") == "unmatched_no_parent":
-            if row.get("parent_municipality_id"):
-                add_quality_error(
-                    errors,
-                    checks,
-                    "clean_room_isolation",
-                    f"{label}: unmatched locality has a parent municipality",
-                )
+        if (
+            row.get("reconciliation_outcome") == "unmatched_no_parent"
+            and row.get("parent_municipality_id")
+        ):
+            add_quality_error(
+                errors,
+                checks,
+                "clean_room_isolation",
+                f"{label}: unmatched locality has a parent municipality",
+            )
