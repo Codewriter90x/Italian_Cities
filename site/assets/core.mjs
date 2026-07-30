@@ -134,3 +134,44 @@ export function formatPercent(value) {
     maximumFractionDigits: 2,
   }).format(value);
 }
+
+const ALLOWED_KINDS = new Set([
+  "municipality",
+  "postal_locality_unclassified",
+]);
+const ALLOWED_COORDINATE_STATUSES = new Set([
+  "present",
+  "legacy_unverified",
+  "verified",
+  "missing",
+]);
+
+export function filtersFromSearchParams(value = "") {
+  const params =
+    value instanceof URLSearchParams ? value : new URLSearchParams(value);
+  const province = params.get("province")?.trim().toUpperCase() ?? "";
+  const kind = params.get("kind") ?? "";
+  const coordinateStatus = params.get("coordinates") ?? "";
+  return {
+    query: params.get("q")?.trim() ?? "",
+    province: /^[A-Z]{2}$/.test(province) ? province : "",
+    kind: ALLOWED_KINDS.has(kind) ? kind : "",
+    coordinateStatus: ALLOWED_COORDINATE_STATUSES.has(coordinateStatus)
+      ? coordinateStatus
+      : "",
+  };
+}
+
+export function filtersToSearchParams(filters = {}) {
+  const params = new URLSearchParams();
+  const values = {
+    q: filters.query?.trim() ?? "",
+    province: filters.province ?? "",
+    kind: filters.kind ?? "",
+    coordinates: filters.coordinateStatus ?? "",
+  };
+  for (const [name, value] of Object.entries(values)) {
+    if (value) params.set(name, value);
+  }
+  return params;
+}
