@@ -3,6 +3,16 @@ const COLLATOR = new Intl.Collator("it", {
   numeric: true,
 });
 
+export function inflateRows(fields = [], rows = []) {
+  if (!rows.length || !Array.isArray(rows[0])) return rows;
+  if (!fields.length) {
+    throw new Error("Compact dataset rows require a field list.");
+  }
+  return rows.map((values) =>
+    Object.fromEntries(fields.map((field, index) => [field, values[index]])),
+  );
+}
+
 export function normalizeTerm(value = "") {
   return String(value)
     .normalize("NFD")

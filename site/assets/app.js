@@ -2,6 +2,7 @@ import {
   filtersFromSearchParams,
   filtersToSearchParams,
   formatInteger,
+  inflateRows,
   projectCoordinates,
   searchLocations,
 } from "./core.mjs";
@@ -335,12 +336,12 @@ async function loadDataset() {
       response.json(),
       boundaryResponse.json(),
     ]);
-    state.rows = payload.rows;
+    state.rows = inflateRows(payload.fields, payload.rows);
     state.stats = payload.stats;
     state.boundaries = boundaries;
     populateStats(payload.stats);
-    populateProvinces(payload.rows);
-    populateAccessibleMap(payload.rows);
+    populateProvinces(state.rows);
+    populateAccessibleMap(state.rows);
     applyFiltersFromUrl();
     renderResults();
     drawMap();

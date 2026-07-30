@@ -65,8 +65,11 @@ select {
 .site-header,
 .trust-banner,
 .hero,
+.seo-intro,
 .page-shell,
 .download-strip,
+.faq-section,
+.content-page,
 .site-footer {
   width: min(1180px, calc(100% - 2rem));
   margin-inline: auto;
@@ -160,6 +163,59 @@ h2 {
   max-width: 60ch;
   color: var(--muted);
   font-size: 1.1rem;
+}
+
+.seo-intro {
+  margin-bottom: 3rem;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  background: rgba(11, 28, 42, 0.66);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+}
+
+.seo-intro > p {
+  max-width: 72ch;
+  color: var(--muted);
+}
+
+.feature-links,
+.region-list,
+.municipality-list,
+.resource-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.feature-links {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.feature-links a,
+.region-list a {
+  display: grid;
+  gap: 0.25rem;
+  height: 100%;
+  padding: 1rem;
+  color: var(--text);
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  text-decoration: none;
+}
+
+.feature-links a:hover,
+.region-list a:hover {
+  border-color: rgba(69, 215, 232, 0.48);
+}
+
+.feature-links span,
+.region-list span {
+  color: var(--muted);
+  font-size: 0.82rem;
 }
 
 .hero-actions,
@@ -494,6 +550,161 @@ a:focus-visible {
   color: var(--muted);
 }
 
+.faq-section {
+  margin-bottom: 4rem;
+}
+
+.faq-section details {
+  padding: 1rem 0;
+  border-top: 1px solid var(--line);
+}
+
+.faq-section details:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.faq-section summary {
+  color: var(--text);
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.faq-section details p {
+  max-width: 70ch;
+  margin: 0.75rem 0 0;
+  color: var(--muted);
+}
+
+.content-page {
+  padding-block: clamp(3rem, 7vw, 6rem);
+}
+
+.content-page > h1 {
+  max-width: 18ch;
+}
+
+.breadcrumbs {
+  margin-bottom: 2rem;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.content-lead {
+  max-width: 72ch;
+  margin-bottom: 2.5rem;
+  color: var(--muted);
+  font-size: 1.12rem;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 3rem;
+}
+
+.content-card {
+  padding: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 0.85rem;
+}
+
+.content-card h2 {
+  font-size: 1.2rem;
+  letter-spacing: -0.01em;
+}
+
+.content-card p,
+.content-section > p,
+.municipality-group > p {
+  color: var(--muted);
+}
+
+.content-section {
+  max-width: 74rem;
+  margin-top: 3.5rem;
+}
+
+.content-warning {
+  width: 100%;
+  margin-block: 2rem;
+}
+
+.resource-list {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.resource-list li {
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.schema-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.schema-table th,
+.schema-table td {
+  padding: 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+}
+
+.schema-table th {
+  color: var(--text);
+}
+
+.schema-table td {
+  color: var(--muted);
+}
+
+.region-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.region-summary .content-card {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.region-summary strong {
+  color: var(--cyan);
+  font-size: 2rem;
+}
+
+.region-summary span {
+  color: var(--muted);
+}
+
+.municipality-group {
+  margin-top: 2.5rem;
+}
+
+.municipality-group h2 {
+  font-size: 1.35rem;
+}
+
+.municipality-list {
+  columns: 3 15rem;
+  column-gap: 2rem;
+}
+
+.municipality-list li {
+  break-inside: avoid;
+  padding-block: 0.28rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.municipality-list small {
+  display: block;
+  color: var(--muted);
+}
+
 .site-footer {
   display: grid;
   grid-template-columns: 1fr auto;
@@ -518,15 +729,30 @@ a:focus-visible {
   .map-panel {
     position: static;
   }
+
+  .feature-links,
+  .content-grid,
+  .region-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 560px) {
-  .site-nav a:first-child {
-    display: none;
+  .site-header {
+    align-items: flex-start;
+    padding-block: 1rem;
+  }
+
+  .site-nav {
+    gap: 0.65rem;
+    font-size: 0.82rem;
   }
 
   .search-grid,
-  .site-footer {
+  .site-footer,
+  .feature-links,
+  .content-grid,
+  .region-list {
     grid-template-columns: 1fr;
   }
 
