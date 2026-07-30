@@ -71,7 +71,10 @@ function kindLabel(row) {
 
 function renderResults() {
   const result = searchLocations(state.rows, state.filters);
-  elements.resultCount.textContent = `${formatInteger(result.total)} risultati`;
+  elements.resultCount.textContent =
+    result.total > result.rows.length
+      ? `${formatInteger(result.total)} risultati · primi ${formatInteger(result.rows.length)} mostrati`
+      : `${formatInteger(result.total)} risultati`;
   elements.results.replaceChildren();
 
   if (!result.rows.length) {
@@ -106,8 +109,20 @@ function renderResults() {
     const meta = document.createElement("span");
     meta.className = "result-meta";
     const coordinateText =
-      row.latitude === null ? "coordinate mancanti" : "coordinate disponibili";
-    meta.textContent = `${kindLabel(row)} · ${coordinateText}`;
+      row.latitude === null
+        ? "coordinate mancanti"
+        : row.coordinate_verification === "legacy_unverified"
+          ? "coordinate legacy non verificate"
+          : row.coordinate_verification === "corrected_legacy_unverified"
+            ? "coordinate corrette ma non verificate"
+            : "coordinate verificate";
+    const postalText =
+      row.postal_code_status === "generic_multicap"
+        ? "CAP generico città multi-CAP"
+        : row.postal_code_status === "legacy_unverified"
+          ? "CAP legacy non verificato"
+          : `CAP ${row.postal_code_status}`;
+    meta.textContent = `${kindLabel(row)} · ${postalText} · ${coordinateText}`;
 
     heading.append(cap);
     button.append(heading, location, meta);

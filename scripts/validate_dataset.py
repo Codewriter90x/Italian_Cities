@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate schema, integrity and cross-format equivalence for Milestone 2."""
+"""Validate schema, integrity and cross-format equivalence."""
 
 from __future__ import annotations
 
@@ -20,7 +20,6 @@ from dataset_common import (
     GENERATED_PATHS,
     ITALIAN_LOCATION_FIELDS,
     LOCALITY_FIELDS,
-    MILESTONE1_BASELINE,
     MUNICIPALITY_FIELDS,
     POSTAL_CODE_FIELDS,
     REPORTS_DIR,
@@ -32,18 +31,16 @@ from dataset_common import (
     sha256_file,
     write_json,
 )
+from build_dataset import GENERIC_MULTICAP_POSTAL_CODES
 from check_determinism import (
     DEFAULT_REPORT as DETERMINISM_REPORT,
     collect_signatures,
 )
 from normalize_legacy import DEFAULT_ISTAT, load_istat_municipalities
+from project_metadata import QUALITY_GATE_VERSION, SCHEMA_VERSION
 
 
-DEFAULT_REPORT = REPORTS_DIR / "milestone3-validation.json"
-EXPECTED_BASELINE_SHA256 = (
-    "735a7e9a1e7fb4eab005022478772ceab73d0034120f4f243ca68d4c64668a3d"
-)
-QUALITY_GATE_VERSION = "3.0.0"
+DEFAULT_REPORT = REPORTS_DIR / "quality-validation.json"
 ITALY_BOUNDS = {
     "latitude_min": 35.0,
     "latitude_max": 48.0,
@@ -54,10 +51,13 @@ QUALITY_CHECK_NAMES = (
     "schema_columns",
     "unique_identifiers",
     "postal_code_format",
+    "postal_code_semantics",
     "istat_code_validity",
     "territorial_coherence",
     "numeric_coordinates",
     "coordinate_bounds",
+    "coordinate_verification",
+    "provenance_completeness",
     "no_empty_rows",
     "no_logical_duplicates",
     "cross_table_integrity",
@@ -321,6 +321,108 @@ def validate_postal_code_table(
             )
 
 
+def validate_postal_semantics(
+    *,
+    rows: list[dict[str, str]],
+    dataset: str,
+    errors: list[str],
+    checks: dict[str, dict[str, object]],
+) -> None:
+    allowed = {"generic_multicap", "legacy_unverified", "verified", "obsolete"}
+    for line_number, row in enumerate(rows, start=2):
+        status = row["postal_code_status"]
+        label = f"{dataset}:{line_number}"
+        if status not in allowed:
+            add_quality_error(
+                errors,
+                checks,
+                "postal_code_semantics",
+                f"{label}: unsupported postal_code_status {status!r}",
+            )
+            continue
+        if "normalized_name" not in row:
+            continue
+        key = (
+            row["normalized_name"],
+            row["province_code"],
+            row["postal_code"],
+        )
+        if key in GENERIC_MULTICAP_POSTAL_CODES and status != "generic_multicap":
+            add_quality_error(
+                errors,
+                checks,
+                "postal_code_semantics",
+                f"{label}: expected postal_code_status='generic_multicap'",
+            )
+        elif (
+            key not in GENERIC_MULTICAP_POSTAL_CODES
+            and status == "generic_multicap"
+        ):
+            add_quality_error(
+                errors,
+                checks,
+                "postal_code_semantics",
+                f"{label}: generic_multicap is not declared for this record",
+            )
+
+
+def validate_verification_and_provenance(
+    *,
+    rows: list[dict[str, str]],
+    dataset: str,
+    errors: list[str],
+    checks: dict[str, dict[str, object]],
+) -> None:
+    verification_by_status = {
+        "available": {"legacy_unverified", "verified"},
+        "corrected": {"corrected_legacy_unverified", "verified"},
+        "missing": {"missing"},
+    }
+    for line_number, row in enumerate(rows, start=2):
+        label = f"{dataset}:{line_number}"
+        expected_verification = verification_by_status.get(row["coordinate_status"])
+        if expected_verification is None:
+            add_quality_error(
+                errors,
+                checks,
+                "coordinate_verification",
+                f"{label}: unsupported coordinate_status",
+            )
+        elif row["coordinate_verification"] not in expected_verification:
+            add_quality_error(
+                errors,
+                checks,
+                "coordinate_verification",
+                f"{label}: coordinate verification must be one of "
+                f"{sorted(expected_verification)!r}",
+            )
+
+        source_ids = {
+            source_id
+            for source_id in row["source_ids"].split(";")
+            if source_id
+        }
+        required_sources = {"legacy_csv", "istat_municipalities"}
+        if not required_sources.issubset(source_ids):
+            add_quality_error(
+                errors,
+                checks,
+                "provenance_completeness",
+                f"{label}: source_ids must identify legacy and ISTAT inputs",
+            )
+        has_authoritative_source = bool(source_ids - required_sources)
+        if (
+            row["coordinate_verification"] == "verified"
+            or row.get("postal_code_status") in {"verified", "obsolete"}
+        ) and not has_authoritative_source:
+            add_quality_error(
+                errors,
+                checks,
+                "provenance_completeness",
+                f"{label}: verified or obsolete values require an additional source",
+            )
+
+
 def coordinates_equal(left: str, right: str) -> bool:
     if left == right:
         return True
@@ -368,15 +470,19 @@ def expected_municipality(row: dict[str, str]) -> dict[str, str]:
         "name": row["name"],
         "normalized_name": row["normalized_name"],
         "postal_code": row["postal_code"],
+        "postal_code_status": row["postal_code_status"],
         "province_code": row["province_code"],
         "province_name": row["province_name"],
+        "legacy_province_name": row["legacy_province_name"],
         "region_name": row["region_name"],
         "country_code": row["country_code"],
         "country_name": row["country_name"],
         "latitude": row["latitude"],
         "longitude": row["longitude"],
         "coordinate_status": row["coordinate_status"],
+        "coordinate_verification": row["coordinate_verification"],
         "source_snapshot": row["source_snapshot"],
+        "source_ids": row["source_ids"],
     }
 
 
@@ -389,15 +495,19 @@ def expected_locality(row: dict[str, str]) -> dict[str, str]:
         "locality_type": row["location_kind"],
         "parent_municipality_id": row["parent_municipality_id"],
         "postal_code": row["postal_code"],
+        "postal_code_status": row["postal_code_status"],
         "province_code": row["province_code"],
         "province_name": row["province_name"],
+        "legacy_province_name": row["legacy_province_name"],
         "region_name": row["region_name"],
         "country_code": row["country_code"],
         "country_name": row["country_name"],
         "latitude": row["latitude"],
         "longitude": row["longitude"],
         "coordinate_status": row["coordinate_status"],
+        "coordinate_verification": row["coordinate_verification"],
         "source_snapshot": row["source_snapshot"],
+        "source_ids": row["source_ids"],
     }
 
 
@@ -406,9 +516,11 @@ def expected_postal_code(row: dict[str, str]) -> dict[str, str]:
         "location_id": row["location_id"],
         "location_kind": row["location_kind"],
         "postal_code": row["postal_code"],
+        "postal_code_status": row["postal_code_status"],
         "province_code": row["province_code"],
         "is_primary": "true",
         "source_snapshot": row["source_snapshot"],
+        "source_ids": row["source_ids"],
     }
 
 
@@ -457,6 +569,12 @@ def validate() -> dict[str, object]:
                     f"{dataset}:{line_number}: completely empty record",
                 )
         validate_postal_code_table(
+            rows=rows,
+            dataset=dataset,
+            errors=errors,
+            checks=quality_checks,
+        )
+        validate_postal_semantics(
             rows=rows,
             dataset=dataset,
             errors=errors,
@@ -537,6 +655,12 @@ def validate() -> dict[str, object]:
             errors=errors,
             checks=quality_checks,
         )
+        validate_verification_and_provenance(
+            rows=rows,
+            dataset=dataset,
+            errors=errors,
+            checks=quality_checks,
+        )
 
     official_records = load_istat_municipalities(DEFAULT_ISTAT)
     official_by_istat = {
@@ -544,6 +668,10 @@ def validate() -> dict[str, object]:
     }
     official_province_codes = {
         record["province_code"] for record in official_by_istat.values()
+    }
+    official_province_names = {
+        record["province_code"]: record["province_name"]
+        for record in official_by_istat.values()
     }
     municipality_province_codes = {
         row["province_code"] for row in municipalities
@@ -607,6 +735,25 @@ def validate() -> dict[str, object]:
                 f"data/italian_locations.csv:{line_number}: "
                 f"province code {province_code!r} is absent from ISTAT",
             )
+            continue
+        if normalize_name(row["province_name"]) != normalize_name(
+            official_province_names[province_code]
+        ):
+            add_quality_error(
+                errors,
+                quality_checks,
+                "territorial_coherence",
+                f"data/italian_locations.csv:{line_number}: "
+                "province display name disagrees with ISTAT",
+            )
+        if not row["legacy_province_name"]:
+            add_quality_error(
+                errors,
+                quality_checks,
+                "provenance_completeness",
+                f"data/italian_locations.csv:{line_number}: "
+                "legacy province label is missing",
+            )
     for province_code, labels in sorted(territories_by_province.items()):
         if len(labels) != 1:
             add_quality_error(
@@ -625,10 +772,8 @@ def validate() -> dict[str, object]:
                 f"data/localities.csv:{line_number}: province has no municipality",
             )
 
-    if sha256_file(MILESTONE1_BASELINE) != EXPECTED_BASELINE_SHA256:
-        add_error(errors, "Milestone 1 comparison baseline checksum mismatch")
-    if len(locations) != 14_480:
-        add_error(errors, f"expected 14480 canonical rows, found {len(locations)}")
+    if not locations:
+        add_error(errors, "canonical dataset is empty")
     if locations != sorted(locations, key=canonical_row_sort_key):
         add_error(errors, "italian_locations.csv is not deterministically sorted")
 
@@ -637,6 +782,8 @@ def validate() -> dict[str, object]:
     logical_keys: set[tuple[str, str, str]] = set()
     kind_counts: Counter[str] = Counter()
     coordinate_counts: Counter[str] = Counter()
+    coordinate_verification_counts: Counter[str] = Counter()
+    postal_code_status_counts: Counter[str] = Counter()
 
     for line_number, row in enumerate(locations, start=2):
         label = f"data/italian_locations.csv:{line_number}"
@@ -715,6 +862,8 @@ def validate() -> dict[str, object]:
 
         kind_counts[row["location_kind"]] += 1
         coordinate_counts[row["coordinate_status"]] += 1
+        coordinate_verification_counts[row["coordinate_verification"]] += 1
+        postal_code_status_counts[row["postal_code_status"]] += 1
 
     expected_municipalities = [
         expected_municipality(row)
@@ -759,6 +908,8 @@ def validate() -> dict[str, object]:
     json_payload = json.loads(GENERATED_PATHS["json"].read_text(encoding="utf-8"))
     if tuple(json_payload.get("fields", ())) != ITALIAN_LOCATION_FIELDS:
         add_error(errors, "JSON field contract differs from canonical CSV")
+    if json_payload.get("schema_version") != SCHEMA_VERSION:
+        add_error(errors, "JSON schema version metadata is stale")
     if json_payload.get("rows") != locations:
         add_error(errors, "JSON records diverge from canonical CSV")
     if json_payload.get("canonical_sha256") != sha256_file(
@@ -784,6 +935,8 @@ def validate() -> dict[str, object]:
         add_error(errors, "SQLite records diverge from canonical CSV")
     if metadata.get("record_digest") != record_digest(locations):
         add_error(errors, "SQLite record digest metadata is stale")
+    if metadata.get("schema_version") != SCHEMA_VERSION:
+        add_error(errors, "SQLite schema version metadata is stale")
 
     xlsx_fields, xlsx_rows = load_xlsx_table(GENERATED_PATHS["xlsx"])
     if xlsx_fields != ITALIAN_LOCATION_FIELDS:
@@ -792,11 +945,14 @@ def validate() -> dict[str, object]:
         compare_xlsx_rows(locations, xlsx_rows, errors)
 
     diff_report = json.loads(
-        (REPORTS_DIR / "milestone2-diff.json").read_text(encoding="utf-8")
+        (REPORTS_DIR / "release-diff.json").read_text(encoding="utf-8")
     )
-    record_changes = diff_report.get("record_changes", {})
-    if any(record_changes.get(field) for field in ("added", "removed", "changed")):
-        add_error(errors, "Milestone 2 contains undocumented semantic record changes")
+    if diff_report.get("schema_version") != SCHEMA_VERSION:
+        add_error(errors, "release diff schema metadata is stale")
+    if diff_report.get("current", {}).get("sha256") != sha256_file(
+        GENERATED_PATHS["italian_locations"]
+    ):
+        add_error(errors, "release diff canonical checksum is stale")
 
     if not DETERMINISM_REPORT.exists():
         add_quality_error(
@@ -840,7 +996,7 @@ def validate() -> dict[str, object]:
             f"{kind_counts['postal_locality_unclassified']} localities remain unclassified"
         )
     warnings.append(
-        "Legacy source provenance and release licensing remain unresolved"
+        "Legacy upstream rights remain unresolved; release status must stay prerelease"
     )
 
     output_hashes = {
@@ -853,12 +1009,16 @@ def validate() -> dict[str, object]:
             check["status"] = "failed"
     return {
         "status": "passed" if not errors else "failed",
-        "schema_version": "2.0.0",
+        "schema_version": SCHEMA_VERSION,
         "quality_gate_version": QUALITY_GATE_VERSION,
         "canonical_rows": len(locations),
         "record_digest": record_digest(locations),
         "record_type_counts": dict(sorted(kind_counts.items())),
         "coordinate_status_counts": dict(sorted(coordinate_counts.items())),
+        "coordinate_verification_counts": dict(
+            sorted(coordinate_verification_counts.items())
+        ),
+        "postal_code_status_counts": dict(sorted(postal_code_status_counts.items())),
         "table_rows": {
             "municipalities": len(municipalities),
             "localities": len(localities),

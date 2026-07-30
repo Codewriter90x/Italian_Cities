@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build all Milestone 2 tabular datasets from declared source snapshots."""
+"""Build all tabular datasets from declared source snapshots."""
 
 from __future__ import annotations
 
@@ -12,11 +12,12 @@ from dataset_common import (
     GENERATED_PATHS,
     ITALIAN_LOCATION_FIELDS,
     LOCALITY_FIELDS,
-    MILESTONE1_BASELINE,
     MUNICIPALITY_FIELDS,
     POSTAL_CODE_FIELDS,
     REPORTS_DIR,
+    ROOT,
     SOURCE_MANIFEST,
+    V1_ITALIAN_LOCATION_FIELDS,
     canonical_row_sort_key,
     normalize_name,
     read_csv_rows,
@@ -24,8 +25,13 @@ from dataset_common import (
     write_csv_rows,
     write_json,
 )
+from project_metadata import (
+    BUILD_DATE,
+    DATASET_VERSION,
+    PREVIOUS_RELEASE,
+    SCHEMA_VERSION,
+)
 from normalize_legacy import (
-    CANONICAL_FIELDS as MILESTONE1_FIELDS,
     DEFAULT_ISTAT,
     DEFAULT_LEGACY,
     canonicalize,
@@ -34,16 +40,30 @@ from normalize_legacy import (
 )
 
 
-BUILD_DATE = "2026-07-29"
-SCHEMA_VERSION = "2.0.0"
-DEFAULT_DIFF_REPORT = REPORTS_DIR / "milestone2-diff.json"
+DEFAULT_DIFF_REPORT = REPORTS_DIR / "release-diff.json"
+DEFAULT_PREVIOUS_RELEASE = ROOT / PREVIOUS_RELEASE["canonical_path"]
+GENERIC_MULTICAP_POSTAL_CODES = {
+    ("bari", "BA", "70100"),
+    ("bologna", "BO", "40100"),
+    ("firenze", "FI", "50100"),
+    ("genova", "GE", "16100"),
+    ("milano", "MI", "20100"),
+    ("napoli", "NA", "80100"),
+    ("roma", "RM", "00100"),
+    ("torino", "TO", "10100"),
+    ("venezia", "VE", "30100"),
+}
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--legacy", type=Path, default=DEFAULT_LEGACY)
     parser.add_argument("--istat", type=Path, default=DEFAULT_ISTAT)
-    parser.add_argument("--baseline", type=Path, default=MILESTONE1_BASELINE)
+    parser.add_argument(
+        "--previous-release",
+        type=Path,
+        default=DEFAULT_PREVIOUS_RELEASE,
+    )
     parser.add_argument("--manifest", type=Path, default=SOURCE_MANIFEST)
     parser.add_argument("--diff-report", type=Path, default=DEFAULT_DIFF_REPORT)
     parser.add_argument(
@@ -59,14 +79,12 @@ def validate_declared_sources(
     *,
     legacy_path: Path,
     istat_path: Path,
-    baseline_path: Path,
 ) -> dict[str, object]:
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     declared = {source["id"]: source for source in manifest["sources"]}
     actual_paths = {
         "legacy_csv": legacy_path,
         "istat_municipalities": istat_path,
-        "milestone1_baseline": baseline_path,
     }
     for source_id, path in actual_paths.items():
         if source_id not in declared:
@@ -86,6 +104,18 @@ def validate_declared_sources(
     return manifest
 
 
+def validate_previous_release(path: Path) -> None:
+    if not path.exists():
+        raise FileNotFoundError(f"previous release baseline is missing: {path}")
+    actual_sha256 = sha256_file(path)
+    expected_sha256 = PREVIOUS_RELEASE["canonical_sha256"]
+    if actual_sha256 != expected_sha256:
+        raise ValueError(
+            "previous release baseline checksum mismatch: "
+            f"{actual_sha256} != {expected_sha256}"
+        )
+
+
 def load_current_milestone1_rows(
     legacy_path: Path,
     istat_path: Path,
@@ -102,9 +132,27 @@ def load_current_milestone1_rows(
 
 def build_italian_locations(
     milestone1_rows: list[dict[str, str]],
+    official_province_names: dict[str, str],
 ) -> list[dict[str, str]]:
     output: list[dict[str, str]] = []
     for row in milestone1_rows:
+        province_code = row["province_code"]
+        official_province_name = official_province_names[province_code]
+        postal_key = (
+            normalize_name(row["name"]),
+            province_code,
+            row["postal_code"],
+        )
+        postal_code_status = (
+            "generic_multicap"
+            if postal_key in GENERIC_MULTICAP_POSTAL_CODES
+            else "legacy_unverified"
+        )
+        coordinate_verification = {
+            "available": "legacy_unverified",
+            "corrected": "corrected_legacy_unverified",
+            "missing": "missing",
+        }[row["coordinate_status"]]
         output.append(
             {
                 "location_id": row["location_id"],
@@ -115,15 +163,19 @@ def build_italian_locations(
                 "municipality_istat_code": row["municipality_istat_code"],
                 "parent_municipality_id": "",
                 "postal_code": row["postal_code"],
-                "province_code": row["province_code"],
-                "province_name": row["province_name"],
+                "postal_code_status": postal_code_status,
+                "province_code": province_code,
+                "province_name": official_province_name,
+                "legacy_province_name": row["province_name"],
                 "region_name": row["region_name"],
                 "country_code": row["country_code"],
                 "country_name": row["country_name"],
                 "latitude": row["latitude"],
                 "longitude": row["longitude"],
                 "coordinate_status": row["coordinate_status"],
+                "coordinate_verification": coordinate_verification,
                 "source_snapshot": row["source_snapshot"],
+                "source_ids": "legacy_csv;istat_municipalities",
             }
         )
     output.sort(key=canonical_row_sort_key)
@@ -147,15 +199,19 @@ def split_tables(
             "name": row["name"],
             "normalized_name": row["normalized_name"],
             "postal_code": row["postal_code"],
+            "postal_code_status": row["postal_code_status"],
             "province_code": row["province_code"],
             "province_name": row["province_name"],
+            "legacy_province_name": row["legacy_province_name"],
             "region_name": row["region_name"],
             "country_code": row["country_code"],
             "country_name": row["country_name"],
             "latitude": row["latitude"],
             "longitude": row["longitude"],
             "coordinate_status": row["coordinate_status"],
+            "coordinate_verification": row["coordinate_verification"],
             "source_snapshot": row["source_snapshot"],
+            "source_ids": row["source_ids"],
         }
         if row["location_kind"] == "municipality":
             municipalities.append(
@@ -175,15 +231,19 @@ def split_tables(
                     "locality_type": row["location_kind"],
                     "parent_municipality_id": row["parent_municipality_id"],
                     "postal_code": row["postal_code"],
+                    "postal_code_status": row["postal_code_status"],
                     "province_code": row["province_code"],
                     "province_name": row["province_name"],
+                    "legacy_province_name": row["legacy_province_name"],
                     "region_name": row["region_name"],
                     "country_code": row["country_code"],
                     "country_name": row["country_name"],
                     "latitude": row["latitude"],
                     "longitude": row["longitude"],
                     "coordinate_status": row["coordinate_status"],
+                    "coordinate_verification": row["coordinate_verification"],
                     "source_snapshot": row["source_snapshot"],
+                    "source_ids": row["source_ids"],
                 }
             )
 
@@ -192,9 +252,11 @@ def split_tables(
                 "location_id": row["location_id"],
                 "location_kind": row["location_kind"],
                 "postal_code": row["postal_code"],
+                "postal_code_status": row["postal_code_status"],
                 "province_code": row["province_code"],
                 "is_primary": "true",
                 "source_snapshot": row["source_snapshot"],
+                "source_ids": row["source_ids"],
             }
         )
 
@@ -224,49 +286,6 @@ def split_tables(
     return municipalities, localities, postal_codes
 
 
-def comparable_milestone1_row(row: dict[str, str]) -> dict[str, str]:
-    return {
-        "location_id": row["location_id"],
-        "legacy_uuid": row["legacy_uuid"],
-        "name": row["name"],
-        "location_kind": row["record_type"],
-        "municipality_istat_code": row["municipality_istat_code"],
-        "postal_code": row["postal_code"],
-        "province_code": row["province_code"],
-        "province_name": row["province_name"],
-        "region_name": row["region_name"],
-        "country_code": row["country_code"],
-        "country_name": row["country_name"],
-        "latitude": row["latitude"],
-        "longitude": row["longitude"],
-        "coordinate_status": row["coordinate_status"],
-        "source_snapshot": row["source_snapshot"],
-    }
-
-
-def comparable_milestone2_row(row: dict[str, str]) -> dict[str, str]:
-    return {
-        field: row[field]
-        for field in (
-            "location_id",
-            "legacy_uuid",
-            "name",
-            "location_kind",
-            "municipality_istat_code",
-            "postal_code",
-            "province_code",
-            "province_name",
-            "region_name",
-            "country_code",
-            "country_name",
-            "latitude",
-            "longitude",
-            "coordinate_status",
-            "source_snapshot",
-        )
-    }
-
-
 def build_diff_report(
     baseline_path: Path,
     baseline_rows: list[dict[str, str]],
@@ -279,10 +298,12 @@ def build_diff_report(
     changed: list[dict[str, object]] = []
 
     for legacy_uuid in sorted(set(baseline_by_uuid) & set(current_by_uuid)):
-        before = comparable_milestone1_row(baseline_by_uuid[legacy_uuid])
-        after = comparable_milestone2_row(current_by_uuid[legacy_uuid])
+        before = baseline_by_uuid[legacy_uuid]
+        after = current_by_uuid[legacy_uuid]
         changed_fields = [
-            field for field in before if before[field] != after[field]
+            field
+            for field in V1_ITALIAN_LOCATION_FIELDS
+            if before[field] != after[field]
         ]
         if changed_fields:
             changed.append(
@@ -296,15 +317,22 @@ def build_diff_report(
 
     kinds = Counter(row["location_kind"] for row in current_rows)
     coordinates = Counter(row["coordinate_status"] for row in current_rows)
+    coordinate_verification = Counter(
+        row["coordinate_verification"] for row in current_rows
+    )
+    postal_code_status = Counter(row["postal_code_status"] for row in current_rows)
     return {
-        "milestone": 2,
+        "comparison": {
+            "from": PREVIOUS_RELEASE["version"],
+            "to": DATASET_VERSION,
+        },
         "schema_version": SCHEMA_VERSION,
         "build_date": BUILD_DATE,
         "baseline": {
-            "path": str(baseline_path.relative_to(baseline_path.parents[2])),
+            "path": str(baseline_path.relative_to(ROOT)),
             "sha256": sha256_file(baseline_path),
             "rows": len(baseline_rows),
-            "fields": list(MILESTONE1_FIELDS),
+            "fields": list(V1_ITALIAN_LOCATION_FIELDS),
         },
         "current": {
             "path": "data/italian_locations.csv",
@@ -313,8 +341,12 @@ def build_diff_report(
             "fields": list(ITALIAN_LOCATION_FIELDS),
         },
         "schema_changes": {
-            "added_fields": ["normalized_name", "parent_municipality_id"],
-            "renamed_fields": {"record_type": "location_kind"},
+            "added_fields": [
+                field
+                for field in ITALIAN_LOCATION_FIELDS
+                if field not in V1_ITALIAN_LOCATION_FIELDS
+            ],
+            "renamed_fields": {},
             "removed_fields": [],
         },
         "record_changes": {
@@ -331,6 +363,10 @@ def build_diff_report(
         },
         "record_type_counts": dict(sorted(kinds.items())),
         "coordinate_status_counts": dict(sorted(coordinates.items())),
+        "coordinate_verification_counts": dict(
+            sorted(coordinate_verification.items())
+        ),
+        "postal_code_status_counts": dict(sorted(postal_code_status.items())),
     }
 
 
@@ -340,16 +376,23 @@ def main() -> None:
         args.manifest,
         legacy_path=args.legacy,
         istat_path=args.istat,
-        baseline_path=args.baseline,
     )
+    validate_previous_release(args.previous_release)
     current_milestone1 = load_current_milestone1_rows(args.legacy, args.istat)
-    baseline_rows = read_csv_rows(args.baseline, MILESTONE1_FIELDS)
-    if current_milestone1 != baseline_rows:
-        raise SystemExit(
-            "Declared source snapshots no longer reproduce the Milestone 1 baseline"
-        )
+    baseline_rows = read_csv_rows(
+        args.previous_release,
+        V1_ITALIAN_LOCATION_FIELDS,
+    )
+    official_records = load_istat_municipalities(args.istat)
+    official_province_names = {
+        record["province_code"]: record["province_name"]
+        for record in official_records.values()
+    }
 
-    locations = build_italian_locations(current_milestone1)
+    locations = build_italian_locations(
+        current_milestone1,
+        official_province_names,
+    )
     municipalities, localities, postal_codes = split_tables(locations)
 
     write_csv_rows(
@@ -370,7 +413,7 @@ def main() -> None:
     )
 
     diff_report = build_diff_report(
-        args.baseline,
+        args.previous_release,
         baseline_rows,
         locations,
     )
@@ -394,7 +437,7 @@ def main() -> None:
         "municipalities": len(municipalities),
         "localities": len(localities),
         "postal_code_relations": len(postal_codes),
-        "semantic_changes_from_milestone1": diff_report["record_changes"],
+        "changes_from_previous_release": diff_report["record_changes"],
         "outputs": {
             name: str(path.relative_to(path.parents[1]))
             for name, path in GENERATED_PATHS.items()

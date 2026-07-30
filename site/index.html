@@ -3,17 +3,17 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Italian Cities — ricerca comuni, località e CAP</title>
+    <title>Italian Cities — dataset sperimentale di località e CAP legacy</title>
     <meta
       name="description"
-      content="Cerca 14.480 comuni e località italiane per nome, CAP e provincia. Esplora coordinate e copertura del dataset Italian Cities."
+      content="Esplora un dataset sperimentale di località italiane, CAP legacy e coordinate non ancora verificate."
     >
     <meta name="theme-color" content="#081522">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Italian Cities — open data geografici italiani">
+    <meta property="og:title" content="Italian Cities — dataset geografico sperimentale">
     <meta
       property="og:description"
-      content="Ricerca 14.480 comuni e località per nome, CAP e provincia."
+      content="Ricerca località, CAP legacy e coordinate con stato di affidabilità esplicito."
     >
     <meta
       property="og:url"
@@ -44,9 +44,15 @@
     </header>
 
     <main>
+      <aside class="trust-banner" role="note" aria-label="Limiti del dataset">
+        <strong>Dataset sperimentale, non postale ufficiale.</strong>
+        I CAP e le coordinate legacy non sono verificati per l’uso operativo.
+        I CAP generici delle città multi-CAP non sono validi per indirizzare
+        una spedizione. Consulta fonti e licenze prima del riuso.
+      </aside>
       <section class="hero" aria-labelledby="hero-title">
         <div>
-          <p class="eyebrow">Open data · Release v1.0.0</p>
+          <p class="eyebrow">Working dataset v1.1.0 · prerelease</p>
           <h1 id="hero-title">Trova un luogo italiano.</h1>
           <p class="hero-copy">
             Esplora comuni riconosciuti tramite ISTAT e località postali
@@ -58,7 +64,7 @@
             <a
               class="button secondary"
               href="https://github.com/Codewriter90x/Italian_Cities/releases/tag/v1.0.0"
-            >Scarica i dati</a>
+            >Scarica la baseline v1.0.0</a>
           </div>
         </div>
 
@@ -77,7 +83,7 @@
           </div>
           <div class="stat">
             <strong class="stat-value" data-stat="coordinates">85,55%</strong>
-            <span class="stat-label">coordinate disponibili</span>
+            <span class="stat-label">coordinate presenti, non verificate</span>
           </div>
         </div>
       </section>
@@ -122,7 +128,9 @@
                 <label for="coordinate-status">Coordinate</label>
                 <select id="coordinate-status" name="coordinate-status">
                   <option value="">Qualsiasi stato</option>
-                  <option value="available">Disponibili</option>
+                  <option value="present">Presenti</option>
+                  <option value="legacy_unverified">Legacy non verificate</option>
+                  <option value="verified">Verificate</option>
                   <option value="missing">Mancanti</option>
                 </select>
               </div>
@@ -139,7 +147,7 @@
         <section class="map-panel" id="map" aria-labelledby="map-title">
           <div class="map-header">
             <div>
-              <p class="eyebrow">12.388 punti disponibili</p>
+              <p class="eyebrow">12.388 punti legacy non verificati</p>
               <h2 id="map-title">Copertura geografica</h2>
             </div>
             <div class="map-legend" aria-label="Legenda">
@@ -175,15 +183,15 @@
         <div class="download-actions">
           <a
             class="button"
-            href="https://github.com/Codewriter90x/Italian_Cities/releases/download/v1.0.0/italian_locations.csv"
-          >CSV canonico</a>
+            href="https://raw.githubusercontent.com/Codewriter90x/Italian_Cities/main/data/italian_locations.csv"
+          >CSV working copy</a>
           <a
             class="button secondary"
-            href="https://github.com/Codewriter90x/Italian_Cities/releases/download/v1.0.0/italian_locations.json"
+            href="https://raw.githubusercontent.com/Codewriter90x/Italian_Cities/main/data/italian_locations.json"
           >JSON</a>
           <a
             class="button secondary"
-            href="https://github.com/Codewriter90x/Italian_Cities/releases/download/v1.0.0/italian_locations.sqlite"
+            href="https://raw.githubusercontent.com/Codewriter90x/Italian_Cities/main/data/italian_locations.sqlite"
           >SQLite</a>
         </div>
       </section>

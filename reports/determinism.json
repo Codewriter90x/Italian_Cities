@@ -1,0 +1,25 @@
+{
+  "comparison": {
+    "byte_identical": true,
+    "sqlite_semantically_identical": true
+  },
+  "mismatches": {},
+  "quality_gate_version": "4.0.0",
+  "runs": 2,
+  "signatures": {
+    "byte_sha256": {
+      "export_manifest": "a2c871775b2cb3a473cf0f3f7a7e89ec29c5fceb1f34aa08228322bd9b4ee054",
+      "italian_locations_csv": "fde543485a77d3a265abe2947419920343121520c3465a2fc6bcc9643356c101",
+      "italian_locations_json": "49e050f1a2ef23d56ff178a3f38cc3d7bf65f305f34874e0f30f0618bde0c81c",
+      "italian_locations_xlsx": "91a1dce0293b98a2272d5aff5300bc1057249f4389dc199488ec3686880a3fe7",
+      "localities_csv": "e9a17a183de0a936b1f54bea47ad940003031662136c837fc77c0d79027c0147",
+      "municipalities_csv": "51feb8037cc196b66e47777d63afb86f7f6b4c729fafb110b8f4d6fdc3d4c1e5",
+      "postal_codes_csv": "c080af8b4907a336844903771b507d32f9c6203625f287b4daadba15f0fdc93e",
+      "release_diff_report": "1c5d95342122a144d8ea7e9dca8bb83ca7cabe69946e4b453b72354074f40bf7"
+    },
+    "semantic_sha256": {
+      "italian_locations_sqlite": "437edb9cf002572829f70aad660a006dc62ceb415cbb2a32b652662cd8375b7a"
+    }
+  },
+  "status": "passed"
+}

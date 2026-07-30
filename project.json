@@ -1,0 +1,15 @@
+{
+  "build_date": "2026-07-30",
+  "dataset_version": "v1.1.0",
+  "istat_reference_date": "2026-02-21",
+  "legacy_reference_date": "2023-05-02",
+  "license_status": "provisional-upstream-rights-unverified",
+  "previous_release": {
+    "canonical_path": "baselines/releases/v1.0.0/italian_locations.csv",
+    "canonical_sha256": "7f166a1247067d07e67b628e797241d101481de742be5bf826b0b46aa97ae619",
+    "version": "v1.0.0"
+  },
+  "quality_gate_version": "4.0.0",
+  "release_status": "prerelease",
+  "schema_version": "2.1.0"
+}

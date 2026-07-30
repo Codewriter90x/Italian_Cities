@@ -1,137 +1,54 @@
 # Changelog
 
-## Unreleased — Milestone 5 community and visibility
+## v1.1.0 — pre-release
 
 ### Added
 
-- GitHub Pages statica con ricerca per nome, CAP e provincia, filtri, mappa a
-  punti e statistiche di copertura.
-- Build deterministica della Pages a partire dal CSV canonico.
-- Social preview 1280×640 riutilizzata come immagine Open Graph.
-- Issue form dedicati a località errata, CAP errato, coordinata mancante e
-  variazione amministrativa.
-- Workflow di test e deploy GitHub Pages.
-- Piano di lancio e testi adattati alle community italiane open data, .NET,
-  Python e GIS.
+- `project.json` come unica fonte per versione dataset, schema, quality gate,
+  stato release e baseline precedente.
+- Campi `postal_code_status`, `coordinate_verification`,
+  `legacy_province_name` e `source_ids`.
+- Baseline immutabile e verificata di `v1.0.0` per il diff fra release.
+- Avvisi visibili su GitHub Pages e nei risultati di ricerca.
+- Documenti separati per licenza del codice, attribuzioni e stato dei diritti
+  sui dati.
 
 ### Changed
 
-- README con accesso diretto alla ricerca web, alle Discussions e ai moduli di
-  correzione specifici.
-- Quality gate esteso alla build Pages e ai test JavaScript di ricerca/mappa.
-
-### Data comparison
-
-- Nessuna modifica ai 14.480 record o allo schema dataset `2.0.0`.
-
-## v1.0.0 — Milestone 4 release candidate
-
-### Added
-
-- README orientato al consumo con limiti, date, fonti, licenze, copertura,
-  schema, esempi C#/Python/JavaScript/SQL e download diretti.
-- Bundle release riproducibile con otto dataset/formati, script SQL generato e
-  `SHA256SUMS`.
-- Validatore degli asset che importa lo script SQL e confronta i digest con il
-  canonico.
-- Workflow tag che costruisce, valida e carica gli asset in una GitHub Release
-  draft.
-- Issue form strutturato per le correzioni dati.
-
-### Changed
-
-- Il dump SQL Server del 2023 è solo baseline storica; non è una fonte
-  principale né un asset della release.
-- SQLite e SQL vengono entrambi generati dalla vista canonica.
-
-### Data comparison
-
-- Nessuna modifica ai 14.480 record o allo schema dataset `2.0.0`.
-
-## Unreleased — Milestone 3 working copy
-
-### Added
-
-- Quality gate strutturato per schema, identificativi, CAP, codici ISTAT,
-  gerarchia territoriale, coordinate, righe vuote, duplicati e integrità fra
-  tabelle.
-- Verifica deterministica con due build consecutive e report machine-readable.
-- Policy per il recupero delle coordinate mancanti senza bulk geocoding sul
-  Nominatim pubblico.
-- Branch protection di `main` con status check richiesto `Data quality gate`.
-
-### Changed
-
-- La GitHub Action esegue i controlli su ogni pull request e rifiuta output
-  obsoleti, divergenti o modificati manualmente.
-- La validazione usa lo snapshot ISTAT dichiarato come riferimento per codici e
-  relazioni amministrative.
-
-### Data comparison
-
-- Nessuna modifica ai 14.480 record o allo schema dataset `2.0.0`.
-
-## Unreleased — Milestone 2 working copy
-
-### Added
-
-- Pipeline Python riproducibile orchestrata da `scripts/build_dataset.py`.
-- Tabelle separate per comuni, località, relazioni CAP e vista unificata.
-- Export equivalenti in JSON, XLSX e SQLite.
-- Manifest machine-readable delle fonti con checksum obbligatori.
-- Snapshot ISTAT versionato con attribuzione CC BY 4.0.
-- Chiave `normalized_name` per confronti senza differenze di accento,
-  apostrofo, punteggiatura o maiuscole.
-- Report strutturato delle differenze rispetto alla baseline Milestone 1.
-- Validazione incrociata dei formati e 16 test automatici di schema, integrità
-  e coordinate.
-- GitHub Action che rigenera e rifiuta artefatti divergenti.
-
-### Changed
-
-- `record_type` è rinominato `location_kind` nella vista schema 2.0.0.
-- Aggiunto `parent_municipality_id`, volutamente vuoto finché una fonte non
-  documenta la relazione.
-- Il canonico M1 è preservato sotto `legacy/milestone-1-canonical/`.
-- CSV, JSON, XLSX e SQLite sono ora artefatti generati, non file da modificare.
-- Rimossi dalla radice i tre export legacy duplicati; le copie byte-per-byte
-  restano preservate e verificabili sotto `legacy/2023-05-02-original/`.
-
-### Data comparison
-
-- 14.480 record invariati semanticamente rispetto alla Milestone 1.
-- 0 aggiunti, 0 rimossi, 0 modificati.
-
-## Unreleased — Milestone 1 working copy
-
-### Added
-
-- Baseline immutabile dei tre artefatti originali con inventario e checksum.
-- Dataset canonico CSV con intestazione esplicita e schema documentato.
-- Corrispondenza conservativa con l'elenco ISTAT del 21 febbraio 2026.
-- Identificativi deterministici basati su codice ISTAT o UUIDv5.
-- Script ripetibili di normalizzazione e validazione.
-- Documentazione di provenienza, licenze, contribuzione e questioni aperte.
-
-### Changed
-
-- Valori di coordinate mancanti rappresentati da campi vuoti anziché `NULL`.
-- Aggiunti `country_code`, `record_type`, `municipality_istat_code`,
-  `coordinate_status` e `source_snapshot`.
-- Rimosso dal canonico il campo costante `visible`; resta nei file legacy.
+- Nomi delle province normalizzati sullo snapshot ISTAT; il valore originario
+  è preservato in `legacy_province_name`.
+- I CAP legacy non sono più implicitamente presentati come verificati. I nove
+  codici generici noti delle città multi-CAP sono marcati
+  `generic_multicap`.
+- Le coordinate presenti sono esplicitamente `legacy_unverified` o
+  `corrected_legacy_unverified`; nessuna coordinata è dichiarata verificata.
+- Report, packaging e workflow usano nomi stabili, metadati centralizzati e
+  controlli anti-sovrascrittura.
+- Schema dataset `2.1.0`; quality gate `4.0.0`.
 
 ### Fixed
 
-- Rimossa una riga completamente `NULL` senza identità o contenuto.
-- Corretta la longitudine di `Brovello Carpugnino`, UUID legacy
-  `a8aec4c6-ab9e-49ae-becf-fd111125f56a`, da `539621684096616` a
-  `8.539621684096616`, ripristinando il prefisso decimale mancante.
-- Registrato che `NA` è una sigla valida di Napoli e non un dato mancante;
-  nessuna sigla di provincia è stata modificata.
+- Rimossa la dipendenza circolare che trattava un output canonico come fonte
+  della stessa build.
+- Eliminata l'affermazione implicita che il dataset legacy fosse interamente
+  coperto da CC0.
+- Il conteggio dei risultati della Pages distingue il totale dai primi 60
+  elementi mostrati.
 
 ### Known limitations
 
-- 2.092 record restano senza coordinate.
-- 7.294 record restano località postali non classificate.
-- Provenienza originaria e licenza del legacy non sono dimostrate; nessuna
-  release deve essere effettuata finché il gate non è chiuso.
+- Provenienza e diritti del dataset legacy non sono completamente dimostrati.
+- Nessun CAP è verificato contro una fonte postale autorizzata.
+- Nessuna coordinata legacy è verificata contro una fonte geografica
+  autorevole.
+- La release deve rimanere una pre-release finché questi gate non vengono
+  risolti.
+
+## v1.0.0 — baseline storica
+
+- Prima distribuzione riproducibile con CSV, JSON, XLSX, SQLite, SQL e
+  checksum.
+- Pipeline, quality gate, GitHub Pages, issue form e documentazione iniziali.
+- La release è conservata per compatibilità e confronto, ma non deve essere
+  interpretata come fonte postale ufficiale né come dataset dai diritti
+  upstream completamente accertati.

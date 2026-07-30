@@ -1,7 +1,7 @@
 # Declared sources
 
-`manifest.json` is the machine-readable contract for every input consumed by
-the Milestone 2 pipeline. Each entry records local path, role, reference date,
+`manifest.json` is the machine-readable contract for every primary input
+consumed by the pipeline. Each entry records local path, role, reference date,
 checksum, licence status and public URL.
 
 ## Versioned ISTAT snapshot
@@ -25,8 +25,12 @@ python3 scripts/validate_dataset.py
 ```
 
 The build refuses missing or checksum-mismatched inputs. The ISTAT file is used
-only for conservative exact municipality classification; non-matches are not
-guessed.
+for conservative exact municipality classification and official province
+labels; non-matches are not guessed.
+
+The previous release baseline is not an input source. It is declared separately
+in `project.json` and is read only after the new canonical dataset has been
+built, to produce `reports/release-diff.json`.
 
 To refresh the source, download a new official file, preserve it under a new
 date-stamped filename, update `manifest.json`, document the new reference date

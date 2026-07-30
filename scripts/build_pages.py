@@ -11,13 +11,22 @@ import shutil
 from pathlib import Path
 from typing import Any
 
+from project_metadata import (
+    BUILD_DATE,
+    DATASET_VERSION,
+    ISTAT_REFERENCE_DATE,
+    LEGACY_REFERENCE_DATE,
+    RELEASE_STATUS,
+    SCHEMA_VERSION,
+)
+
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 SOURCE_SITE = REPOSITORY_ROOT / "site"
 CANONICAL_DATA = REPOSITORY_ROOT / "data" / "italian_locations.csv"
 SOCIAL_PREVIEW = REPOSITORY_ROOT / "assets" / "social-preview.jpg"
 DEFAULT_OUTPUT = REPOSITORY_ROOT / "dist" / "pages"
-RELEASE_VERSION = "v1.0.0"
+RELEASE_VERSION = DATASET_VERSION
 
 WEB_FIELDS = (
     "location_id",
@@ -26,12 +35,14 @@ WEB_FIELDS = (
     "location_kind",
     "municipality_istat_code",
     "postal_code",
+    "postal_code_status",
     "province_code",
     "province_name",
     "region_name",
     "latitude",
     "longitude",
     "coordinate_status",
+    "coordinate_verification",
 )
 
 
@@ -91,6 +102,19 @@ def calculate_stats(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "with_coordinates": available,
         "missing_coordinates": total - available,
         "coordinate_coverage_percent": round(available / total * 100, 2),
+        "verified_coordinates": sum(
+            row["coordinate_verification"]
+            not in {"missing", "legacy_unverified", "corrected_legacy_unverified"}
+            for row in rows
+        ),
+        "legacy_unverified_coordinates": sum(
+            row["coordinate_verification"]
+            in {"legacy_unverified", "corrected_legacy_unverified"}
+            for row in rows
+        ),
+        "generic_multicap_rows": sum(
+            row["postal_code_status"] == "generic_multicap" for row in rows
+        ),
         "provinces": len({row["province_code"] for row in rows}),
         "regions": len({row["region_name"] for row in rows}),
         "bounds": {
@@ -126,10 +150,11 @@ def build_site(output: Path = DEFAULT_OUTPUT) -> dict[str, Any]:
     payload = {
         "metadata": {
             "release": RELEASE_VERSION,
-            "schema_version": "2.0.0",
-            "build_date": "2026-07-29",
-            "legacy_reference_date": "2023-05-02",
-            "istat_reference_date": "2026-02-21",
+            "release_status": RELEASE_STATUS,
+            "schema_version": SCHEMA_VERSION,
+            "build_date": BUILD_DATE,
+            "legacy_reference_date": LEGACY_REFERENCE_DATE,
+            "istat_reference_date": ISTAT_REFERENCE_DATE,
         },
         "stats": stats,
         "rows": rows,

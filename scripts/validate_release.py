@@ -23,6 +23,7 @@ from dataset_common import (
     record_digest,
     sha256_file,
 )
+from project_metadata import DATASET_VERSION, SCHEMA_VERSION
 
 
 EXPECTED_ASSETS = {*RELEASE_ASSETS, SQL_ASSET, CHECKSUM_ASSET}
@@ -82,6 +83,10 @@ def validate_sql_import(path: Path) -> dict[str, object]:
         raise ValueError("SQL metadata record digest is stale")
     if metadata.get("row_count") != str(len(rows)):
         raise ValueError("SQL metadata row count is stale")
+    if metadata.get("schema_version") != SCHEMA_VERSION:
+        raise ValueError("SQL metadata schema version is stale")
+    if metadata.get("release_version") != DATASET_VERSION:
+        raise ValueError("SQL metadata release version is stale")
     return {"rows": len(rows), "record_digest": digest}
 
 
@@ -125,7 +130,7 @@ def validate_release(directory: Path) -> dict[str, object]:
 
     return {
         "status": "passed",
-        "release_version": "v1.0.0",
+        "release_version": DATASET_VERSION,
         "assets": sorted(EXPECTED_ASSETS),
         "checksums": checksums,
         "canonical_rows": len(canonical_rows),
