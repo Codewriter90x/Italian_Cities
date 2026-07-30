@@ -5,6 +5,7 @@ CAP legacy, comuni riconosciuti tramite ISTAT e coordinate quando presenti.
 
 **[Apri la ricerca web](https://codewriter90x.github.io/Italian_Cities/)** ·
 [Fonti e licenze](DATA_SOURCES.md) ·
+[Roadmap](ROADMAP.md) ·
 [Segnala una correzione](https://github.com/Codewriter90x/Italian_Cities/issues/new/choose) ·
 [Discussions](https://github.com/Codewriter90x/Italian_Cities/discussions)
 
