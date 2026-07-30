@@ -52,9 +52,13 @@ la ricostruzione.
 
 Il materiale usato dalle versioni anteriori alla ricostruzione clean-room non
 aveva una provenienza e un diritto di redistribuzione dimostrabili. È stato
-quindi rimosso dal branch corrente, dagli asset delle release interessate e
-dalla cronologia Git pubblica. Non è dichiarato nel manifest e non viene
-usato per confronti o baseline.
+quindi rimosso dal branch corrente, dai branch e tag controllati dal
+maintainer e dagli asset delle release interessate. Non è dichiarato nel
+manifest e non viene usato per confronti o baseline.
+
+Refs interne di pull request e fork di terzi possono ancora rendere
+raggiungibili copie storiche fuori dal controllo del maintainer. Tali copie
+non devono essere interpretate come fonti o distribuzioni autorizzate.
 
 ## Fonti escluse
 

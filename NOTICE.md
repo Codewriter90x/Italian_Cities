@@ -13,6 +13,10 @@ determined or estimated algorithmically; the source `accuracy` field is
 preserved by this project.
 
 Pre-clean-room historical data with unresolved provenance and redistribution
-rights has been withdrawn from the repository, public history and affected
-release assets. It does not contribute to the v2 canonical dataset, derived
-formats, release or GitHub Pages data.
+rights has been withdrawn from the current tree, maintainer-controlled
+branches and tags, and affected release assets. It does not contribute to the
+v2 canonical dataset, derived formats, release or GitHub Pages data.
+
+GitHub pull-request references, caches, local clones and third-party forks may
+still retain copies outside the maintainer's control. Those copies are not
+authorized project distributions.

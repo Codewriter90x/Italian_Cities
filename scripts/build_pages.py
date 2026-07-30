@@ -438,6 +438,9 @@ def build_information_pages(
       <p class="content-lead">La build {version} usa fonti dichiarate e
         riproducibili. Il materiale pre-clean-room con provenienza irrisolta è
         stato ritirato e non contribuisce agli output correnti.</p>
+      <p>Refs interne di pull request, cache e fork di terzi possono conservare
+        copie storiche fuori dal controllo del maintainer. Non sono
+        distribuzioni autorizzate dal progetto.</p>
       <div class="content-grid">
         <article class="content-card"><h2>ISTAT</h2><p>Elenco dei comuni e
           codici amministrativi, snapshot del {ISTAT_REFERENCE_DATE}, licenza
