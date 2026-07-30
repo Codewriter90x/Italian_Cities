@@ -312,7 +312,7 @@ def main() -> None:
         json.dumps(report, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
-    print(json.dumps(report, ensure_ascii=False, indent=2))
+    print("Legacy normalization completed; details are available in the report.")
 
 
 if __name__ == "__main__":
