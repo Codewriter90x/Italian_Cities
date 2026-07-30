@@ -1,4 +1,6 @@
 import {
+  filtersFromSearchParams,
+  filtersToSearchParams,
   formatInteger,
   formatPercent,
   projectCoordinates,
@@ -7,6 +9,7 @@ import {
 
 const state = {
   rows: [],
+  boundaries: null,
   stats: null,
   selected: null,
   filters: {
@@ -29,6 +32,7 @@ const elements = {
   results: document.querySelector("#result-list"),
   canvas: document.querySelector("#coverage-map"),
   mapDetail: document.querySelector("#map-detail"),
+  mapFallbackBody: document.querySelector("#map-fallback-body"),
 };
 
 function populateStats(stats) {
@@ -133,6 +137,75 @@ function renderResults() {
   elements.results.append(fragment);
 }
 
+function drawPolygon(context, coordinates, width, height, bounds) {
+  context.beginPath();
+  for (const ring of coordinates) {
+    for (const [index, [longitude, latitude]] of ring.entries()) {
+      const point = projectCoordinates(
+        longitude,
+        latitude,
+        width,
+        height,
+        bounds,
+        28,
+      );
+      if (index === 0) context.moveTo(point.x, point.y);
+      else context.lineTo(point.x, point.y);
+    }
+    context.closePath();
+  }
+  context.fill("evenodd");
+  context.stroke();
+}
+
+function drawBoundaries(context, width, height, bounds) {
+  if (!state.boundaries) return;
+  context.fillStyle = "rgba(18, 55, 70, 0.72)";
+  context.strokeStyle = "rgba(151, 209, 222, 0.48)";
+  context.lineWidth = 0.8;
+  for (const feature of state.boundaries.features) {
+    const geometry = feature.geometry;
+    if (geometry.type === "Polygon") {
+      drawPolygon(context, geometry.coordinates, width, height, bounds);
+    } else if (geometry.type === "MultiPolygon") {
+      for (const polygon of geometry.coordinates) {
+        drawPolygon(context, polygon, width, height, bounds);
+      }
+    }
+  }
+}
+
+function populateAccessibleMap(rows) {
+  const regions = new Map();
+  for (const row of rows) {
+    const current = regions.get(row.region_name) ?? { total: 0, present: 0 };
+    current.total += 1;
+    if (row.latitude !== null) current.present += 1;
+    regions.set(row.region_name, current);
+  }
+
+  const fragment = document.createDocumentFragment();
+  const names = [...regions.keys()].sort((left, right) =>
+    left.localeCompare(right, "it"),
+  );
+  for (const name of names) {
+    const values = regions.get(name);
+    const row = document.createElement("tr");
+    for (const value of [
+      name,
+      formatInteger(values.total),
+      formatInteger(values.present),
+      `${formatPercent((values.present / values.total) * 100)}%`,
+    ]) {
+      const cell = document.createElement("td");
+      cell.textContent = value;
+      row.append(cell);
+    }
+    fragment.append(row);
+  }
+  elements.mapFallbackBody.replaceChildren(fragment);
+}
+
 function drawMap() {
   if (!state.stats) return;
   const canvas = elements.canvas;
@@ -153,22 +226,8 @@ function drawMap() {
   context.fillStyle = gradient;
   context.fillRect(0, 0, width, height);
 
-  context.strokeStyle = "rgba(129, 185, 204, 0.10)";
-  context.lineWidth = 1;
-  for (let index = 1; index < 8; index += 1) {
-    const x = (width / 8) * index;
-    const y = (height / 8) * index;
-    context.beginPath();
-    context.moveTo(x, 0);
-    context.lineTo(x, height);
-    context.stroke();
-    context.beginPath();
-    context.moveTo(0, y);
-    context.lineTo(width, y);
-    context.stroke();
-  }
-
   const bounds = state.stats.bounds;
+  drawBoundaries(context, width, height, bounds);
   for (const row of state.rows) {
     if (row.latitude === null || row.longitude === null) continue;
     const point = projectCoordinates(
@@ -234,6 +293,9 @@ function updateFilters() {
     coordinateStatus: elements.coordinateStatus.value,
   };
   renderResults();
+  const url = new URL(window.location.href);
+  url.search = filtersToSearchParams(state.filters).toString();
+  window.history.replaceState(null, "", url);
 }
 
 function resetSearch() {
@@ -246,15 +308,35 @@ function resetSearch() {
   elements.query.focus();
 }
 
+function applyFiltersFromUrl() {
+  state.filters = filtersFromSearchParams(window.location.search);
+  elements.query.value = state.filters.query;
+  elements.province.value = state.filters.province;
+  elements.kind.value = state.filters.kind;
+  elements.coordinateStatus.value = state.filters.coordinateStatus;
+}
+
 async function loadDataset() {
   try {
-    const response = await fetch("./assets/locations.json");
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const payload = await response.json();
+    const [response, boundaryResponse] = await Promise.all([
+      fetch("./assets/locations.json"),
+      fetch("./assets/italy-regions.geojson"),
+    ]);
+    if (!response.ok) throw new Error(`Dataset HTTP ${response.status}`);
+    if (!boundaryResponse.ok) {
+      throw new Error(`Geographic base HTTP ${boundaryResponse.status}`);
+    }
+    const [payload, boundaries] = await Promise.all([
+      response.json(),
+      boundaryResponse.json(),
+    ]);
     state.rows = payload.rows;
     state.stats = payload.stats;
+    state.boundaries = boundaries;
     populateStats(payload.stats);
     populateProvinces(payload.rows);
+    populateAccessibleMap(payload.rows);
+    applyFiltersFromUrl();
     renderResults();
     drawMap();
     elements.status.textContent =
@@ -273,5 +355,9 @@ elements.form.addEventListener("input", updateFilters);
 elements.form.addEventListener("submit", (event) => event.preventDefault());
 elements.reset.addEventListener("click", resetSearch);
 window.addEventListener("resize", drawMap);
+window.addEventListener("popstate", () => {
+  applyFiltersFromUrl();
+  renderResults();
+});
 
 loadDataset();

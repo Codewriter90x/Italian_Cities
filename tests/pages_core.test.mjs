@@ -2,6 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import {
+  filtersFromSearchParams,
+  filtersToSearchParams,
   formatInteger,
   normalizeTerm,
   projectCoordinates,
@@ -133,4 +135,33 @@ test("projects the extrema inside the drawing area", () => {
     x: 476,
     y: 676,
   });
+});
+
+test("round-trips shareable filter URLs", () => {
+  const filters = {
+    query: "Città d'Italia",
+    province: "TO",
+    kind: "municipality",
+    coordinateStatus: "present",
+  };
+  const encoded = filtersToSearchParams(filters);
+  assert.equal(
+    encoded.toString(),
+    "q=Citt%C3%A0+d%27Italia&province=TO&kind=municipality&coordinates=present",
+  );
+  assert.deepEqual(filtersFromSearchParams(encoded), filters);
+});
+
+test("ignores unsupported URL filter values", () => {
+  assert.deepEqual(
+    filtersFromSearchParams(
+      "q=Roma&province=invalid&kind=other&coordinates=maybe",
+    ),
+    {
+      query: "Roma",
+      province: "",
+      kind: "",
+      coordinateStatus: "",
+    },
+  );
 });

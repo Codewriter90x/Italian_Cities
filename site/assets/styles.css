@@ -413,6 +413,47 @@ a:focus-visible {
   border-top: 1px solid var(--line);
 }
 
+.map-accessible {
+  padding: 0.9rem 1.25rem;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+}
+
+.map-accessible summary {
+  color: var(--cyan);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.table-scroll {
+  margin-top: 0.8rem;
+  overflow-x: auto;
+}
+
+.map-accessible table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+}
+
+.map-accessible th,
+.map-accessible td {
+  padding: 0.45rem;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+}
+
+.map-accessible th {
+  color: var(--text);
+}
+
+.map-source {
+  margin: 0;
+  padding: 0 1.25rem 1rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
 .load-status {
   position: fixed;
   z-index: 10;
