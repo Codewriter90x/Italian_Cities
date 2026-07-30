@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -195,6 +196,33 @@ class IntegrityTests(unittest.TestCase):
                     legacy_path=modified,
                     istat_path=DEFAULT_ISTAT,
                 )
+
+    def test_legacy_normalization_does_not_log_report_data(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "normalized.csv"
+            report = Path(directory) / "report.json"
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(ROOT / "scripts" / "normalize_legacy.py"),
+                    "--output",
+                    str(output),
+                    "--report",
+                    str(report),
+                ],
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+            self.assertEqual(
+                result.stdout,
+                "Legacy normalization completed; "
+                "details are available in the report.\n",
+            )
+            self.assertTrue(output.is_file())
+            self.assertTrue(report.is_file())
+            self.assertNotIn("legacy_uuid", result.stdout)
+            self.assertNotIn("corrections", result.stdout)
 
 
 if __name__ == "__main__":
