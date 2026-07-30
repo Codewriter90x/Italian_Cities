@@ -36,9 +36,10 @@ La v2 deriva esclusivamente da:
    snapshot del 30 luglio 2026.
 
 Entrambe le fonti richiedono attribuzione CC BY 4.0. Il file GeoNames originale
-è conservato e verificato tramite SHA-256. Il legacy rimane sotto `legacy/`,
-ma non contribuisce ad alcun CSV, JSON, XLSX, SQLite, SQL o dato della Pages.
-È letto soltanto per [`reports/legacy-comparison.json`](reports/legacy-comparison.json).
+è conservato e verificato tramite SHA-256. Il precedente materiale storico a
+provenienza non dimostrata è stato ritirato dal repository, dalle release
+storiche e dalla cronologia pubblica. Non è un input, una baseline o un output
+della pipeline corrente.
 
 ## Copertura della v2
 
@@ -67,6 +68,14 @@ classificazione, non correttezza certificata.
 Alla grana del luogo univoco: 7.498 comuni hanno coordinate
 `geonames_place_match`, 10.270 località hanno coordinate
 `geonames_estimated` e 396 comuni sono `missing`.
+
+`geonames_place_match` significa che nome e territorio del record GeoNames
+sono stati riconciliati in modo esatto con un comune ISTAT; **non** significa
+che la coordinata sia stata verificata sul territorio. Il quality report
+rileva 1.305 gruppi di coordinate esattamente condivise da 3.502 luoghi; 16
+gruppi con almeno 10 luoghi richiedono revisione e il maggiore contiene 66
+luoghi. Il dettaglio riproducibile è in
+[`reports/quality-validation.json`](reports/quality-validation.json).
 
 ## Dataset
 
@@ -163,13 +172,19 @@ ORDER BY postal_code;
 
 ## Build e validazione
 
-Richiede Python 3.11–3.13:
+Richiede Python 3.11–3.14:
 
 ```bash
-python -m pip install -r requirements.txt -r requirements-dev.txt
+python -m pip install \
+  -r requirements.txt \
+  -r requirements-dev.txt \
+  -r requirements-geography.txt
 python scripts/build_dataset.py
 python scripts/check_determinism.py
 python scripts/validate_dataset.py
+python scripts/validate_typed_contract.py
+python scripts/build_geography.py --check --require-rebuild
+python scripts/check_workflow_pins.py
 python -m unittest discover -s tests -v
 node --test tests/pages_core.test.mjs
 python scripts/build_pages.py
@@ -177,21 +192,18 @@ python scripts/build_release.py
 python scripts/validate_release.py
 ```
 
-La CI aggiunge Ruff, mypy, coverage, matrice Python 3.11–3.13, CodeQL e
-controlli deterministici. Dettagli in [`DATASET_PIPELINE.md`](DATASET_PIPELINE.md).
+La CI aggiunge Ruff, mypy, coverage, matrice Python 3.11–3.14, CodeQL,
+dependency audit, pin SHA delle Actions e controlli deterministici. La Pages
+genera inoltre schede HTML indicizzabili per province e comuni, una sitemap e
+una pagina 404 accessibile. Dettagli in
+[`DATASET_PIPELINE.md`](DATASET_PIPELINE.md).
 
-## Differenze rispetto al legacy
+## Materiale storico ritirato
 
-Il confronto investigativo trova 10.881 coppie esatte nome–CAP e 10.738
-coppie esatte nome–provincia–CAP, 3.742 record soltanto nel legacy, 7.677
-soltanto in GeoNames, 3.018 insiemi CAP discordanti e 1.414 differenze
-coordinate oltre 0,01 gradi. Una somiglianza non prova la provenienza del
-legacy.
-
-I 3.742 record esclusivi del legacy scompaiono dal canonico perché la loro
-origine e licenza non sono dimostrate e non sono presenti nello snapshot
-GeoNames scelto. I comuni ISTAT mancanti nel legacy, invece, entrano nella v2
-anche senza CAP.
+Le versioni anteriori alla ricostruzione clean-room dipendevano da materiale
+di cui non è stato possibile dimostrare origine e diritto di redistribuzione.
+Quel materiale e i relativi asset derivati sono stati ritirati. La v2 può
+essere ricostruita esclusivamente dagli snapshot ISTAT e GeoNames dichiarati.
 
 ## Licenze e attribuzione
 

@@ -22,11 +22,10 @@
     "missing": 396
   },
   "dataset_version": "v2.0.0",
-  "legacy_contributes_to_canonical": false,
   "operational_data_readiness": "experimental_non_official",
   "postal_use_warning": "Experimental, non-official data. GeoNames is not Poste Italiane.",
   "schema_version": "3.0.0",
-  "source_manifest_sha256": "02f4f84002abfa710bb8b20561165e8615c4bf35716c515fa2ab2fdc97f2ea25",
+  "source_manifest_sha256": "f0719cbc314d22525c8d6b318d663e7d41cb434a6ae4ca05bc0b52074ac44bb5",
   "statistics": {
     "ambiguous_matches": 0,
     "exact_matches": 8095,
@@ -48,5 +47,6 @@
     "geonames_estimated": 10270,
     "geonames_place_match": 7498,
     "missing": 396
-  }
+  },
+  "withdrawn_legacy_material_present": false
 }

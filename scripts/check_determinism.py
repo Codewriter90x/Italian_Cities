@@ -30,7 +30,6 @@ BYTE_STABLE_PATHS = {
     "italian_locations_json": GENERATED_PATHS["json"],
     "italian_locations_xlsx": GENERATED_PATHS["xlsx"],
     "build_metadata": REPORTS_DIR / "build-metadata.json",
-    "legacy_comparison": REPORTS_DIR / "legacy-comparison.json",
     "release_diff_report": REPORTS_DIR / "release-diff.json",
     "reconciliation_backlog": REPORTS_DIR / "reconciliation-backlog.json",
     "export_manifest": REPORTS_DIR / "export-manifest.json",

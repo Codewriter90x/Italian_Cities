@@ -8,7 +8,7 @@ import hashlib
 import json
 import tempfile
 import zipfile
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -33,6 +33,15 @@ def sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def display_path(path: Path) -> str:
+    resolved = path.resolve()
+    return (
+        str(resolved.relative_to(ROOT))
+        if resolved.is_relative_to(ROOT)
+        else str(resolved)
+    )
+
+
 def rounded(value: Any) -> Any:
     if isinstance(value, float):
         return round(value, 5)
@@ -50,7 +59,12 @@ def extract_region_layer(source: Path, destination: Path) -> Path:
         if missing:
             raise ValueError(f"ISTAT archive is missing: {sorted(missing)}")
         for member in sorted(required):
-            archive.extract(member, destination)
+            member_path = PurePosixPath(member)
+            if member_path.is_absolute() or ".." in member_path.parts:
+                raise ValueError(f"unsafe archive member: {member}")
+            target = destination.joinpath(*member_path.parts)
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(archive.read(member))
     return destination / SHAPEFILE_ROOT
 
 
@@ -122,7 +136,7 @@ def build_geography(source: Path, output: Path) -> dict[str, Any]:
         encoding="utf-8",
     )
     return {
-        "output": str(output.relative_to(ROOT)),
+        "output": display_path(output),
         "features": len(features),
         "sha256": sha256(output),
         "source_sha256": actual_sha256,
@@ -179,9 +193,13 @@ def check_geography(
             if require_rebuild:
                 raise
             rebuild_status = "skipped_geography_dependencies_not_installed"
+    elif require_rebuild:
+        raise FileNotFoundError(
+            f"{source} is required to prove a clean geographic rebuild"
+        )
     return {
         "status": "passed",
-        "output": str(output.resolve().relative_to(ROOT)),
+        "output": display_path(output),
         "features": len(features),
         "sha256": sha256(output),
         "source_rebuild": rebuild_status,

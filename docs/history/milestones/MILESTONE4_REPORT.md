@@ -36,8 +36,9 @@ v1.0.0/
 └── SHA256SUMS
 ```
 
-Il dump SQL Server legacy non è incluso. Resta preservato soltanto come
-baseline storica.
+Il dump SQL Server non era incluso nel bundle. Il successivo audit sui diritti
+ha portato al ritiro completo del materiale pre-clean-room e degli asset
+derivati.
 
 ## Gate di pubblicazione
 

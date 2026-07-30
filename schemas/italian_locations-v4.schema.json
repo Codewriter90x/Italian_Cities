@@ -1,74 +1,75 @@
 {
   "$id": "https://codewriter90x.github.io/Italian_Cities/schemas/italian_locations-v4.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "additionalProperties": false,
-  "properties": {
-    "fields": {
-      "items": {
-        "type": "string"
-      },
-      "type": "array"
-    },
-    "metadata": {
-      "additionalProperties": true,
-      "properties": {
-        "contract_status": {
-          "const": "next_major_preview"
-        },
-        "schema_version": {
-          "const": "4.0.0"
-        }
-      },
-      "required": [
-        "schema_version",
-        "contract_status"
-      ],
-      "type": "object"
-    },
-    "rows": {
-      "items": {
-        "$ref": "#/$defs/location"
-      },
-      "type": "array"
-    }
-  },
-  "required": [
-    "metadata",
-    "fields",
-    "rows"
-  ],
   "title": "Italian Cities typed JSON preview",
   "type": "object",
+  "additionalProperties": false,
+  "required": ["metadata", "fields", "rows"],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_dataset_version",
+        "schema_version",
+        "contract_status",
+        "null_policy"
+      ],
+      "properties": {
+        "source_dataset_version": {
+          "type": "string",
+          "pattern": "^v[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "schema_version": { "const": "4.0.0" },
+        "contract_status": { "const": "next_major_preview" },
+        "null_policy": {
+          "const": "JSON null for missing numeric values"
+        }
+      }
+    },
+    "fields": {
+      "type": "array",
+      "minItems": 25,
+      "maxItems": 25,
+      "prefixItems": [
+        { "const": "location_postal_id" },
+        { "const": "location_id" },
+        { "const": "name" },
+        { "const": "normalized_name" },
+        { "const": "location_kind" },
+        { "const": "municipality_istat_code" },
+        { "const": "parent_municipality_id" },
+        { "const": "candidate_municipality_ids" },
+        { "const": "postal_code" },
+        { "const": "postal_code_status" },
+        { "const": "province_code" },
+        { "const": "province_name" },
+        { "const": "region_name" },
+        { "const": "country_code" },
+        { "const": "country_name" },
+        { "const": "latitude" },
+        { "const": "longitude" },
+        { "const": "coordinate_verification" },
+        { "const": "coordinate_accuracy" },
+        { "const": "reconciliation_outcome" },
+        { "const": "reconciliation_method" },
+        { "const": "reconciliation_confidence" },
+        { "const": "source_ids" },
+        { "const": "source_record_ids" },
+        { "const": "source_reference_dates" }
+      ],
+      "items": false
+    },
+    "rows": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/location" }
+    }
+  },
   "$defs": {
     "location": {
+      "type": "object",
       "additionalProperties": false,
-      "properties": {
-        "candidate_municipality_ids": { "type": "string" },
-        "coordinate_accuracy": { "type": ["integer", "null"] },
-        "coordinate_verification": { "type": "string" },
-        "country_code": { "type": "string" },
-        "country_name": { "type": "string" },
-        "latitude": { "type": ["number", "null"] },
-        "location_id": { "type": "string" },
-        "location_kind": { "type": "string" },
-        "location_postal_id": { "type": "string" },
-        "longitude": { "type": ["number", "null"] },
-        "municipality_istat_code": { "type": "string" },
-        "name": { "type": "string" },
-        "normalized_name": { "type": "string" },
-        "parent_municipality_id": { "type": "string" },
-        "postal_code": { "type": "string" },
-        "postal_code_status": { "type": "string" },
-        "province_code": { "type": "string" },
-        "province_name": { "type": "string" },
-        "reconciliation_confidence": { "type": "string" },
-        "reconciliation_method": { "type": "string" },
-        "reconciliation_outcome": { "type": "string" },
-        "region_name": { "type": "string" },
-        "source_ids": { "type": "string" },
-        "source_record_ids": { "type": "string" },
-        "source_reference_dates": { "type": "string" }
-      },
       "required": [
         "location_postal_id",
         "location_id",
@@ -96,7 +97,124 @@
         "source_record_ids",
         "source_reference_dates"
       ],
-      "type": "object"
+      "properties": {
+        "location_postal_id": { "type": "string", "minLength": 1 },
+        "location_id": { "type": "string", "minLength": 1 },
+        "name": { "type": "string", "minLength": 1 },
+        "normalized_name": { "type": "string", "minLength": 1 },
+        "location_kind": {
+          "enum": [
+            "municipality",
+            "geonames_unreconciled",
+            "geonames_ambiguous"
+          ]
+        },
+        "municipality_istat_code": {
+          "type": "string",
+          "pattern": "^$|^[0-9]{6}$"
+        },
+        "parent_municipality_id": { "type": "string" },
+        "candidate_municipality_ids": { "type": "string" },
+        "postal_code": {
+          "type": "string",
+          "pattern": "^$|^[0-9]{5}$"
+        },
+        "postal_code_status": {
+          "enum": ["geonames_matched", "geonames_ambiguous", "missing"]
+        },
+        "province_code": {
+          "type": "string",
+          "pattern": "^[A-Z]{2}$"
+        },
+        "province_name": { "type": "string", "minLength": 1 },
+        "region_name": { "type": "string", "minLength": 1 },
+        "country_code": { "const": "IT" },
+        "country_name": { "const": "Italia" },
+        "latitude": {
+          "type": ["number", "null"],
+          "minimum": 35,
+          "maximum": 48
+        },
+        "longitude": {
+          "type": ["number", "null"],
+          "minimum": 6,
+          "maximum": 19
+        },
+        "coordinate_verification": {
+          "enum": [
+            "geonames_estimated",
+            "geonames_place_match",
+            "missing"
+          ]
+        },
+        "coordinate_accuracy": {
+          "type": ["integer", "null"],
+          "minimum": 1,
+          "maximum": 6
+        },
+        "reconciliation_outcome": {
+          "enum": [
+            "exact_unambiguous",
+            "multiple_candidates",
+            "unmatched_no_parent",
+            "istat_without_postal_code"
+          ]
+        },
+        "reconciliation_method": { "type": "string", "minLength": 1 },
+        "reconciliation_confidence": {
+          "enum": ["high", "ambiguous", "unmatched", "not_applicable"]
+        },
+        "source_ids": { "type": "string", "minLength": 1 },
+        "source_record_ids": { "type": "string", "minLength": 1 },
+        "source_reference_dates": { "type": "string", "minLength": 1 }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "coordinate_verification": { "const": "missing" }
+            },
+            "required": ["coordinate_verification"]
+          },
+          "then": {
+            "properties": {
+              "latitude": { "const": null },
+              "longitude": { "const": null },
+              "coordinate_accuracy": { "const": null }
+            }
+          },
+          "else": {
+            "properties": {
+              "latitude": { "type": "number" },
+              "longitude": { "type": "number" },
+              "coordinate_accuracy": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 6
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "postal_code_status": { "const": "missing" }
+            },
+            "required": ["postal_code_status"]
+          },
+          "then": {
+            "properties": { "postal_code": { "const": "" } }
+          },
+          "else": {
+            "properties": {
+              "postal_code": {
+                "type": "string",
+                "pattern": "^[0-9]{5}$"
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }

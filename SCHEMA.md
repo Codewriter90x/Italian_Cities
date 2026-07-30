@@ -71,7 +71,7 @@ Vista unificata, una riga per relazione CAP:
 | `province_code`, `province_name`, `region_name` | contesto territoriale |
 | `country_code`, `country_name` | `IT`, `Italia` |
 | `latitude`, `longitude` | coppia WGS84 opzionale |
-| `coordinate_verification` | origine/semantica della coordinata |
+| `coordinate_verification` | origine e tipo di riconciliazione, non certificazione geografica |
 | `coordinate_accuracy` | campo GeoNames `accuracy`, preservato |
 | `reconciliation_outcome` | esito separato dal dato CAP |
 | `reconciliation_method` | regola riproducibile applicata |
@@ -96,6 +96,13 @@ Vista unificata, una riga per relazione CAP:
 - `geonames_place_match`;
 - `official_boundary_derived` — riservato, inutilizzato;
 - `missing`.
+
+`geonames_place_match` documenta il match esatto di nome, provincia e regione
+fra GeoNames e ISTAT. Non dimostra che latitudine e longitudine siano il
+centroide o un punto verificato del comune. I riusi esatti sono profilati in
+`reports/quality-validation.json`; i cluster grandi restano un segnale di
+revisione non bloccante finché non esiste una fonte geografica autorevole con
+licenza e provenienza compatibili.
 
 `reconciliation_outcome`:
 

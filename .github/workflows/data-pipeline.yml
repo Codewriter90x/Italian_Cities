@@ -19,6 +19,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
@@ -28,9 +30,14 @@ jobs:
           cache-dependency-path: |
             requirements.txt
             requirements-dev.txt
+            requirements-geography.txt
 
       - name: Install runtime and quality dependencies
-        run: python -m pip install -r requirements.txt -r requirements-dev.txt
+        run: >-
+          python -m pip install
+          -r requirements.txt
+          -r requirements-dev.txt
+          -r requirements-geography.txt
 
       - name: Lint Python sources and tests
         run: ruff check scripts tests
@@ -38,14 +45,35 @@ jobs:
       - name: Type-check all maintained Python scripts
         run: mypy
 
+      - name: Require immutable GitHub Action references
+        run: python scripts/check_workflow_pins.py
+
+      - name: Validate the schema 4 typed preview
+        run: python scripts/validate_typed_contract.py
+
+      - name: Audit pinned Python dependencies
+        run: >-
+          pip-audit
+          -r requirements.txt
+          -r requirements-dev.txt
+          -r requirements-geography.txt
+
       - name: Enforce maintained-script test coverage
         run: |
           coverage run -m unittest discover -s tests
           coverage run --append scripts/build_dataset.py
+          coverage run --append scripts/check_determinism.py
+          coverage run --append scripts/validate_dataset.py
           coverage run --append scripts/build_pages.py
           coverage run --append scripts/build_release.py
           coverage run --append scripts/validate_release.py
-          coverage run --append scripts/build_geography.py --check
+          coverage run --append scripts/build_geography.py --check --require-rebuild
+          coverage run --append scripts/validate_typed_contract.py
+          coverage run --append scripts/export_typed_json.py \
+            --output "${RUNNER_TEMP}/italian_locations.typed.json" \
+            --sqlite-output "${RUNNER_TEMP}/italian_locations.typed.sqlite"
+          coverage run --append scripts/reconciliation_backlog.py
+          coverage run --append scripts/check_workflow_pins.py
           coverage report
           coverage xml
 
@@ -56,10 +84,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.11", "3.12", "3.13"]
+        python-version: ["3.11", "3.12", "3.13", "3.14"]
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
@@ -67,8 +97,12 @@ jobs:
           python-version: ${{ matrix.python-version }}
           cache: pip
 
-      - name: Install pipeline dependency
-        run: python -m pip install -r requirements.txt
+      - name: Install pipeline and test dependencies
+        run: >-
+          python -m pip install
+          -r requirements.txt
+          -r requirements-dev.txt
+          -r requirements-geography.txt
 
       - name: Validate dataset
         run: python scripts/validate_dataset.py
@@ -83,6 +117,8 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
@@ -90,8 +126,12 @@ jobs:
           python-version: "3.12"
           cache: pip
 
-      - name: Install pipeline dependency
-        run: python -m pip install -r requirements.txt
+      - name: Install pipeline and geographic dependencies
+        run: >-
+          python -m pip install
+          -r requirements.txt
+          -r requirements-dev.txt
+          -r requirements-geography.txt
 
       - name: Validate committed data and quality contracts
         run: python scripts/validate_dataset.py
@@ -115,8 +155,11 @@ jobs:
       - name: Test Pages search and map logic
         run: node --test tests/pages_core.test.mjs
 
-      - name: Verify committed geographic base
-        run: python scripts/build_geography.py --check
+      - name: Rebuild and verify committed geographic base
+        run: python scripts/build_geography.py --check --require-rebuild
+
+      - name: Validate the schema 4 typed preview
+        run: python scripts/validate_typed_contract.py
 
       - name: Build deterministic GitHub Pages site
         run: python scripts/build_pages.py
@@ -146,7 +189,6 @@ jobs:
           ":(exclude)data/italian_locations.sqlite"
           reports/release-diff.json
           reports/build-metadata.json
-          reports/legacy-comparison.json
           reports/reconciliation-backlog.json
           reports/export-manifest.json
           reports/determinism.json

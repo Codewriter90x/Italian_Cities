@@ -23,7 +23,6 @@ from dataset_common import (
     write_csv_rows,
     write_json,
 )
-from legacy_comparison import build_legacy_comparison
 from project_metadata import (
     BUILD_DATE,
     DATASET_VERSION,
@@ -39,7 +38,6 @@ from reconciliation_backlog import build_backlog
 from source_data import (
     DEFAULT_GEONAMES,
     DEFAULT_ISTAT,
-    DEFAULT_LEGACY,
     load_geonames_records,
     load_istat_records,
     validate_declared_sources,
@@ -47,7 +45,6 @@ from source_data import (
 
 DEFAULT_PREVIOUS_RELEASE = ROOT / PREVIOUS_RELEASE["canonical_path"]
 DEFAULT_DIFF_REPORT = REPORTS_DIR / "release-diff.json"
-DEFAULT_LEGACY_REPORT = REPORTS_DIR / "legacy-comparison.json"
 DEFAULT_BUILD_REPORT = REPORTS_DIR / "build-metadata.json"
 DEFAULT_RECONCILIATION_REPORT = REPORTS_DIR / "reconciliation-backlog.json"
 
@@ -56,7 +53,6 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--istat", type=Path, default=DEFAULT_ISTAT)
     parser.add_argument("--geonames", type=Path, default=DEFAULT_GEONAMES)
-    parser.add_argument("--legacy", type=Path, default=DEFAULT_LEGACY)
     parser.add_argument("--manifest", type=Path, default=SOURCE_MANIFEST)
     parser.add_argument(
         "--previous-release",
@@ -64,9 +60,6 @@ def parse_args() -> argparse.Namespace:
         default=DEFAULT_PREVIOUS_RELEASE,
     )
     parser.add_argument("--diff-report", type=Path, default=DEFAULT_DIFF_REPORT)
-    parser.add_argument(
-        "--legacy-report", type=Path, default=DEFAULT_LEGACY_REPORT
-    )
     parser.add_argument(
         "--build-report", type=Path, default=DEFAULT_BUILD_REPORT
     )
@@ -109,6 +102,10 @@ def build_release_diff(
 
     before = {logical_key(row) for row in baseline_rows}
     after = {logical_key(row) for row in current_rows}
+    baseline_fields = list(baseline_rows[0]) if baseline_rows else []
+    added_fields = sorted(set(ITALIAN_LOCATION_FIELDS) - set(baseline_fields))
+    removed_fields = sorted(set(baseline_fields) - set(ITALIAN_LOCATION_FIELDS))
+    same_release = PREVIOUS_RELEASE["version"] == DATASET_VERSION
     return {
         "comparison": {
             "from": PREVIOUS_RELEASE["version"],
@@ -120,7 +117,7 @@ def build_release_diff(
             "path": str(baseline_path.relative_to(ROOT)),
             "sha256": sha256_file(baseline_path),
             "rows": len(baseline_rows),
-            "fields": list(baseline_rows[0]) if baseline_rows else [],
+            "fields": baseline_fields,
         },
         "current": {
             "path": "data/italian_locations.csv",
@@ -129,16 +126,10 @@ def build_release_diff(
             "fields": list(ITALIAN_LOCATION_FIELDS),
         },
         "schema_changes": {
-            "breaking": True,
+            "breaking": bool(added_fields or removed_fields),
             "schema_version": SCHEMA_VERSION,
-            "added_fields": sorted(
-                set(ITALIAN_LOCATION_FIELDS)
-                - set(baseline_rows[0] if baseline_rows else {})
-            ),
-            "removed_fields": sorted(
-                set(baseline_rows[0] if baseline_rows else {})
-                - set(ITALIAN_LOCATION_FIELDS)
-            ),
+            "added_fields": added_fields,
+            "removed_fields": removed_fields,
         },
         "logical_record_changes": {
             "added": len(after - before),
@@ -146,8 +137,12 @@ def build_release_diff(
             "shared": len(before & after),
         },
         "interpretation": (
-            "The v2 source and schema change makes row identity incomparable "
-            "to v1; logical name/province/CAP keys are reported for context."
+            "The clean-room v2.0.0 baseline replaces withdrawn pre-clean-room "
+            "baselines; this comparison confirms the republished tag has no "
+            "canonical row or schema change."
+            if same_release
+            else "Logical name/province/CAP keys summarize changes from the "
+            "previous clean-room release."
         ),
     }
 
@@ -193,7 +188,6 @@ def build_all(args: argparse.Namespace) -> dict[str, Any]:
         args.manifest,
         istat_path=args.istat,
         geonames_path=args.geonames,
-        legacy_path=args.legacy,
     )
     validate_previous_release(args.previous_release)
     model = build_clean_room(
@@ -206,11 +200,6 @@ def build_all(args: argparse.Namespace) -> dict[str, Any]:
 
     release_diff = build_release_diff(args.previous_release, current_rows)
     write_json(args.diff_report, release_diff)
-    write_json(
-        args.legacy_report,
-        build_legacy_comparison(args.legacy, current_rows),
-    )
-
     coordinate_counts = Counter(
         row["coordinate_verification"] for row in current_rows
     )
@@ -266,7 +255,7 @@ def build_all(args: argparse.Namespace) -> dict[str, Any]:
         "unique_location_coordinate_accuracy_counts": dict(
             sorted(unique_accuracy_counts.items())
         ),
-        "legacy_contributes_to_canonical": False,
+        "withdrawn_legacy_material_present": False,
     }
     write_json(args.build_report, build_report)
 

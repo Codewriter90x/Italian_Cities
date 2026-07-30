@@ -287,10 +287,7 @@ def export_xlsx(
             "GeoNames is not Poste Italiane. CAP and coordinates are "
             "non-official, without warranty; coordinates may be estimated.",
         ),
-        (
-            "Legacy role",
-            "Historical comparison only; no legacy row contributes to v2.",
-        ),
+        ("Historical material", "Withdrawn; no pre-clean-room row is distributed."),
     )
     for row_index, (label, value) in enumerate(info_rows):
         cell_format = warning if label == "Important warning" else None

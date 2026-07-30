@@ -1,5 +1,6 @@
 sources/cache/*
 !sources/cache/.gitkeep
+!sources/cache/Limiti01012026_g.zip
 .DS_Store
 .venv/
 __pycache__/

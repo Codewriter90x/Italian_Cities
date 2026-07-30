@@ -11,6 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
+from build_geography import check_geography  # noqa: E402
 from build_pages import WEB_FIELDS, build_site  # noqa: E402
 from project_metadata import DATASET_VERSION  # noqa: E402
 from validate_site import validate_site  # noqa: E402
@@ -68,7 +69,8 @@ class GitHubPagesBuildTests(unittest.TestCase):
                     (first / "assets/locations.json").stat().st_size,
                     5_000_000,
                 )
-                self.assertEqual(25, first_manifest["page_count"])
+                self.assertGreater(first_manifest["page_count"], 8_000)
+                self.assertTrue((first / "404.html").is_file())
 
     def test_site_declares_seo_release_and_clean_room_contracts(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_dir:
@@ -134,6 +136,8 @@ class GitHubPagesBuildTests(unittest.TestCase):
                 "fonti/",
                 "regioni/",
                 "regioni/lazio/",
+                "province/rm/",
+                "comuni/058091-roma/",
             ):
                 self.assertIn(
                     f"https://codewriter90x.github.io/Italian_Cities/{path}",
@@ -148,6 +152,12 @@ class GitHubPagesBuildTests(unittest.TestCase):
             self.assertIn(">Roma</a>", lazio)
             self.assertIn("ISTAT 058091", lazio)
             self.assertIn('rel="canonical"', lazio)
+            roma = (output / "comuni/058091-roma/index.html").read_text(
+                encoding="utf-8"
+            )
+            self.assertIn("Comune ISTAT", roma)
+            self.assertIn("accuratezza geografica", roma)
+            self.assertIn("CAP GeoNames", roma)
 
     def test_committed_geographic_base_has_official_provenance(self) -> None:
         payload = json.loads(
@@ -158,6 +168,12 @@ class GitHubPagesBuildTests(unittest.TestCase):
         self.assertEqual("FeatureCollection", payload["type"])
         self.assertEqual(20, len(payload["features"]))
         self.assertEqual("CC BY 4.0", payload["source"]["license"])
+        report = check_geography(
+            ROOT / "sources/cache/Limiti01012026_g.zip",
+            ROOT / "site/assets/italy-regions.geojson",
+            require_rebuild=True,
+        )
+        self.assertEqual("passed", report["source_rebuild"])
 
     def test_site_accessibility_links_and_budgets(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_dir:
@@ -165,7 +181,11 @@ class GitHubPagesBuildTests(unittest.TestCase):
             build_site(output)
             report = validate_site(output)
         self.assertEqual("passed", report["status"])
-        self.assertEqual(25, report["pages"])
+        self.assertGreater(report["pages"], 8_000)
+        self.assertLessEqual(
+            report["budgets"]["search_data_gzip_bytes"],
+            report["limits"]["search_data_gzip_bytes"],
+        )
 
 
 if __name__ == "__main__":

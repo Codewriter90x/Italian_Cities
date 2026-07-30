@@ -2,6 +2,5 @@ data/*.csv linguist-generated=true
 data/*.json linguist-generated=true
 data/*.xlsx binary linguist-generated=true
 data/*.sqlite binary linguist-generated=true
-legacy/** linguist-vendored=true
 baselines/** linguist-vendored=true
 sources/snapshots/** binary linguist-vendored=true

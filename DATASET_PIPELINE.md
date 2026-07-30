@@ -22,13 +22,12 @@ GeoNames IT.zip snapshot ----------+        |
                                             |
                                             v
                                     Pages / release bundle
-
-legacy CSV --> historical comparison only --> reports/legacy-comparison.json
 ```
 
 Il modello canonico è creato da `build_clean_room(istat_path, geonames_path)`.
-La funzione non accetta un input legacy. Il digest canonico dipende soltanto
-dagli identificativi ISTAT e GeoNames riconciliati.
+Il digest canonico dipende soltanto dagli identificativi ISTAT e GeoNames
+riconciliati. Il materiale storico a provenienza irrisolta è stato ritirato e
+non è presente tra input, baseline o report.
 
 ## Acquisizione e checksum
 
@@ -38,6 +37,11 @@ SHA-256 prima di aprire il workbook ISTAT o `IT.zip`.
 
 Lo snapshot GeoNames è committato come file originale; non viene modificato o
 estratto manualmente nel repository.
+
+L'archivio dei confini regionali generalizzati ISTAT è dichiarato come fonte
+ausiliaria non canonica. È committato con checksum e la CI ricostruisce
+obbligatoriamente `site/assets/italy-regions.geojson`; un cache assente o
+dipendenze geografiche mancanti fanno fallire il gate.
 
 ## Riconciliazione
 
@@ -70,15 +74,18 @@ canonica. `scripts/export_sql.py` crea lo script SQLite-compatible.
 ## Report
 
 - `reports/build-metadata.json`: fonti, qualità, readiness e statistiche;
-- `reports/legacy-comparison.json`: confronto storico limitato e deterministico;
-- `reports/release-diff.json`: confronto logico con v1.1.0;
+- `reports/release-diff.json`: confronto logico con la baseline clean-room
+  `v2.0.0`;
 - `reports/reconciliation-backlog.json`: segmenti da revisionare per regione,
   provincia e codice territoriale sorgente;
 - `reports/export-manifest.json`: digest degli export;
 - `reports/determinism.json`: firme di due build;
 - `reports/quality-validation.json`: gate strutturali separati dalla readiness.
 
-Il report legacy può cambiare se cambia il legacy; gli output canonici no.
+Quest'ultimo include anche la distribuzione dei riusi esatti di coordinate,
+alla grana del luogo univoco. I cluster grandi sono marcati
+`review_required`: non rendono strutturalmente invalido il dump sorgente, ma
+impediscono di descrivere `geonames_place_match` come verifica geografica.
 
 ## Quality model
 
@@ -96,7 +103,10 @@ certificazione postale.
 ## Comandi
 
 ```bash
-python -m pip install -r requirements.txt -r requirements-dev.txt
+python -m pip install \
+  -r requirements.txt \
+  -r requirements-dev.txt \
+  -r requirements-geography.txt
 python scripts/build_dataset.py
 python scripts/check_determinism.py
 python scripts/validate_dataset.py
@@ -104,6 +114,9 @@ ruff check scripts tests
 mypy
 coverage run -m unittest discover -s tests
 coverage report
+python scripts/validate_typed_contract.py
+python scripts/build_geography.py --check --require-rebuild
+python scripts/check_workflow_pins.py
 node --test tests/pages_core.test.mjs
 python scripts/build_pages.py
 python scripts/build_release.py
@@ -111,8 +124,9 @@ python scripts/validate_release.py
 git diff --check
 ```
 
-La CI esegue questi gate su Python 3.11, 3.12 e 3.13. Le Actions sono fissate
-a commit SHA immutabili.
+La CI esegue questi gate su Python 3.11, 3.12, 3.13 e 3.14. Le Actions sono
+fissate a commit SHA immutabili e un test impedisce regressioni a tag o branch.
+`pip-audit` controlla le dipendenze dichiarate.
 
 ## Aggiornamento fonti
 

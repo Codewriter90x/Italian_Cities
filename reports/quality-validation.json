@@ -5,6 +5,2913 @@
     "4": 15951,
     "missing": 396
   },
+  "coordinate_distribution": {
+    "exact_shared_coordinate_groups": 1305,
+    "grain": "unique_location",
+    "groups_requiring_review": 16,
+    "interpretation": "Exact coordinate reuse is a source-quality signal, not automatic proof of an error. geonames_place_match records a conservative name and territory match; it does not certify coordinate accuracy.",
+    "largest_shared_coordinate_group": 66,
+    "locations_in_shared_coordinate_groups": 3502,
+    "review_groups": [
+      {
+        "latitude": 46.6304,
+        "location_count": 66,
+        "locations": [
+          {
+            "location_id": "IT-LOC-77bfb27f-e2cf-53c5-9e96-d151d03b5911",
+            "name": "Afers",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-e862cc07-558f-515f-a523-74d02dfc0525",
+            "name": "Aldein",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-0d5133f7-9761-5593-8fe2-0616280ac58c",
+            "name": "Barbian",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-89f9e8d7-4ad4-57f5-b26e-636e4f65e722",
+            "name": "Entiklar",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-da7ea6b3-c638-5cfc-91ba-38ff7c65c40a",
+            "name": "Fennberg",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-f952cf57-c540-5d3b-9a1e-cff0c5a8e010",
+            "name": "Flains",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-6956261f-3cad-5901-99b5-f936b8530df1",
+            "name": "Flans",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-7194e87a-3934-58bc-a2b0-54ef078f81b0",
+            "name": "Flitt",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-6a56ef09-600b-5a69-8904-82937640f43e",
+            "name": "Freins",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-d23962da-9904-5200-b3f3-f0c1046414dc",
+            "name": "Garn",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-23107b36-0c99-50e3-ac51-53399745adb2",
+            "name": "Glen",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-0e5d0761-5f98-556d-8167-2b071289493f",
+            "name": "Grasstein",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-633ff241-130a-56b4-a147-5c9b9549e34d",
+            "name": "Graun/Unterl.",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-b50c8a85-a8c2-5fa5-b2ba-e7956b79b237",
+            "name": "Gschnon",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-cafffa64-bf34-5a36-a8ac-ec842f516792",
+            "name": "Hohlen",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-cd282b94-bcda-5e80-b109-5f19ab338a4c",
+            "name": "Innerpfitsch",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-c65269f5-fbf7-5a06-9dff-0558ef3b613a",
+            "name": "Karnol",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-be605a99-4cf6-522e-98ae-3c58a39ef0d1",
+            "name": "Klerant",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-d7eb3647-2c97-510a-ba0c-67283bb4997f",
+            "name": "Kollmann",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-6637a86b-c77a-5168-a964-411b9612ef20",
+            "name": "Margreid",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-b4a2a01e-386f-5a32-a7d8-815d91c8c2da",
+            "name": "Mazon",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-a5ea1ceb-f80f-5b7b-a69a-ce7a464e5ecb",
+            "name": "Mellaun",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-6fb5cd2d-7aa4-55ca-bc39-b6641b3be983",
+            "name": "Milland",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-2acb55e3-9b8a-56ea-83cb-a138e1d77040",
+            "name": "Mittewald",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-cbfdce97-d18c-5630-bd15-b0bf27ecf045",
+            "name": "Montan",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-c49152fd-1c29-5fb1-8548-dd00d3095e23",
+            "name": "Mühlen/Truden",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-33412fee-aa5c-5c8a-8e65-8a85f810df34",
+            "name": "Oberau",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-2e4278e7-1f9a-58d8-a1fe-ceff14609120",
+            "name": "Pflersch",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-473b09db-78e0-54c1-acbb-3efc89265cd0",
+            "name": "Pfulters",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-f9b65093-db00-51d8-9d38-46747c711f43",
+            "name": "Pinzagen",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-6d2699f4-da14-510f-9dcd-6c864fe10951",
+            "name": "Pinzon",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-5ded91d3-bc1c-5869-a750-0586da9f3138",
+            "name": "Proveis",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-e894dd8b-dc50-5d12-871e-770efa277ab4",
+            "name": "Pufels",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-a319503a-8785-5f73-bb7d-31124ec19471",
+            "name": "Rungg",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-96200f57-42da-53a0-9ad9-e68ab68f4c25",
+            "name": "S. Lugano",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-9cacf6c1-cc97-5a5a-a828-e72c749c7b41",
+            "name": "Sarns",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-66fc26f3-d18c-528d-ad02-2fc8aebafa6b",
+            "name": "Schalders",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-abf1aeff-8a07-5a49-8066-f86228bd6e5a",
+            "name": "Schmuders",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-2c0ee67c-7f71-53cc-8208-6c7295769b84",
+            "name": "Schnauders",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-24b685cf-8b18-59fe-b3fe-b7c4a153a8d2",
+            "name": "Schrambach",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-840b4473-e81d-52c9-92d1-14bb163ef039",
+            "name": "Spiluck",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-7edc12e4-221f-5d09-a3dc-99dceb6cc86c",
+            "name": "St. Andrä_",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-a9dd99d3-6592-5591-b5b5-20ddfb1b0d3d",
+            "name": "St. Christina/S. Crestina -Gherdeina",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-3a682f49-5228-5a7d-90ea-648cbeede33c",
+            "name": "St. Jakob",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-a59e8a0c-e935-59a1-a874-60028c5b161b",
+            "name": "St. Leonhard",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-f021886a-2b0d-5bd9-9e80-b7fcce244f4b",
+            "name": "St. Michael/Kastelr.",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-3ae07338-73d3-51e7-8386-983c9a12b5de",
+            "name": "St. Moritz b. Villanders",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-d71c2ba3-776b-522d-bcdf-06abcf69366b",
+            "name": "St. Oswald",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-1729a288-dc0d-5b9c-9651-12935a794ba8",
+            "name": "St. Peter b. Lajen",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-59429a57-7699-5610-8c89-8f25462fe378",
+            "name": "Steckholz",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-4562e11f-aaec-540c-98a4-c8bae9c11e80",
+            "name": "Söll",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-01f9fe19-2a13-503a-90f7-5b020d8a4858",
+            "name": "Tagusens",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-c081a126-8678-55a1-9d08-f6293b9e7da6",
+            "name": "Tanürz",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-77074fb2-2382-511d-a1b3-97dbc126f1f0",
+            "name": "Teis",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-62926fb5-465b-5aa0-a916-847ef07153c7",
+            "name": "Telfes",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-25dcfd6e-d1f9-5ef9-ab10-899c51437e7b",
+            "name": "Thuins",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-fda385db-bded-5501-b825-b6ead8bca797",
+            "name": "Tils",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-d228580a-1590-52e2-b928-4aec31c91e0f",
+            "name": "Trens",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-0df8a297-4275-584e-9fa6-6a3892aac30e",
+            "name": "Tschöfs",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-94f3069d-93d5-573b-98aa-12d6d4aaae27",
+            "name": "Tschötsch",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-60cc9768-2c72-5316-9407-def127ee81ba",
+            "name": "Tschövas",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-cf8d453f-49a2-5df0-9ed5-cd6b2b7acc36",
+            "name": "Verdings",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-743f06e1-0ab2-5f63-803e-91f53c9cfd2f",
+            "name": "Villnöß",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-f37d1d01-2c84-51a7-a05b-73b1f60dd4f4",
+            "name": "Viums",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-54640c48-6bbd-5fb5-9437-4974e3c896f4",
+            "name": "Weißenstein",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-298b9e1b-944f-52d3-8ba1-e315113e5475",
+            "name": "Zinggen",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          }
+        ],
+        "longitude": 11.4693,
+        "municipality_count": 0,
+        "verification_counts": {
+          "geonames_estimated": 66
+        }
+      },
+      {
+        "latitude": 39.2071,
+        "location_count": 59,
+        "locations": [
+          {
+            "location_id": "IT-LOC-9950d056-dd84-5d6b-b9b3-18b6581a9fe6",
+            "name": "Arixi",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-e90022d0-54e4-5409-9ba5-5e1b0d0d093f",
+            "name": "Forte Village",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-e44b1e64-5b34-5b6d-bcc1-fd7c4625364a",
+            "name": "Lixius",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-59c72eee-9925-59d3-b423-7fda8b622d07",
+            "name": "Santa Maria",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-e8146d33-0732-51df-8d5f-610f7027bbb2",
+            "name": "Seulo",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-67831e36-ffbd-54f7-9314-e3eebfbbb42a",
+            "name": "Sisini",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-8f123feb-d312-503c-b2fd-fe0149de4599",
+            "name": "Teulada",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-1d413b8d-ddda-50f2-a2b0-122b1399efde",
+            "name": "Villagreca",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118001",
+            "name": "Armungia",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118003",
+            "name": "Ballao",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118004",
+            "name": "Barrali",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118005",
+            "name": "Burcei",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118008",
+            "name": "Castiadas",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118010",
+            "name": "Decimoputzu",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118011",
+            "name": "Dolianova",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118012",
+            "name": "Domus de Maria",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118013",
+            "name": "Donori",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118015",
+            "name": "Escalaplano",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118016",
+            "name": "Escolca",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118017",
+            "name": "Esterzili",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118019",
+            "name": "Gergei",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118020",
+            "name": "Gesico",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118021",
+            "name": "Goni",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118022",
+            "name": "Guamaggiore",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118023",
+            "name": "Guasila",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118024",
+            "name": "Isili",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118025",
+            "name": "Mandas",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118027",
+            "name": "Monastir",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118029",
+            "name": "Muravera",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118030",
+            "name": "Nuragus",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118031",
+            "name": "Nurallao",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118032",
+            "name": "Nuraminis",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118033",
+            "name": "Nurri",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118034",
+            "name": "Orroli",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118035",
+            "name": "Ortacesus",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118036",
+            "name": "Pimentel",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118040",
+            "name": "Sadali",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118041",
+            "name": "Samatzai",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118043",
+            "name": "San Nicolò Gerrei",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118044",
+            "name": "San Sperate",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118045",
+            "name": "San Vito",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118046",
+            "name": "Sant'Andrea Frius",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118049",
+            "name": "Selegas",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118050",
+            "name": "Senorbì",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118051",
+            "name": "Serdiana",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118052",
+            "name": "Serri",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118056",
+            "name": "Siliqua",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118057",
+            "name": "Silius",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118059",
+            "name": "Siurgus Donigala",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118060",
+            "name": "Soleminis",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118061",
+            "name": "Suelli",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118063",
+            "name": "Ussana",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118065",
+            "name": "Vallermosa",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118067",
+            "name": "Villanova Tulo",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118068",
+            "name": "Villaputzu",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118069",
+            "name": "Villasalto",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118070",
+            "name": "Villasimius",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118071",
+            "name": "Villasor",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-COM-118072",
+            "name": "Villaspeciosa",
+            "province_code": "CA",
+            "region_name": "Sardegna"
+          }
+        ],
+        "longitude": 9.1074,
+        "municipality_count": 51,
+        "verification_counts": {
+          "geonames_estimated": 8,
+          "geonames_place_match": 51
+        }
+      },
+      {
+        "latitude": 46.7758,
+        "location_count": 49,
+        "locations": [
+          {
+            "location_id": "IT-LOC-2edd4c85-82a3-53c1-a77e-7452c53d3e79",
+            "name": "Abtei/Badia",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-f2f17e6c-bede-5990-81e2-bf3f1f7ac2d2",
+            "name": "Ahornach",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-6618384c-b4eb-5fee-a05d-fb9adce4cc17",
+            "name": "Ahrntal",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-a4ec12e1-6582-52e4-8b56-8c5e85b493dd",
+            "name": "Aufhofen",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-f2ac2cfe-0487-52fd-9b6f-00dafa1f8a25",
+            "name": "Ellen",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-9a7cd86b-7145-540e-8e21-9ea553caa6bc",
+            "name": "Enneberg/Mareo",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-96f2db0a-318c-5528-bd60-50f90ca469a3",
+            "name": "Geiselsberg",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-9a780202-bce8-5917-a040-ff794b0aff1d",
+            "name": "Greinwalden",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-bba61379-0774-556a-b53b-b326315b8ca8",
+            "name": "Hofern",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-c4c8b547-8bba-54b3-8ab4-0402fde2553e",
+            "name": "Issing",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-efb93897-dee8-5670-b065-777a651833cb",
+            "name": "Kampill",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-69e902c7-6ffe-5e35-981e-ae44a6dc0ce5",
+            "name": "Kasern",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-05171ae3-b8b6-56ee-9342-3442e5c07f43",
+            "name": "Kolfuschg",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-d57da5a4-4c80-5954-bbc8-2f93c8476252",
+            "name": "Kurfar",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-708064ac-387e-57c3-99d1-da75e0909999",
+            "name": "Margen",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-83282127-af45-5bf9-b2dd-2c9a7f50e1f2",
+            "name": "Meransen",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-aa137094-dc60-5de9-bf25-9900dbdebf94",
+            "name": "Montal",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-81accf2d-f7f7-5811-bdd3-a5adc1dc4f84",
+            "name": "Mühlbach b. Gais",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-abcd435a-72ef-5973-8155-e31524068948",
+            "name": "Mühlen i. Taufers",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-bff8de2c-4aba-5655-9d4f-059f4c15a866",
+            "name": "Mühlen/Pfalzen",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-5a0ec05a-db10-5136-9c58-d91f58f83a8b",
+            "name": "Nasen",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-51377226-e4e5-5723-ae7a-6b3c340de64a",
+            "name": "Oberolang",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-ef531bbb-5267-57b1-9440-18a6b3accffa",
+            "name": "Oberwielenbach",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-33cebbcb-55d1-5114-b43f-2fb321f7f19f",
+            "name": "Onach",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-5219840a-c940-52a0-bea8-f86cbf784f12",
+            "name": "Pflaurenz",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-2bf32b95-8d3f-5167-83ea-d063d6edb3c3",
+            "name": "Saalen",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-adfe8f64-1fb9-5746-af1a-c5e9efda0641",
+            "name": "Spinges",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-3bd4d4d1-53d3-522a-8a70-42302b0b9a8c",
+            "name": "St. Georgen",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-64950150-c538-5676-9da1-29766f9c5cba",
+            "name": "St. Jakob in Ahrn",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-2c362be7-3b8e-59e8-ae85-fb7f23b19652",
+            "name": "St. Johann in Ahrn",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-e56c00fc-4a03-53eb-8a09-062287595c5f",
+            "name": "St. Magdalena i. G.",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-5909efca-2aba-5d42-9d53-6ede3cfed6fb",
+            "name": "St. Martin in Gsies",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-f9a46a65-c0f9-5313-9122-7645ca2f0b65",
+            "name": "St. Martin in Thurn/S. Martin de Tor",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-b6e0ff4a-9222-50a5-82d8-a409fe10696d",
+            "name": "St. Peter in Ahrn",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-2ef10cf0-4d4e-5b3d-bed0-b394751247c1",
+            "name": "St. Veit in Prags",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-e0295bec-3bf6-53fa-a9b4-8cacce4b2d81",
+            "name": "St. Vigil i. Enneberg",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-8dd7cdc0-c653-59cf-abcd-c639776fd585",
+            "name": "St. Walburg i. Antholz",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-d37b7238-8708-57d5-b048-8f9beed7c195",
+            "name": "Stefansdorf",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-a392f4a3-5bb2-5ee7-afd4-ac9ac74a9710",
+            "name": "Stegen",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-2e07291a-1640-5607-9deb-feea06eee627",
+            "name": "Taufers/Ahrntal",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-799250a5-ba94-582a-ad43-15a7cf2b5c04",
+            "name": "Untergsies",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-55f56b89-9a9d-5ad9-ad9f-beac56b6daec",
+            "name": "Untermoi",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-03aafe64-857a-5c3b-9db5-2d6a089c6c0f",
+            "name": "Untervintl",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-ddcaa40b-4196-5ee1-ab7c-aa67137ecd15",
+            "name": "Vals",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-d389996b-2370-52c5-a2cc-c3123556037d",
+            "name": "Vierschach",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-2acf8b0a-7a20-582a-80a1-abd571df8ab8",
+            "name": "Vintl",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-8979654c-1430-57eb-951e-af1a2bafc706",
+            "name": "Wengen/La Val",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-a72d7489-e607-5610-ad62-ee3bb9ebf1d5",
+            "name": "Wielenberg",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-68016cd6-ad5b-5807-83b6-44d77d426af7",
+            "name": "Winnebach",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          }
+        ],
+        "longitude": 11.9383,
+        "municipality_count": 0,
+        "verification_counts": {
+          "geonames_estimated": 49
+        }
+      },
+      {
+        "latitude": 40.7465,
+        "location_count": 36,
+        "locations": [
+          {
+            "location_id": "IT-LOC-21357776-bb2e-5b63-b3d8-338080edc16e",
+            "name": "Bircolovo'",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-1e7e9ecc-0631-5d57-a708-e8957bfcd6c7",
+            "name": "Budditogliu",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-f3136ad6-74ec-5b8b-ba02-15fb49c3b1a0",
+            "name": "Franculacciu",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-172b7407-d2d0-51d5-9203-0f6018fc624c",
+            "name": "L'Alzoni",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-e08b07dd-ffc9-5a6c-b1c0-eb87ca94cf8b",
+            "name": "La Runcina",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-39de97d1-b84a-5d50-80de-af18f177d6b6",
+            "name": "La Traversa",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-4a53b1a5-9729-5b0a-a0ea-1b6bee95f6cd",
+            "name": "Li Mori",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-8cc6ca6e-861b-570c-bfbe-64bab2d71c8b",
+            "name": "Li Teggi",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-adae7839-7c12-5957-90cd-86d0f66f8d2f",
+            "name": "Limpostu",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-596c76fa-2bca-553a-8191-a956a78d1826",
+            "name": "Lotturai",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-f8924a44-c300-5f4c-bef2-66bc36b71aa7",
+            "name": "Lu Cuponeddi",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-9bed6884-3a4a-52f9-be78-ac3a5e33a5ec",
+            "name": "Lu Impostu",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-eb332804-ffde-527f-a86f-96754255c1e2",
+            "name": "Lu Muvruneddu",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-9c3a5b9b-7548-51af-8359-a7cbb0451bb9",
+            "name": "Lu Ricciu",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-f427d2af-c00f-510a-a6bb-1c70551ccf0d",
+            "name": "Lu Sitagliacciu",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-96d4eee4-26d4-50c8-bcc6-96037bb6a858",
+            "name": "Lu Tintimbaru",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-ec2f6828-85ad-5f9a-b0f2-6a09d64a194d",
+            "name": "Lu Titimbaru",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-e5d74c3e-5209-5e0a-88c9-d1ed82625b98",
+            "name": "Lutturai",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-ef7e7222-7725-5317-a8e0-7a130d2ebc9f",
+            "name": "Malamori'",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-c2638eaf-45e5-5a26-b94c-5bfe55a5ca51",
+            "name": "Muvruneddi",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-f70225ba-072b-5223-a6ad-61c3f674552b",
+            "name": "Nuragheddu",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-2b2a86d7-8925-5fff-8f33-c6c79c9438dc",
+            "name": "Pattimedda",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-e148cad9-348b-5a26-a4a7-937aa3622c15",
+            "name": "Pedra E Cupa",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-636ccbd2-bcfb-529b-aaa7-f569c3214603",
+            "name": "Pira Maseda",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-bb5530bf-814c-5376-bc00-afc8944b2852",
+            "name": "Rinaggiu",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-1f7ce59b-0a2e-5545-99e7-44eacdd331a9",
+            "name": "Schifoni",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-cb059699-126a-5dfa-bc4e-e55789c0b1fb",
+            "name": "Silimini",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-b283aa75-2f8b-5ab3-9556-e53bcb20ac2a",
+            "name": "Sitagliacciu",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-04d4d9c8-a3b5-505f-a6cc-3e4acdccf212",
+            "name": "Stazzu Bruciatu",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-ecfe6292-a448-57c6-abfd-81ec637000e9",
+            "name": "Stazzu Mesu",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-4442a091-52b4-58a8-92de-e0a1823599c7",
+            "name": "Strugas",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-c194763c-ed19-5538-addc-db648a2c77bf",
+            "name": "Su Linalvu",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-739046ad-a03d-59eb-b610-e0e8b9f76817",
+            "name": "Suaredda",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-5049cc4b-5819-5d7a-b12a-6fae9c242627",
+            "name": "Terrapadedda",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-603e4655-ab97-582e-9019-1e81b8b0dde4",
+            "name": "Tiridduli",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          },
+          {
+            "location_id": "IT-LOC-7559f370-536b-58d5-bc24-2b1f92115895",
+            "name": "Traversa",
+            "province_code": "SS",
+            "region_name": "Sardegna"
+          }
+        ],
+        "longitude": 8.9639,
+        "municipality_count": 0,
+        "verification_counts": {
+          "geonames_estimated": 36
+        }
+      },
+      {
+        "latitude": 46.6521,
+        "location_count": 33,
+        "locations": [
+          {
+            "location_id": "IT-LOC-53ba3db6-8153-59ae-8315-43c740957eb0",
+            "name": "Aschbach",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-3558cbb1-256a-561c-8402-37fb883a03a3",
+            "name": "Eyrs",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-054bef83-5540-5b59-8b2d-8140a2b25f35",
+            "name": "Freiberg",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-9dc0f0e7-e374-5e59-a3a7-5572150dcd18",
+            "name": "Gand/Martell",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-4aef8107-d9bc-5eb5-924f-fd9d57de5295",
+            "name": "Graun/Vinschg.",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-6eb71e32-6da1-511c-85db-01b00cfee3be",
+            "name": "Gries",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-28a9e13b-f3bb-5d25-8256-50c769064912",
+            "name": "Göflan",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-507d4604-8ee9-5337-9469-3ec2e8951a5f",
+            "name": "Karthaus",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-2aa7b3b9-ae26-58ca-9794-ae4508220d27",
+            "name": "Kortsch",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-ebc70917-9507-5013-8084-84983ce10c81",
+            "name": "Laatsch",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-eb649019-9daf-50c0-8de4-59ca892dea1d",
+            "name": "Lichtenberg",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-24620d1d-35c6-5543-901a-1cbe0dbeacfb",
+            "name": "Marein",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-2fefacfc-97f4-59f7-ab6c-cb1c0385ff74",
+            "name": "Marienberg",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-4ab8d058-0221-589f-a27e-5093d5dae01b",
+            "name": "Matsch",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-4bee925a-215b-51b0-af07-d98968c4fff3",
+            "name": "Melag",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-f4d9a61d-216c-50ae-8dc9-2f54bf1fa798",
+            "name": "Oberplars",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-15e3b4a8-d1ac-5991-a12d-a86d008351fb",
+            "name": "Planeil",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-c9ac1193-eb5c-5f1a-bf13-a0cc026b970c",
+            "name": "Plars",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-bc734f86-bfd2-55a2-a052-9563f8dd2246",
+            "name": "Plawenn",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-fe44696d-b8de-569e-8a5a-fc2753f5d7a7",
+            "name": "Prad",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-cfc2c321-e4e5-5f8f-9c88-f6d90dd34890",
+            "name": "Schleis",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-5e2c29b0-283b-56ff-97bd-de7e548a4736",
+            "name": "St. Martin am Kofl",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-b41fe9d7-85ea-5b55-b83a-4c44ef8ed5fb",
+            "name": "St. Valentin a. d. H.",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-655bd91c-9cd1-5034-af33-46434220c6cf",
+            "name": "Staben",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-701b3361-801d-5124-89c0-00a5a9ae1589",
+            "name": "Tabland",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-a993459c-e234-51bb-b661-c9e1120d2673",
+            "name": "Talatsch",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-3b28f645-7d1c-59e4-83c1-d59cc70eb74e",
+            "name": "Tarnell",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-04bec956-c712-5efd-bd40-c91e39568684",
+            "name": "Tartsch",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-9a188535-805c-5e1b-ae3e-95bf886d2d94",
+            "name": "Taufers i. Münstertal",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-f85252bc-5e73-58c8-b4c2-cc8005243d66",
+            "name": "Töll",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-f1b3185e-fd7b-5a6e-b254-a3091a112622",
+            "name": "Unsere Frau i. Schnals",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-3ff00971-e81d-5342-a966-c9484b289f0e",
+            "name": "Vellau",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-efd26e7a-26e2-5cae-a8b5-ebd338b78379",
+            "name": "Vernagt",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          }
+        ],
+        "longitude": 10.7411,
+        "municipality_count": 0,
+        "verification_counts": {
+          "geonames_estimated": 33
+        }
+      },
+      {
+        "latitude": 46.5041,
+        "location_count": 31,
+        "locations": [
+          {
+            "location_id": "IT-LOC-451a36fb-9ed8-549c-bc32-116140f0bf9b",
+            "name": "Altenburg",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-89833683-cfed-5641-a4ad-3b6e687ca495",
+            "name": "Asten",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-3105b8d8-27ab-54f0-8a4b-b3dd12aeee12",
+            "name": "Breien",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-6a76f0eb-2c55-5781-9a16-1ad11c6a9a74",
+            "name": "Bundschen",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-9d69f127-e7e6-5e48-8808-caf40b20a6f9",
+            "name": "Gummer",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-784dccd8-a6ce-5783-8436-c59896ca22db",
+            "name": "Innichen",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-c6b84079-4906-5ce3-9b2d-d84168deb43b",
+            "name": "Lengstein",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-f6ed0c3e-27db-5860-aedd-da7585e224fc",
+            "name": "Missian",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-04cf1b35-022e-5abf-9d33-62524bfa0cfb",
+            "name": "Mitterdorf",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-c975505d-5c1e-506d-83cd-4e5e8ec0a8b7",
+            "name": "Montiggl",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-8662bd5d-0188-5f32-bde7-3b6b4eb920c6",
+            "name": "Oberbozen",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-7f84361e-e626-5a48-b3ec-bacfff2f598b",
+            "name": "Oberinn",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-c92d4380-9c1f-5628-ab74-837edead1f3d",
+            "name": "Oberplanitzing",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-ad569d67-5288-558b-8541-3dc5297c5790",
+            "name": "Perdonig",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-f96452c5-54dd-5443-be7a-df95a3499ccd",
+            "name": "Prösels",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-a1cd5a9b-ab3c-5cc0-86fe-97d2d056c97f",
+            "name": "Reinswald",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-e3f0b490-e00e-5ef9-8fbc-62a6b4d7a56a",
+            "name": "Riedelsberg",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-36a9b445-02a1-5952-b235-c82f698271dc",
+            "name": "Ritten",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-c1f602d2-40d5-5a4e-866d-4dd728e06479",
+            "name": "Seit",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-47d9d2cc-e35f-57e4-9a56-2bb64335b526",
+            "name": "St. Anton",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-d5b4229f-da83-59af-a1a7-67ed9db988ff",
+            "name": "St. Jakob/Bozen",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-060e4482-5dd9-5480-86e1-9daf688bd49f",
+            "name": "St. Josef am See",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-c2fc9a27-b8cc-587f-8ad1-72ffb8a5d7e9",
+            "name": "St. Justina/Eppan",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-a39051d6-e0cd-5053-82ef-4d2ade9481cb",
+            "name": "St. Nikolaus i. Eggen",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-d562fd11-5b80-52ec-a6d4-2edee5cd4dc1",
+            "name": "St. Nikolaus/Kaltern",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-37273125-3198-5d5d-bca8-58d810857c40",
+            "name": "Steinmannwald",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-7919aa0a-01d5-5d84-99c1-c6be40861622",
+            "name": "Ums",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-1d2afe05-a815-5282-9b41-c85d08dea2d6",
+            "name": "Unterplanitzing",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-6afc0026-fc9e-5f45-9138-b0f15c3a8d5b",
+            "name": "Unterrain/Eppan",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-39ea2f85-a91d-5427-ab42-15dbd9bac9f9",
+            "name": "Wangen",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-5c7a4aa9-d1d4-57b5-b6d8-9ae63eb22dc9",
+            "name": "Wolfsgruben",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          }
+        ],
+        "longitude": 11.3975,
+        "municipality_count": 0,
+        "verification_counts": {
+          "geonames_estimated": 31
+        }
+      },
+      {
+        "latitude": 46.5907,
+        "location_count": 30,
+        "locations": [
+          {
+            "location_id": "IT-LOC-67d9692a-d275-5550-925d-6d7afd249fc0",
+            "name": "Alpe Di Siusi",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-5970d3ff-e36e-51ea-b81b-4e0e3ffdb4c6",
+            "name": "Atzwang",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-74c1b395-4b6b-5c2c-bd60-9b924e20f280",
+            "name": "Elzenbaum",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-4743ec4a-a224-5f29-a153-ae5f6403361d",
+            "name": "Fontanefredde",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-1cd6dd7c-61ea-5d8b-ab6b-45cf8abe478e",
+            "name": "Gastei",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-065f5ac1-16cb-5ea0-9d53-ecd885a95d7e",
+            "name": "Gfrill/Unterland",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-acf3b230-cbc1-5ec1-9fc0-b1c87f24861a",
+            "name": "Hole",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-f9b14e4a-6a45-5de6-b281-d96ba89e2f2c",
+            "name": "Jaufental",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-6ef175ae-cedf-5cbb-9cbc-84a03fa2b5f8",
+            "name": "Kaltenbrunn",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-f46d82d1-8e82-54d6-96fe-318074518435",
+            "name": "Loewenviertel Elisabethsiedlun",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-38157764-41db-55bc-a83c-c3b42cc4351e",
+            "name": "Montagna",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-27a89a6f-7a84-5133-b35f-9b561c3a2d3c",
+            "name": "Natz",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-685b40d1-4d4e-5bce-a348-c2bc3db7deb4",
+            "name": "Naz",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-5468c217-d5d2-50c7-a556-2fa8db28b897",
+            "name": "Pruno Di Stilves",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-fce08b84-974c-5a07-96c0-ebc653605c86",
+            "name": "Raa",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-10936fd9-35ec-5f6b-8179-ddccc9586055",
+            "name": "Radein",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-c07730e5-0f01-520b-9b4a-99a3d3d7ff9b",
+            "name": "Redagno",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-1f3ee3de-4aff-57a8-bf5e-d9926051e9c6",
+            "name": "San Pietro Laion",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-5fbf0866-d270-5ced-9a65-bfb4561bdb04",
+            "name": "Seis Am Schler",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-b832318f-cf0b-55eb-a2a9-1323f8a474f2",
+            "name": "Seiser Al",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-9cc4402d-e31f-533b-935b-8a0d30380c92",
+            "name": "St.Lugan",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-cd801b70-4159-5d02-86bb-00ffd72ae9f9",
+            "name": "St.Pete",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-245ca055-f7c5-5d25-9e89-e2aa73de9709",
+            "name": "St.Peter Laje",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-38e1fdc9-7fc2-50aa-85b8-015040e81a48",
+            "name": "Stange",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-1a6df626-e07d-5557-a07a-b588b0a539c4",
+            "name": "Stilfes",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-8088c135-a431-53f8-ba31-33174cacd4c0",
+            "name": "Valgiovo",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-COM-021033",
+            "name": "Funes",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-COM-021045",
+            "name": "Magrè sulla strada del vino",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-COM-021057",
+            "name": "Naz-Sciaves",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-COM-021098",
+            "name": "Termeno sulla strada del vino",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          }
+        ],
+        "longitude": 11.4295,
+        "municipality_count": 4,
+        "verification_counts": {
+          "geonames_estimated": 26,
+          "geonames_place_match": 4
+        }
+      },
+      {
+        "latitude": 46.6461,
+        "location_count": 29,
+        "locations": [
+          {
+            "location_id": "IT-LOC-40e9bef6-fa13-5c4d-8a22-9473bdd92455",
+            "name": "Gfeis",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-f2185189-2a81-5fe7-aba4-461cb8a6b1d7",
+            "name": "Gfrill",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-1cb01338-2145-5e14-aa56-6a99fa1927b4",
+            "name": "Gratsch",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-71e97105-2fc4-5f78-830c-d8e9ea16efc9",
+            "name": "Grissian",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-471112fc-93f3-5b57-b0eb-80569d087f3e",
+            "name": "Kuens",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-57166201-097c-5ea9-af58-d7b012212197",
+            "name": "Kuppelwies",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-96df6725-70a2-530b-98e5-402e75640ade",
+            "name": "Obermais",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-d4f26422-8deb-5a0f-9dea-dbad2b67579a",
+            "name": "Pawigl",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-b084c550-d30f-5f10-9fd2-79a4b03423c0",
+            "name": "Pfelders",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-f508c27a-4655-5746-b2ff-fbbac4f05ff8",
+            "name": "Platzers",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-6bedadc0-77b9-5513-bb51-52fb6a1b2034",
+            "name": "Rabenstein",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-daf1a3d1-dfbc-5e3a-9eb3-f7bcbabba3a3",
+            "name": "Riffian",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-5c3df4e0-3c86-5c80-9c27-9f45e457c49a",
+            "name": "Schlaneid",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-6bfa4e3b-5377-5806-83cf-5f945c7f333e",
+            "name": "Sigmundskron",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-74ba7b59-6e39-521c-8251-31c847eacff0",
+            "name": "Sinich",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-5db83a3a-276c-55a9-a068-22b6baf88122",
+            "name": "St. Felix",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-baf76025-0120-5927-9d38-882729ecbd51",
+            "name": "St. Gertraud",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-1a2d39b4-5728-5701-ad2e-fbdc5003691b",
+            "name": "St. Helena",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-f8664849-7a56-5836-8d7b-d47542ed4ca7",
+            "name": "St. Leonhard in Pass.",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-2bc10023-3223-534f-84bb-54e32593364e",
+            "name": "St. Moritz/Ulten",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-77ecbffd-a35d-5469-a66d-545082122444",
+            "name": "St. Nikolaus/Ulten",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-18e0c4ec-bed1-5bbb-b049-18db851900bd",
+            "name": "Tall",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-a07e67e6-2112-5329-8993-2c6493563b77",
+            "name": "Tirol",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-7accc7a9-974e-5a93-88e3-e5efca81bf28",
+            "name": "Unsere liebe Frau i. W.",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-954136d4-07b0-5bc3-8110-6de326690c6e",
+            "name": "Vernue",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-90df8d27-e3a6-5f0e-b605-85cf4c578245",
+            "name": "Verschneid",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-5f39b696-fa77-5e9c-8e4b-49b9dc6a1ece",
+            "name": "Videgg",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-b1edc7f0-13aa-5d57-9601-cda35bbe245b",
+            "name": "Vilpian",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-e5b0e762-26ee-5643-8843-61ce385b58bd",
+            "name": "Völlan",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          }
+        ],
+        "longitude": 11.17,
+        "municipality_count": 0,
+        "verification_counts": {
+          "geonames_estimated": 29
+        }
+      },
+      {
+        "latitude": 46.7953,
+        "location_count": 27,
+        "locations": [
+          {
+            "location_id": "IT-LOC-79ef0e21-8935-5be5-8d4e-e29fd062b99d",
+            "name": "Campil",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-2d9571ab-cbcd-5a0f-9a66-1217123acf9b",
+            "name": "Longiaru'",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-404e75c1-e19f-52c2-8d41-9ddba5e746f3",
+            "name": "Mitterolang",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-f4f0e435-14af-5b8d-9ed3-adb00ad43625",
+            "name": "Moo",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-27e863c4-1200-5d85-b149-4d7a746b0f2a",
+            "name": "Niederolang",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-74f55924-f7cc-5153-a356-620ef075cce7",
+            "name": "Niederrasen",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-8f75e896-460d-516d-9820-94db8b491f22",
+            "name": "Oberrasen",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-c087b2f2-5d9c-586a-8de3-959b90ddfb5e",
+            "name": "Obervintl",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-fbb79a94-6c65-5844-bcda-98ed7e572ce1",
+            "name": "Pedero",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-d9aee659-6bc9-504b-b9b4-3b75540da638",
+            "name": "Pikolein",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-16c993a5-af62-5985-a382-fa9495c03076",
+            "name": "San Giacomo In Valle Aurina",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-74c1786c-68dd-5dcb-a20a-f7792f253fbd",
+            "name": "San Giovanni In Valle Aurina",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-8c9093eb-6621-5c6b-aae0-e691f74f8ec6",
+            "name": "St. Kassia",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-baa6d904-f961-5141-a9bc-b2b048a888dd",
+            "name": "St.Jakob In Ahrnta",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-fbe7be08-c229-5380-932e-dac58f2243bf",
+            "name": "St.Johann In Ahrnta",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-ef8703cc-8dd1-5601-88bc-240d2ae1d120",
+            "name": "St.Magdalen",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-0c17e5fc-2e91-5e5a-80ad-5f73032b6bc4",
+            "name": "St.Martin Gsie",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-5782e684-c342-544f-86fc-07dea067edd8",
+            "name": "St.Sigmun",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-b4c76f56-8ca3-5305-82a1-fd9478c45934",
+            "name": "St.Vigi",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-7f839cf0-74ad-591b-a474-da2540723616",
+            "name": "Steinhaus",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-323d1aea-d28d-53a9-b45b-2cc8e471432e",
+            "name": "Weitental",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-LOC-3c435dce-e080-5aa6-8249-fe5199348d2a",
+            "name": "Zwischenwasser",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-COM-021117",
+            "name": "La Valle",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-COM-021071",
+            "name": "Rasun-Anterselva",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-COM-021108",
+            "name": "Valle Aurina",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-COM-021109",
+            "name": "Valle di Casies",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          },
+          {
+            "location_id": "IT-COM-021110",
+            "name": "Vandoies",
+            "province_code": "BZ",
+            "region_name": "Trentino-Alto Adige/Südtirol"
+          }
+        ],
+        "longitude": 11.9114,
+        "municipality_count": 5,
+        "verification_counts": {
+          "geonames_estimated": 22,
+          "geonames_place_match": 5
+        }
+      },
+      {
+        "latitude": 38.1321,
+        "location_count": 21,
+        "locations": [
+          {
+            "location_id": "IT-LOC-02d6408c-4e92-562a-9591-45bc018a8de6",
+            "name": "Arenella Vergine Maria",
+            "province_code": "PA",
+            "region_name": "Sicilia"
+          },
+          {
+            "location_id": "IT-LOC-89c31a7e-4fd9-515d-b8c1-ebdb7c1cdf92",
+            "name": "Brancaccio Ciaculli",
+            "province_code": "PA",
+            "region_name": "Sicilia"
+          },
+          {
+            "location_id": "IT-LOC-3c290cb8-e678-5f29-950a-39107c6e974d",
+            "name": "Cruillas",
+            "province_code": "PA",
+            "region_name": "Sicilia"
+          },
+          {
+            "location_id": "IT-LOC-81aa78f6-9ebd-577f-869b-2d4fc6143679",
+            "name": "In Via Aloi",
+            "province_code": "PA",
+            "region_name": "Sicilia"
+          },
+          {
+            "location_id": "IT-LOC-6ee6ccd3-04e6-55ae-940e-4261eac643c1",
+            "name": "In Via Brancaccio",
+            "province_code": "PA",
+            "region_name": "Sicilia"
+          },
+          {
+            "location_id": "IT-LOC-cf9de296-b9ff-5441-a3e7-350996772280",
+            "name": "In Via Chiavelli",
+            "province_code": "PA",
+            "region_name": "Sicilia"
+          },
+          {
+            "location_id": "IT-LOC-e068dc69-ad7d-5931-8f7d-0633e82fb7d4",
+            "name": "In Via Gioiamia",
+            "province_code": "PA",
+            "region_name": "Sicilia"
+          },
+          {
+            "location_id": "IT-LOC-cfdffe19-2a55-5192-bc87-3b42ae7d6bfd",
+            "name": "In Via San Nicola",
+            "province_code": "PA",
+            "region_name": "Sicilia"
+          },
+          {
+            "location_id": "IT-LOC-4c87cdb7-dbf2-54cf-9828-da48e051d285",
+            "name": "In Via Santa Maria Di Gesu'",
+            "province_code": "PA",
+            "region_name": "Sicilia"
+          },
+          {
+            "location_id": "IT-LOC-6e7a950c-8870-5dce-981c-d69add0826ce",
+            "name": "Mezzomonreale Boccadifalco",
+            "province_code": "PA",
+            "region_name": "Sicilia"
+          },
+          {
+            "location_id": "IT-LOC-9f550d7f-42d6-59fa-bf4b-dd88746b6723",
+            "name": "Montepellegrino",
+            "province_code": "PA",
+            "region_name": "Sicilia"
+          },
+          {
+            "location_id": "IT-LOC-e95d2f79-fda4-5005-bca3-6815ac7ecbe5",
+            "name": "Pallavicino",
+            "province_code": "PA",
+            "region_name": "Sicilia"
+          },
+          {
+            "location_id": "IT-LOC-aa412eff-27bc-5e18-8e6e-5dd62d5b8306",
+            "name": "Resuttana San Lorenzo",
+            "province_code": "PA",
+            "region_name": "Sicilia"
+          },
+          {
+            "location_id": "IT-LOC-b8ddcd5b-538d-58f5-96ed-ccd7dffa3253",
+            "name": "Rocca Monreale",
+            "province_code": "PA",
+            "region_name": "Sicilia"
+          },
+          {
+            "location_id": "IT-LOC-4f819f6c-58ca-51ff-b472-5c3057d021ba",
+            "name": "Roccella Guarnaschelli",
+            "province_code": "PA",
+            "region_name": "Sicilia"
+          },
+          {
+            "location_id": "IT-LOC-24af8890-5126-5321-a2ee-cca913a92cef",
+            "name": "San Lorenzo Colli",
+            "province_code": "PA",
+            "region_name": "Sicilia"
+          },
+          {
+            "location_id": "IT-LOC-0af88414-c2f9-5f46-a76f-6c3f5300a5ff",
+            "name": "Settecannoli",
+            "province_code": "PA",
+            "region_name": "Sicilia"
+          },
+          {
+            "location_id": "IT-LOC-48c597d4-08c3-532e-a1c2-91414d6dfcee",
+            "name": "Tommaso Natale Sferracavallo",
+            "province_code": "PA",
+            "region_name": "Sicilia"
+          },
+          {
+            "location_id": "IT-LOC-f17d05e8-4ff8-579c-b715-1cdf48a89909",
+            "name": "Tribunali Castellammare",
+            "province_code": "PA",
+            "region_name": "Sicilia"
+          },
+          {
+            "location_id": "IT-LOC-e95321ed-e10e-532a-972a-939343930ac5",
+            "name": "Zisa",
+            "province_code": "PA",
+            "region_name": "Sicilia"
+          },
+          {
+            "location_id": "IT-COM-082053",
+            "name": "Palermo",
+            "province_code": "PA",
+            "region_name": "Sicilia"
+          }
+        ],
+        "longitude": 13.3356,
+        "municipality_count": 1,
+        "verification_counts": {
+          "geonames_estimated": 20,
+          "geonames_place_match": 1
+        }
+      },
+      {
+        "latitude": 41.8919,
+        "location_count": 15,
+        "locations": [
+          {
+            "location_id": "IT-LOC-e3a2f940-5b67-581f-bed9-d3b766e6d6ac",
+            "name": "Acilia",
+            "province_code": "RM",
+            "region_name": "Lazio"
+          },
+          {
+            "location_id": "IT-LOC-a3c6a34c-2eae-5118-979a-0751e64d77bc",
+            "name": "Borgata Borghesiana",
+            "province_code": "RM",
+            "region_name": "Lazio"
+          },
+          {
+            "location_id": "IT-LOC-4755aaef-874c-5240-8e7a-73ebcdae2111",
+            "name": "Borgata Casalotti",
+            "province_code": "RM",
+            "region_name": "Lazio"
+          },
+          {
+            "location_id": "IT-LOC-8f41744c-8bfb-5a9d-a99f-d6beba24a30d",
+            "name": "Borgata Corviale",
+            "province_code": "RM",
+            "region_name": "Lazio"
+          },
+          {
+            "location_id": "IT-LOC-e2892a18-ebd0-58f4-a741-5dc1bbfbb5a6",
+            "name": "Borgata Finocchio",
+            "province_code": "RM",
+            "region_name": "Lazio"
+          },
+          {
+            "location_id": "IT-LOC-4798c5b7-e731-5a21-8a0f-e50da85d5384",
+            "name": "Colle Della Valentina",
+            "province_code": "RM",
+            "region_name": "Lazio"
+          },
+          {
+            "location_id": "IT-LOC-95716bc3-c72f-5f14-a4a0-a201709fc40c",
+            "name": "Decima",
+            "province_code": "RM",
+            "region_name": "Lazio"
+          },
+          {
+            "location_id": "IT-LOC-b13d585f-2701-5229-9a96-3bd4e32b8150",
+            "name": "Grottarossa",
+            "province_code": "RM",
+            "region_name": "Lazio"
+          },
+          {
+            "location_id": "IT-LOC-8cf35dfd-a0ab-554d-9bd7-9566c4845a55",
+            "name": "Magliana Trullo",
+            "province_code": "RM",
+            "region_name": "Lazio"
+          },
+          {
+            "location_id": "IT-LOC-c6bd15e9-e287-5162-b0bc-b950b5ed2cda",
+            "name": "Ostia Antica",
+            "province_code": "RM",
+            "region_name": "Lazio"
+          },
+          {
+            "location_id": "IT-LOC-903b4f47-cf4e-5bc7-b837-038f1a4986bf",
+            "name": "Rebibbia",
+            "province_code": "RM",
+            "region_name": "Lazio"
+          },
+          {
+            "location_id": "IT-LOC-78da21ca-d35a-54da-b927-c0215af10c56",
+            "name": "Tomba Di Nerone",
+            "province_code": "RM",
+            "region_name": "Lazio"
+          },
+          {
+            "location_id": "IT-LOC-f10f7c96-b59b-58ea-8172-622fabcc24b3",
+            "name": "Torre Maura",
+            "province_code": "RM",
+            "region_name": "Lazio"
+          },
+          {
+            "location_id": "IT-LOC-76ba66b5-2e46-5e08-b6d3-3bbfe70b4a22",
+            "name": "Torre Spaccata",
+            "province_code": "RM",
+            "region_name": "Lazio"
+          },
+          {
+            "location_id": "IT-COM-058091",
+            "name": "Roma",
+            "province_code": "RM",
+            "region_name": "Lazio"
+          }
+        ],
+        "longitude": 12.5113,
+        "municipality_count": 1,
+        "verification_counts": {
+          "geonames_estimated": 14,
+          "geonames_place_match": 1
+        }
+      },
+      {
+        "latitude": 40.8438,
+        "location_count": 14,
+        "locations": [
+          {
+            "location_id": "IT-LOC-0b4a5ee3-81f5-525c-9834-a980abab8e06",
+            "name": "Buonopane",
+            "province_code": "NA",
+            "region_name": "Campania"
+          },
+          {
+            "location_id": "IT-LOC-590c6270-2e1d-510b-ad2c-ff0cfa3d554f",
+            "name": "Capo Miseno",
+            "province_code": "NA",
+            "region_name": "Campania"
+          },
+          {
+            "location_id": "IT-LOC-121a40ce-8b95-58a3-97e4-e9b8deabb42a",
+            "name": "Cappuccini",
+            "province_code": "NA",
+            "region_name": "Campania"
+          },
+          {
+            "location_id": "IT-LOC-62c60a7f-e0b5-51e4-b042-bc836c612bc5",
+            "name": "Carditello",
+            "province_code": "NA",
+            "region_name": "Campania"
+          },
+          {
+            "location_id": "IT-LOC-148a1f6f-0cc3-5496-957a-4fcfa52dbe8e",
+            "name": "Fontana",
+            "province_code": "NA",
+            "region_name": "Campania"
+          },
+          {
+            "location_id": "IT-LOC-abc73a86-c704-5a13-829f-4c47f44fc16c",
+            "name": "Fusaro",
+            "province_code": "NA",
+            "region_name": "Campania"
+          },
+          {
+            "location_id": "IT-LOC-9bb5aa91-5327-57d0-8e03-b4600a2b0ffd",
+            "name": "Miliscola",
+            "province_code": "NA",
+            "region_name": "Campania"
+          },
+          {
+            "location_id": "IT-LOC-75785d84-095b-52f2-85cb-f7e64557dd4c",
+            "name": "Polvica",
+            "province_code": "NA",
+            "region_name": "Campania"
+          },
+          {
+            "location_id": "IT-LOC-db808f7b-e631-5b7a-b6c7-736e63278881",
+            "name": "San Rocco",
+            "province_code": "NA",
+            "region_name": "Campania"
+          },
+          {
+            "location_id": "IT-LOC-f497f773-19fd-5fa5-b677-05761bcba9ea",
+            "name": "Serrara",
+            "province_code": "NA",
+            "region_name": "Campania"
+          },
+          {
+            "location_id": "IT-LOC-68c1fa3d-8464-5dad-ae90-cba6c99f2b51",
+            "name": "Succhivo",
+            "province_code": "NA",
+            "region_name": "Campania"
+          },
+          {
+            "location_id": "IT-LOC-416e2633-d4ab-5e05-918b-9a7a35cf19fb",
+            "name": "Tavernanova",
+            "province_code": "NA",
+            "region_name": "Campania"
+          },
+          {
+            "location_id": "IT-LOC-e37caa21-3a2d-52f4-8908-d71b41350c4c",
+            "name": "Testaccio D'Ischia",
+            "province_code": "NA",
+            "region_name": "Campania"
+          },
+          {
+            "location_id": "IT-LOC-7acb98ab-5c2b-5a38-978d-d0cecb7eeb3a",
+            "name": "Torregaveta",
+            "province_code": "NA",
+            "region_name": "Campania"
+          }
+        ],
+        "longitude": 14.3407,
+        "municipality_count": 0,
+        "verification_counts": {
+          "geonames_estimated": 14
+        }
+      },
+      {
+        "latitude": 42.829,
+        "location_count": 12,
+        "locations": [
+          {
+            "location_id": "IT-LOC-1e78d0bd-2a30-58a2-b37c-1a04c6553bac",
+            "name": "Caldarette",
+            "province_code": "FM",
+            "region_name": "Marche"
+          },
+          {
+            "location_id": "IT-LOC-aa673bd4-4524-5bb7-8ae2-1dd54d7c876c",
+            "name": "Campiglione",
+            "province_code": "FM",
+            "region_name": "Marche"
+          },
+          {
+            "location_id": "IT-LOC-60cdf62a-10d0-5dad-8710-b0a30ca52821",
+            "name": "Capodarco",
+            "province_code": "FM",
+            "region_name": "Marche"
+          },
+          {
+            "location_id": "IT-LOC-f217f0f8-9ccd-5f67-8337-b6d566e17f55",
+            "name": "Lido Di Fermo",
+            "province_code": "FM",
+            "region_name": "Marche"
+          },
+          {
+            "location_id": "IT-LOC-ef143008-07fc-5710-98ce-76e6359922a6",
+            "name": "Marina Palmense",
+            "province_code": "FM",
+            "region_name": "Marche"
+          },
+          {
+            "location_id": "IT-LOC-4022024f-9172-58d6-8c64-8187e8e83cfd",
+            "name": "Molini Di Tenna",
+            "province_code": "FM",
+            "region_name": "Marche"
+          },
+          {
+            "location_id": "IT-LOC-c6fd8b8d-4128-51f8-9564-63babc391176",
+            "name": "Ponte Ete",
+            "province_code": "FM",
+            "region_name": "Marche"
+          },
+          {
+            "location_id": "IT-LOC-b6dffc77-c840-5c7f-b8b0-81dbd95c497f",
+            "name": "Salvano",
+            "province_code": "FM",
+            "region_name": "Marche"
+          },
+          {
+            "location_id": "IT-LOC-9d8c340c-1b4d-52e0-9b10-564ce429d154",
+            "name": "San Marco",
+            "province_code": "FM",
+            "region_name": "Marche"
+          },
+          {
+            "location_id": "IT-LOC-cda5ed3a-0b45-5a68-9533-0164020f4bf9",
+            "name": "San Tommaso Tre Archi",
+            "province_code": "FM",
+            "region_name": "Marche"
+          },
+          {
+            "location_id": "IT-LOC-516dfbf0-7ee0-5c71-99fb-915b847b2d67",
+            "name": "Torre Di Palme",
+            "province_code": "FM",
+            "region_name": "Marche"
+          },
+          {
+            "location_id": "IT-COM-109006",
+            "name": "Fermo",
+            "province_code": "FM",
+            "region_name": "Marche"
+          }
+        ],
+        "longitude": 13.58,
+        "municipality_count": 1,
+        "verification_counts": {
+          "geonames_estimated": 11,
+          "geonames_place_match": 1
+        }
+      },
+      {
+        "latitude": 38.5192,
+        "location_count": 10,
+        "locations": [
+          {
+            "location_id": "IT-LOC-0db05392-927d-5d6b-ada5-7a9812a8cf3e",
+            "name": "Alicudi",
+            "province_code": "ME",
+            "region_name": "Sicilia"
+          },
+          {
+            "location_id": "IT-LOC-f1745be4-9f93-5956-b024-1814009e1217",
+            "name": "Alicudi Porto",
+            "province_code": "ME",
+            "region_name": "Sicilia"
+          },
+          {
+            "location_id": "IT-LOC-89bcc9fb-fdcc-579c-8d46-493f1fba3527",
+            "name": "Castroreale Terme",
+            "province_code": "ME",
+            "region_name": "Sicilia"
+          },
+          {
+            "location_id": "IT-LOC-aa49630f-2d77-54da-8246-c0a482d88938",
+            "name": "Filicudi",
+            "province_code": "ME",
+            "region_name": "Sicilia"
+          },
+          {
+            "location_id": "IT-LOC-ab80542f-7f9b-5cc0-81ad-5b663b5b0a73",
+            "name": "Filicudi Porto",
+            "province_code": "ME",
+            "region_name": "Sicilia"
+          },
+          {
+            "location_id": "IT-LOC-8fb75657-daef-5cc7-bb0c-9893a897425e",
+            "name": "Rubino",
+            "province_code": "ME",
+            "region_name": "Sicilia"
+          },
+          {
+            "location_id": "IT-LOC-408cb306-f33b-5531-bf42-7b8087fd8af6",
+            "name": "Vigliatore",
+            "province_code": "ME",
+            "region_name": "Sicilia"
+          },
+          {
+            "location_id": "IT-LOC-cd522506-7d9b-51a0-bbc9-88be29516b9f",
+            "name": "Vulcano",
+            "province_code": "ME",
+            "region_name": "Sicilia"
+          },
+          {
+            "location_id": "IT-COM-083023",
+            "name": "Fondachelli-Fantina",
+            "province_code": "ME",
+            "region_name": "Sicilia"
+          },
+          {
+            "location_id": "IT-COM-083106",
+            "name": "Terme Vigliatore",
+            "province_code": "ME",
+            "region_name": "Sicilia"
+          }
+        ],
+        "longitude": 14.9976,
+        "municipality_count": 2,
+        "verification_counts": {
+          "geonames_estimated": 8,
+          "geonames_place_match": 2
+        }
+      },
+      {
+        "latitude": 41.1575,
+        "location_count": 10,
+        "locations": [
+          {
+            "location_id": "IT-LOC-5c91d91a-de73-5fd1-b30a-12516b9b2bdb",
+            "name": "Briano",
+            "province_code": "CE",
+            "region_name": "Campania"
+          },
+          {
+            "location_id": "IT-LOC-ac9303ca-0fca-5617-9e21-cf9eac5c6277",
+            "name": "Casolla",
+            "province_code": "CE",
+            "region_name": "Campania"
+          },
+          {
+            "location_id": "IT-LOC-b008bff9-1be9-56ba-925a-548323a14421",
+            "name": "Centurano",
+            "province_code": "CE",
+            "region_name": "Campania"
+          },
+          {
+            "location_id": "IT-LOC-5d0a0df6-9230-55b7-bb9e-636034c3cbab",
+            "name": "Ercole",
+            "province_code": "CE",
+            "region_name": "Campania"
+          },
+          {
+            "location_id": "IT-LOC-2b0ca9ed-24ff-569a-a240-f5d1353ad1bd",
+            "name": "Falciano",
+            "province_code": "CE",
+            "region_name": "Campania"
+          },
+          {
+            "location_id": "IT-LOC-b95bba8c-d860-5e69-b3c7-c5bbe595bd2f",
+            "name": "Mezzano",
+            "province_code": "CE",
+            "region_name": "Campania"
+          },
+          {
+            "location_id": "IT-LOC-b8a8bfc0-6649-5a51-b3aa-accc9dfe4a37",
+            "name": "Puccianiello",
+            "province_code": "CE",
+            "region_name": "Campania"
+          },
+          {
+            "location_id": "IT-LOC-dfc6b905-e7ed-51ca-9d55-355dd7657cf9",
+            "name": "Staturano",
+            "province_code": "CE",
+            "region_name": "Campania"
+          },
+          {
+            "location_id": "IT-LOC-5bc9b11d-c423-5c17-8189-781bb802216b",
+            "name": "Tredici",
+            "province_code": "CE",
+            "region_name": "Campania"
+          },
+          {
+            "location_id": "IT-LOC-6dc085b8-9e3b-5fad-ada5-698bd053cdf4",
+            "name": "Vaccheria",
+            "province_code": "CE",
+            "region_name": "Campania"
+          }
+        ],
+        "longitude": 14.2436,
+        "municipality_count": 0,
+        "verification_counts": {
+          "geonames_estimated": 10
+        }
+      },
+      {
+        "latitude": 45.7235,
+        "location_count": 10,
+        "locations": [
+          {
+            "location_id": "IT-LOC-db29eb8c-f608-5cea-8e0b-623e01b1946f",
+            "name": "Grand Villa Cravon",
+            "province_code": "AO",
+            "region_name": "Valle d'Aosta/Vallée d'Aoste"
+          },
+          {
+            "location_id": "IT-LOC-8a2feb22-9ce9-5a2e-810b-6b15c9f2a46b",
+            "name": "Peroulaz",
+            "province_code": "AO",
+            "region_name": "Valle d'Aosta/Vallée d'Aoste"
+          },
+          {
+            "location_id": "IT-LOC-f03ccbb2-3b67-50d9-9b70-4f0bdf46848f",
+            "name": "Saint Barthelemy",
+            "province_code": "AO",
+            "region_name": "Valle d'Aosta/Vallée d'Aoste"
+          },
+          {
+            "location_id": "IT-LOC-f3813cd2-af4c-5ebd-b44c-8ea102b0a591",
+            "name": "Ville",
+            "province_code": "AO",
+            "region_name": "Valle d'Aosta/Vallée d'Aoste"
+          },
+          {
+            "location_id": "IT-COM-007002",
+            "name": "Antey-Saint-André",
+            "province_code": "AO",
+            "region_name": "Valle d'Aosta/Vallée d'Aoste"
+          },
+          {
+            "location_id": "IT-COM-007013",
+            "name": "Challand-Saint-Anselme",
+            "province_code": "AO",
+            "region_name": "Valle d'Aosta/Vallée d'Aoste"
+          },
+          {
+            "location_id": "IT-COM-007014",
+            "name": "Challand-Saint-Victor",
+            "province_code": "AO",
+            "region_name": "Valle d'Aosta/Vallée d'Aoste"
+          },
+          {
+            "location_id": "IT-COM-007032",
+            "name": "Gressoney-La-Trinité",
+            "province_code": "AO",
+            "region_name": "Valle d'Aosta/Vallée d'Aoste"
+          },
+          {
+            "location_id": "IT-COM-007050",
+            "name": "Pontboset",
+            "province_code": "AO",
+            "region_name": "Valle d'Aosta/Vallée d'Aoste"
+          },
+          {
+            "location_id": "IT-COM-007058",
+            "name": "Saint-Christophe",
+            "province_code": "AO",
+            "region_name": "Valle d'Aosta/Vallée d'Aoste"
+          }
+        ],
+        "longitude": 7.577,
+        "municipality_count": 6,
+        "verification_counts": {
+          "geonames_estimated": 4,
+          "geonames_place_match": 6
+        }
+      }
+    ],
+    "review_threshold": 10
+  },
   "coordinate_verification_counts": {
     "geonames_estimated": 10320,
     "geonames_place_match": 8095,
@@ -33,6 +2940,11 @@
     "coordinate_bounds": {
       "status": "passed",
       "violations": 0
+    },
+    "coordinate_distribution": {
+      "blocking": false,
+      "status": "review_required",
+      "violations": 16
     },
     "coordinate_verification": {
       "status": "passed",
@@ -101,6 +3013,7 @@
   "warnings": [
     "GeoNames is not Poste Italiane.",
     "CAP and coordinates are experimental, non-official and without warranty.",
-    "GeoNames coordinates may be algorithmically estimated."
+    "GeoNames coordinates may be algorithmically estimated.",
+    "16 exact shared-coordinate groups contain at least 10 unique locations; review coordinate_distribution before geographic use."
   ]
 }

@@ -10,6 +10,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from validate_dataset import (  # noqa: E402
     QUALITY_CHECK_NAMES,
+    analyze_coordinate_distribution,
     completely_blank_record_lines,
     territorial_names_compatible,
     validate_coordinate_table,
@@ -148,6 +149,45 @@ class QualityGateNegativeTests(unittest.TestCase):
             checks=checks,
         )
         self.assertEqual(1, checks["coordinate_verification"]["violations"])
+
+    def test_shared_coordinate_groups_are_profiled_at_location_grain(self) -> None:
+        report = analyze_coordinate_distribution(
+            [
+                {
+                    "location_id": "IT-COM-000001",
+                    "name": "Uno",
+                    "location_kind": "municipality",
+                    "province_code": "AA",
+                    "region_name": "Regione",
+                    "latitude": "41.0",
+                    "longitude": "12.0",
+                    "coordinate_verification": "geonames_place_match",
+                },
+                {
+                    "location_id": "IT-COM-000001",
+                    "name": "Uno",
+                    "location_kind": "municipality",
+                    "province_code": "AA",
+                    "region_name": "Regione",
+                    "latitude": "41.0",
+                    "longitude": "12.0",
+                    "coordinate_verification": "geonames_place_match",
+                },
+                {
+                    "location_id": "IT-COM-000002",
+                    "name": "Due",
+                    "location_kind": "municipality",
+                    "province_code": "AA",
+                    "region_name": "Regione",
+                    "latitude": "41.0",
+                    "longitude": "12.0",
+                    "coordinate_verification": "geonames_place_match",
+                },
+            ]
+        )
+        self.assertEqual(1, report["exact_shared_coordinate_groups"])
+        self.assertEqual(2, report["locations_in_shared_coordinate_groups"])
+        self.assertEqual(2, report["largest_shared_coordinate_group"])
 
     def test_legacy_and_ambiguous_promotion_are_rejected(self) -> None:
         errors: list[str] = []

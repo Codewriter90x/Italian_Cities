@@ -6,18 +6,6 @@
   ],
   "sources": [
     {
-      "id": "legacy_csv",
-      "path": "legacy/2023-05-02-original/Italian Cities.csv",
-      "role": "Historical comparison only; never a canonical input",
-      "canonical_input": false,
-      "reference_date": "unknown",
-      "artifact_date": "2023-05-02",
-      "sha256": "45f31340a6f0c390927aa1224424a75c6c968e601aa2df0a746413431e82d050",
-      "license_status": "CC0 declared in repository; upstream rights unproven",
-      "url": "https://github.com/Codewriter90x/Italian_Cities",
-      "format_version": "legacy semicolon CSV v1"
-    },
-    {
       "id": "istat_municipalities",
       "path": "sources/snapshots/istat/Elenco-comuni-italiani-2026-02-21.xlsx",
       "role": "Canonical municipality registry and administrative codes",
@@ -47,6 +35,20 @@
       "url": "https://download.geonames.org/export/zip/IT.zip",
       "download_index_url": "https://download.geonames.org/export/zip/",
       "format_version": "GeoNames postal code dump: 12 tab-separated UTF-8 fields"
+    },
+    {
+      "id": "istat_region_boundaries",
+      "path": "sources/cache/Limiti01012026_g.zip",
+      "role": "Reproducible geographic base for the GitHub Pages map only",
+      "canonical_input": false,
+      "reference_date": "2026-01-01",
+      "sha256": "b011a590656c3a3ebc297fba80726a376aa843b6f164641cf6a4a990021a81d6",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "license_status": "CC BY 4.0 attribution required",
+      "attribution": "Istituto nazionale di statistica (ISTAT)",
+      "url": "https://www.istat.it/storage/cartografia/confini_amministrativi/generalizzati/2026/Limiti01012026_g.zip",
+      "format_version": "ISTAT generalized administrative boundaries 2026"
     }
   ]
 }

@@ -4,13 +4,15 @@
 from __future__ import annotations
 
 import argparse
+import gzip
 import json
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlparse
 
 MAX_HOMEPAGE_BYTES = 30_000
-MAX_SEARCH_DATA_BYTES = 4_200_000
+MAX_SEARCH_DATA_BYTES = 4_500_000
+MAX_SEARCH_DATA_GZIP_BYTES = 900_000
 MAX_FIRST_PARTY_CODE_BYTES = 80_000
 
 
@@ -55,20 +57,34 @@ class PageInspector(HTMLParser):
             self._current_button = None
 
 
-def resolve_local_link(site: Path, page: Path, href: str) -> Path | None:
+def resolve_local_link(
+    site: Path,
+    page: Path,
+    href: str,
+) -> tuple[Path, str] | None:
     parsed = urlparse(href)
-    if parsed.scheme or parsed.netloc or href.startswith(("mailto:", "#")):
+    if href.startswith("mailto:"):
+        return None
+    if (parsed.scheme or parsed.netloc) and (
+            parsed.scheme not in {"http", "https"}
+            or parsed.netloc != "codewriter90x.github.io"
+            or not parsed.path.startswith("/Italian_Cities/")
+    ):
         return None
     path = unquote(parsed.path)
-    if path.startswith("/Italian_Cities/"):
+    if not path:
+        target = page
+    elif path.startswith("/Italian_Cities/"):
         target = site / path.removeprefix("/Italian_Cities/")
     elif path.startswith("/"):
         return None
     else:
         target = page.parent / path
-    if not path or path.endswith("/"):
+    if (not path or path.endswith("/")) and (
+        target.is_dir() or path.endswith("/")
+    ):
         target /= "index.html"
-    return target.resolve()
+    return target.resolve(), unquote(parsed.fragment)
 
 
 def validate_site(site: Path) -> dict[str, object]:
@@ -77,9 +93,11 @@ def validate_site(site: Path) -> dict[str, object]:
     html_files = sorted(site.rglob("*.html"))
     if not html_files:
         errors.append("site contains no HTML pages")
+    inspectors: dict[Path, PageInspector] = {}
     for page in html_files:
         inspector = PageInspector()
         inspector.feed(page.read_text(encoding="utf-8"))
+        inspectors[page.resolve()] = inspector
         duplicate_ids = sorted(
             identifier
             for identifier in set(inspector.ids)
@@ -100,10 +118,24 @@ def validate_site(site: Path) -> dict[str, object]:
             )
         if any(not text for text in inspector.button_texts):
             errors.append(f"{page}: button without accessible text")
+    for page, inspector in inspectors.items():
         for href in inspector.links:
-            target = resolve_local_link(site, page, href)
-            if target is not None and not target.is_file():
+            resolved = resolve_local_link(site, page, href)
+            if resolved is None:
+                continue
+            target, fragment = resolved
+            if not target.is_file():
                 errors.append(f"{page}: broken local link {href!r}")
+                continue
+            if fragment:
+                target_inspector = inspectors.get(target)
+                if (
+                    target_inspector is None
+                    or fragment not in target_inspector.ids
+                ):
+                    errors.append(
+                        f"{page}: broken local fragment {href!r}"
+                    )
 
     homepage = site / "index.html"
     locations = site / "assets/locations.json"
@@ -115,11 +147,19 @@ def validate_site(site: Path) -> dict[str, object]:
     budgets = {
         "homepage_bytes": homepage.stat().st_size,
         "search_data_bytes": locations.stat().st_size,
+        "search_data_gzip_bytes": len(
+            gzip.compress(
+                locations.read_bytes(),
+                compresslevel=9,
+                mtime=0,
+            )
+        ),
         "first_party_code_bytes": code_bytes,
     }
     limits = {
         "homepage_bytes": MAX_HOMEPAGE_BYTES,
         "search_data_bytes": MAX_SEARCH_DATA_BYTES,
+        "search_data_gzip_bytes": MAX_SEARCH_DATA_GZIP_BYTES,
         "first_party_code_bytes": MAX_FIRST_PARTY_CODE_BYTES,
     }
     for name, value in budgets.items():
@@ -130,6 +170,13 @@ def validate_site(site: Path) -> dict[str, object]:
         errors.append("search data is not guarded by lazy loading")
     if 'id="map-fallback-body"' not in homepage.read_text(encoding="utf-8"):
         errors.append("canvas map lacks the accessible tabular fallback")
+    not_found = site / "404.html"
+    if not not_found.is_file():
+        errors.append("custom 404.html is missing")
+    elif 'content="noindex, follow"' not in not_found.read_text(
+        encoding="utf-8"
+    ):
+        errors.append("custom 404.html must be noindex")
 
     report: dict[str, object] = {
         "status": "passed" if not errors else "failed",

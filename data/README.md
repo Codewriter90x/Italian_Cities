@@ -12,8 +12,8 @@ python3 scripts/validate_dataset.py
 ```
 
 The v2 canonical inputs are only the declared ISTAT and GeoNames snapshots.
-Legacy files never contribute to this directory. The canonical grain and
-fields are documented in `SCHEMA.md`.
+Withdrawn pre-clean-room material never contributes to this directory. The
+canonical grain and fields are documented in `SCHEMA.md`.
 
 Release assets are assembled outside this directory:
 
@@ -22,5 +22,5 @@ python3 scripts/build_release.py
 python3 scripts/validate_release.py
 ```
 
-The historical SQL Server dump and all other files under `legacy/` are not
-release sources.
+The withdrawn historical SQL Server dump and related material are not release
+sources and must not be reintroduced.

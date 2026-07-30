@@ -12,7 +12,7 @@ without warranty. GeoNames states that many latitude/longitude values are
 determined or estimated algorithmically; the source `accuracy` field is
 preserved by this project.
 
-Historical files under `legacy/` do not contribute to the v2 canonical
-dataset, derived formats, published release or GitHub Pages data. They are
-used only for a bounded investigative comparison, which cannot establish
-their original provenance.
+Pre-clean-room historical data with unresolved provenance and redistribution
+rights has been withdrawn from the repository, public history and affected
+release assets. It does not contribute to the v2 canonical dataset, derived
+formats, release or GitHub Pages data.

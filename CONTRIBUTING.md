@@ -6,7 +6,8 @@ Non modificare manualmente file sotto `data/`, SQL di release o report
 generati. Ogni correzione parte da una fonte dichiarata o da una regola
 riproducibile.
 
-Non modificare o eliminare `legacy/`, i tag storici o le baseline di release.
+Non reintrodurre materiale storico ritirato, copie dei relativi asset o
+baseline anteriori alla ricostruzione clean-room.
 
 ## Correzione dati
 
@@ -59,8 +60,8 @@ Verificare che:
 - `structural_quality` sia `passed`;
 - `operational_data_readiness` resti `experimental_non_official`;
 - due build siano identiche;
-- nessun `source_ids` canonico contenga `legacy_csv`;
-- il report legacy sia limitato, deterministico e non affermi provenienza;
+- nessun `source_ids` canonico contenga identificativi di fonti ritirate;
+- nessun input, report o asset ripristini materiale storico ritirato;
 - la Pages mostri warning e attribuzione GeoNames.
 
 ## Pull request

@@ -1,6 +1,6 @@
 # Changelog
 
-## v2.0.0 — prerelease candidate, not yet published
+## v2.0.0 — clean-room prerelease
 
 ### Breaking
 
@@ -17,8 +17,7 @@
   without a GeoNames postal-code match.
 - Many-to-many postal relations, explicit reconciliation outcomes, source
   record identities, source dates, confidence and GeoNames `accuracy`.
-- Immutable GeoNames snapshot, checksum gate, attribution and
-  `reports/legacy-comparison.json`.
+- Immutable GeoNames snapshot, checksum gate and attribution.
 - Separate `structural_quality=passed` and
   `operational_data_readiness=experimental_non_official`.
 - Clean-room warnings and GeoNames attribution in JSON, XLSX, SQLite, Pages
@@ -26,8 +25,8 @@
 
 ### Changed
 
-- Legacy data is historical comparison material only and no longer
-  contributes to current outputs or Pages.
+- Pre-clean-room material with unresolved redistribution rights was withdrawn
+  from the current tree, public history and affected release assets.
 - Coordinates are labelled `geonames_place_match`,
   `geonames_estimated` or `missing`; none are official.
 - Pages uses absolute counts rather than a potentially misleading coverage
@@ -40,9 +39,12 @@
 - 10,320 GeoNames records are not reconciled with a municipality.
 - GeoNames still contains 76 records using historical province code `SU`;
   they remain unparented instead of being remapped automatically.
-- The `v2.0.0` tag and GitHub release await maintainer confirmation.
+- Release assets remain experimental and non-official.
 
 ## v1.1.0 — pre-release
+
+> Withdrawn on 30 July 2026: downloadable data assets were removed because
+> provenance and redistribution rights could not be established.
 
 ### Added
 
@@ -87,6 +89,8 @@
   risolti.
 
 ## v1.0.0 — baseline storica
+
+> Withdrawn on 30 July 2026 for the same provenance and rights reason.
 
 - Prima distribuzione riproducibile con CSV, JSON, XLSX, SQLite, SQL e
   checksum.

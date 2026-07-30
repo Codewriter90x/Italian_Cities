@@ -15,6 +15,11 @@ from export_typed_json import (  # noqa: E402
     export_typed_json,
     export_typed_sqlite,
 )
+from validate_typed_contract import (  # noqa: E402
+    DEFAULT_SCHEMA,
+    validate_payload,
+    validate_typed_contract,
+)
 
 
 class TypedContractTests(unittest.TestCase):
@@ -57,6 +62,24 @@ class TypedContractTests(unittest.TestCase):
                 connection.close()
         self.assertEqual(("real", "real", "integer"), types)
         self.assertEqual((None, None, None), missing)
+
+    def test_typed_preview_passes_the_published_json_schema(self) -> None:
+        report = validate_typed_contract()
+        self.assertEqual("passed", report["status"], report["errors"])
+
+    def test_schema_rejects_string_coordinates_and_inconsistent_missing(self) -> None:
+        schema = json.loads(DEFAULT_SCHEMA.read_text(encoding="utf-8"))
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "typed.json"
+            export_typed_json(GENERATED_PATHS["italian_locations"], output)
+            payload = json.loads(output.read_text(encoding="utf-8"))
+        row = next(
+            item for item in payload["rows"] if item["latitude"] is not None
+        )
+        row["latitude"] = str(row["latitude"])
+        row["coordinate_verification"] = "missing"
+        errors = validate_payload(payload, schema)
+        self.assertTrue(any("latitude" in error for error in errors))
 
 
 if __name__ == "__main__":

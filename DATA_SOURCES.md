@@ -34,16 +34,27 @@ GeoNames dichiara che molte coordinate sono trovate o stimate
 algoritmicamente e fornisce i dati “as is”. Il campo `accuracy` originale è
 preservato. GeoNames non è Poste Italiane e non è descritto come tale.
 
-## Legacy
+### ISTAT — confini regionali generalizzati
 
-`legacy/2023-05-02-original/Italian Cities.csv` ha SHA-256
-`45f31340a6f0c390927aa1224424a75c6c968e601aa2df0a746413431e82d050`.
-È `canonical_input: false`.
+- ruolo: sola base cartografica riproducibile della GitHub Pages, non input del
+  dataset canonico;
+- data di riferimento: 1 gennaio 2026;
+- archivio: `sources/cache/Limiti01012026_g.zip`;
+- SHA-256:
+  `b011a590656c3a3ebc297fba80726a376aa843b6f164641cf6a4a990021a81d6`;
+- licenza/attribuzione: ISTAT, CC BY 4.0.
 
-La v2 non legge il legacy durante la costruzione del modello canonico. Lo
-legge successivamente soltanto per produrre un report storico investigativo.
-La somiglianza di 10.738 coppie nome–provincia–CAP con GeoNames non dimostra
-la fonte originaria del legacy.
+La CI ricostruisce il GeoJSON semplificato dal file originale e confronta i
+byte con l'asset committato. Il controllo non può più risultare verde saltando
+la ricostruzione.
+
+## Materiale storico ritirato
+
+Il materiale usato dalle versioni anteriori alla ricostruzione clean-room non
+aveva una provenienza e un diritto di redistribuzione dimostrabili. È stato
+quindi rimosso dal branch corrente, dagli asset delle release interessate e
+dalla cronologia Git pubblica. Non è dichiarato nel manifest e non viene
+usato per confronti o baseline.
 
 ## Fonti escluse
 

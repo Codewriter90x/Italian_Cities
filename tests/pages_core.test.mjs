@@ -6,6 +6,7 @@ import {
   filtersToSearchParams,
   formatInteger,
   inflateRows,
+  municipalityPagePath,
   normalizeTerm,
   projectCoordinates,
   searchLocations,
@@ -140,4 +141,12 @@ test("rejects unsupported URL filter values", () => {
 
 test("formats Italian thousands deterministically", () => {
   assert.equal(formatInteger(18811), "18.811");
+});
+
+test("builds stable municipality detail paths only for municipalities", () => {
+  assert.equal(
+    municipalityPagePath(rows[0]),
+    "./comuni/054013-citta-di-castello/",
+  );
+  assert.equal(municipalityPagePath(rows[1]), "");
 });
