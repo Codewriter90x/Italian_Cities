@@ -67,7 +67,7 @@ def validate_sql_import(path: Path) -> dict[str, object]:
                 for values in connection.execute(
                     'SELECT * FROM "italian_locations" '
                     'ORDER BY "normalized_name", "province_code", "postal_code", '
-                    '"legacy_uuid"'
+                    '"location_id", "location_postal_id"'
                 )
             ]
             metadata = dict(

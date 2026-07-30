@@ -9,45 +9,6 @@
       "municipality_istat_code",
       "parent_municipality_id",
       "postal_code",
-      "province_code",
-      "province_name",
-      "region_name",
-      "country_code",
-      "country_name",
-      "latitude",
-      "longitude",
-      "coordinate_status",
-      "source_snapshot"
-    ],
-    "path": "baselines/releases/v1.0.0/italian_locations.csv",
-    "rows": 14480,
-    "sha256": "7f166a1247067d07e67b628e797241d101481de742be5bf826b0b46aa97ae619"
-  },
-  "build_date": "2026-07-30",
-  "comparison": {
-    "from": "v1.0.0",
-    "to": "v1.1.0"
-  },
-  "coordinate_status_counts": {
-    "available": 12387,
-    "corrected": 1,
-    "missing": 2092
-  },
-  "coordinate_verification_counts": {
-    "corrected_legacy_unverified": 1,
-    "legacy_unverified": 12387,
-    "missing": 2092
-  },
-  "current": {
-    "fields": [
-      "location_id",
-      "legacy_uuid",
-      "name",
-      "normalized_name",
-      "location_kind",
-      "municipality_istat_code",
-      "parent_municipality_id",
-      "postal_code",
       "postal_code_status",
       "province_code",
       "province_name",
@@ -62,343 +23,72 @@
       "source_snapshot",
       "source_ids"
     ],
-    "path": "data/italian_locations.csv",
+    "path": "baselines/releases/v1.1.0/italian_locations.csv",
     "rows": 14480,
     "sha256": "fde543485a77d3a265abe2947419920343121520c3465a2fc6bcc9643356c101"
   },
-  "postal_code_status_counts": {
-    "generic_multicap": 9,
-    "legacy_unverified": 14471
+  "build_date": "2026-07-30",
+  "comparison": {
+    "from": "v1.1.0",
+    "to": "v2.0.0"
   },
-  "record_changes": {
-    "added": 0,
-    "added_legacy_uuids": [],
-    "changed": 964,
-    "changed_samples": [
-      {
-        "after": {
-          "province_name": "Bolzano/Bozen"
-        },
-        "before": {
-          "province_name": "Bolzano"
-        },
-        "changed_fields": [
-          "province_name"
-        ],
-        "legacy_uuid": "00192ca0-e0c6-4a2d-99bb-11fe61ea1c7d"
-      },
-      {
-        "after": {
-          "province_name": "Bolzano/Bozen"
-        },
-        "before": {
-          "province_name": "Bolzano"
-        },
-        "changed_fields": [
-          "province_name"
-        ],
-        "legacy_uuid": "0027126e-ddc0-4f9f-aa54-34a1478e5aae"
-      },
-      {
-        "after": {
-          "province_name": "Bolzano/Bozen"
-        },
-        "before": {
-          "province_name": "Bolzano"
-        },
-        "changed_fields": [
-          "province_name"
-        ],
-        "legacy_uuid": "008a0ff1-67eb-437d-a9b6-dd44f5d30dd7"
-      },
-      {
-        "after": {
-          "province_name": "Vibo Valentia"
-        },
-        "before": {
-          "province_name": "Viterbo Valentia"
-        },
-        "changed_fields": [
-          "province_name"
-        ],
-        "legacy_uuid": "00de8f4b-9101-42db-a27a-71774fa84273"
-      },
-      {
-        "after": {
-          "province_name": "Forlì-Cesena"
-        },
-        "before": {
-          "province_name": "Forli-Cesena"
-        },
-        "changed_fields": [
-          "province_name"
-        ],
-        "legacy_uuid": "00f1eafd-9ffe-46a1-b79e-682516b3b121"
-      },
-      {
-        "after": {
-          "province_name": "Valle d'Aosta/Vallée d'Aoste"
-        },
-        "before": {
-          "province_name": "Aosta"
-        },
-        "changed_fields": [
-          "province_name"
-        ],
-        "legacy_uuid": "01237c8f-8464-41d7-9bb2-6fb95d42fcd5"
-      },
-      {
-        "after": {
-          "province_name": "Bolzano/Bozen"
-        },
-        "before": {
-          "province_name": "Bolzano"
-        },
-        "changed_fields": [
-          "province_name"
-        ],
-        "legacy_uuid": "014a993f-c3a4-4797-af5b-9352d7342714"
-      },
-      {
-        "after": {
-          "province_name": "Bolzano/Bozen"
-        },
-        "before": {
-          "province_name": "Bolzano"
-        },
-        "changed_fields": [
-          "province_name"
-        ],
-        "legacy_uuid": "021766ba-ec63-45a4-9bc6-96402ae85db9"
-      },
-      {
-        "after": {
-          "province_name": "Bolzano/Bozen"
-        },
-        "before": {
-          "province_name": "Bolzano"
-        },
-        "changed_fields": [
-          "province_name"
-        ],
-        "legacy_uuid": "02306456-dbba-4f16-9ecd-74997c35a571"
-      },
-      {
-        "after": {
-          "province_name": "Valle d'Aosta/Vallée d'Aoste"
-        },
-        "before": {
-          "province_name": "Aosta"
-        },
-        "changed_fields": [
-          "province_name"
-        ],
-        "legacy_uuid": "0273fe04-ec65-406c-bd83-ba72848a55cd"
-      },
-      {
-        "after": {
-          "province_name": "Verbano-Cusio-Ossola"
-        },
-        "before": {
-          "province_name": "Verbano-Cussio-Ossola"
-        },
-        "changed_fields": [
-          "province_name"
-        ],
-        "legacy_uuid": "038f6cdf-4784-41a6-ba8a-1f0784d89141"
-      },
-      {
-        "after": {
-          "province_name": "Bolzano/Bozen"
-        },
-        "before": {
-          "province_name": "Bolzano"
-        },
-        "changed_fields": [
-          "province_name"
-        ],
-        "legacy_uuid": "03a10501-5f0e-4f27-94e5-070e0e4103bd"
-      },
-      {
-        "after": {
-          "province_name": "Bolzano/Bozen"
-        },
-        "before": {
-          "province_name": "Bolzano"
-        },
-        "changed_fields": [
-          "province_name"
-        ],
-        "legacy_uuid": "040a786c-4c71-4463-ab17-f62bffa9231d"
-      },
-      {
-        "after": {
-          "province_name": "Bolzano/Bozen"
-        },
-        "before": {
-          "province_name": "Bolzano"
-        },
-        "changed_fields": [
-          "province_name"
-        ],
-        "legacy_uuid": "0420d9e8-dde0-4fad-a858-e96164eeac36"
-      },
-      {
-        "after": {
-          "province_name": "Vibo Valentia"
-        },
-        "before": {
-          "province_name": "Viterbo Valentia"
-        },
-        "changed_fields": [
-          "province_name"
-        ],
-        "legacy_uuid": "0429608f-0dd3-4e4d-9c4b-fb9caec6e6e2"
-      },
-      {
-        "after": {
-          "province_name": "Bolzano/Bozen"
-        },
-        "before": {
-          "province_name": "Bolzano"
-        },
-        "changed_fields": [
-          "province_name"
-        ],
-        "legacy_uuid": "0470d90c-a609-4f69-8e06-558cb32f26b2"
-      },
-      {
-        "after": {
-          "province_name": "Forlì-Cesena"
-        },
-        "before": {
-          "province_name": "Forli-Cesena"
-        },
-        "changed_fields": [
-          "province_name"
-        ],
-        "legacy_uuid": "047b36ca-0257-4c92-a8b3-432f52d5fe13"
-      },
-      {
-        "after": {
-          "province_name": "Verbano-Cusio-Ossola"
-        },
-        "before": {
-          "province_name": "Verbano-Cussio-Ossola"
-        },
-        "changed_fields": [
-          "province_name"
-        ],
-        "legacy_uuid": "04ca367d-cbde-4eeb-99c6-66426bceefcc"
-      },
-      {
-        "after": {
-          "province_name": "Bolzano/Bozen"
-        },
-        "before": {
-          "province_name": "Bolzano"
-        },
-        "changed_fields": [
-          "province_name"
-        ],
-        "legacy_uuid": "0520ef19-4b9c-43e3-b34b-da344cd19905"
-      },
-      {
-        "after": {
-          "province_name": "Verbano-Cusio-Ossola"
-        },
-        "before": {
-          "province_name": "Verbano-Cussio-Ossola"
-        },
-        "changed_fields": [
-          "province_name"
-        ],
-        "legacy_uuid": "058249fc-e952-49d1-82f9-52f850faba75"
-      },
-      {
-        "after": {
-          "province_name": "Bolzano/Bozen"
-        },
-        "before": {
-          "province_name": "Bolzano"
-        },
-        "changed_fields": [
-          "province_name"
-        ],
-        "legacy_uuid": "05a8a298-2f53-4233-8dd6-ea4a254ad61e"
-      },
-      {
-        "after": {
-          "province_name": "Bolzano/Bozen"
-        },
-        "before": {
-          "province_name": "Bolzano"
-        },
-        "changed_fields": [
-          "province_name"
-        ],
-        "legacy_uuid": "0601598b-a75d-4e37-a555-98c5c96c0243"
-      },
-      {
-        "after": {
-          "province_name": "Valle d'Aosta/Vallée d'Aoste"
-        },
-        "before": {
-          "province_name": "Aosta"
-        },
-        "changed_fields": [
-          "province_name"
-        ],
-        "legacy_uuid": "064a3724-4393-4e3f-98f4-69ce2f85b5fd"
-      },
-      {
-        "after": {
-          "province_name": "Reggio nell'Emilia"
-        },
-        "before": {
-          "province_name": "Reggio Emilia"
-        },
-        "changed_fields": [
-          "province_name"
-        ],
-        "legacy_uuid": "06921095-d3a5-4e60-9bac-27e6dae657ad"
-      },
-      {
-        "after": {
-          "province_name": "Valle d'Aosta/Vallée d'Aoste"
-        },
-        "before": {
-          "province_name": "Aosta"
-        },
-        "changed_fields": [
-          "province_name"
-        ],
-        "legacy_uuid": "06d11fc2-8050-4a56-9c2f-1ec63fbdc04b"
-      }
+  "current": {
+    "fields": [
+      "location_postal_id",
+      "location_id",
+      "name",
+      "normalized_name",
+      "location_kind",
+      "municipality_istat_code",
+      "parent_municipality_id",
+      "candidate_municipality_ids",
+      "postal_code",
+      "postal_code_status",
+      "province_code",
+      "province_name",
+      "region_name",
+      "country_code",
+      "country_name",
+      "latitude",
+      "longitude",
+      "coordinate_verification",
+      "coordinate_accuracy",
+      "reconciliation_outcome",
+      "reconciliation_method",
+      "reconciliation_confidence",
+      "source_ids",
+      "source_record_ids",
+      "source_reference_dates"
     ],
-    "removed": 0,
-    "removed_legacy_uuids": [],
-    "samples_truncated": true,
-    "unchanged": 13516
+    "path": "data/italian_locations.csv",
+    "rows": 18811,
+    "sha256": "803adc8dcb9e4cf0c65f6284e640a4e3b44b6f8b599f66c01cfaf9de231cf977"
   },
-  "record_type_counts": {
-    "municipality": 7186,
-    "postal_locality_unclassified": 7294
+  "interpretation": "The v2 source and schema change makes row identity incomparable to v1; logical name/province/CAP keys are reported for context.",
+  "logical_record_changes": {
+    "added": 8072,
+    "removed": 3741,
+    "shared": 10739
   },
   "schema_changes": {
     "added_fields": [
-      "postal_code_status",
-      "legacy_province_name",
-      "coordinate_verification",
-      "source_ids"
+      "candidate_municipality_ids",
+      "coordinate_accuracy",
+      "location_postal_id",
+      "reconciliation_confidence",
+      "reconciliation_method",
+      "reconciliation_outcome",
+      "source_record_ids",
+      "source_reference_dates"
     ],
-    "removed_fields": [],
-    "renamed_fields": {}
+    "breaking": true,
+    "removed_fields": [
+      "coordinate_status",
+      "legacy_province_name",
+      "legacy_uuid",
+      "source_snapshot"
+    ],
+    "schema_version": "3.0.0"
   },
-  "schema_version": "2.1.0",
-  "source_manifest": {
-    "path": "sources/manifest.json",
-    "sha256": "b9251de9fd34c3067075163781d3a68ffbe8edaf5e9787420908ba6095715047",
-    "version": "2.0.0"
-  }
+  "schema_version": "3.0.0"
 }

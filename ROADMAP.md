@@ -4,28 +4,30 @@ Italian Cities evolves by improving provenance and reproducibility before
 claiming broader coverage. The roadmap is public, but dates are intentionally
 not promised until the required sources and licences are available.
 
-## Current: v1.1.0 prerelease
+## Current: v2.0.0 clean-room prerelease candidate
 
-The current line establishes the engineering baseline:
+The current line replaces the unresolved legacy source with:
 
-- one deterministic pipeline for CSV, JSON, XLSX, SQLite and SQL;
+- all municipalities from the declared ISTAT snapshot;
+- GeoNames Postal Codes IT with CC BY 4.0 attribution;
+- conservative exact reconciliation and explicit unmatched/ambiguous states;
+- one deterministic pipeline for CSV, JSON, XLSX, SQLite, SQL and Pages;
 - schema, integrity, territory, coordinate, provenance and format validators;
 - Ruff, mypy, coverage and Python 3.11–3.13 CI;
 - CodeQL, artifact attestations and least-privilege release publishing;
 - searchable GitHub Pages with shareable filters, ISTAT regional boundaries
   and an accessible coverage table.
 
-It remains a prerelease because CAP and coordinate values inherited from the
-legacy source are not operationally verified and upstream rights for part of
-that source are unresolved.
+It remains a prerelease because GeoNames is not Poste Italiane and CAP and
+coordinates are not operationally certified.
 
-## Next: [v1.2.0 — Source reliability](https://github.com/Codewriter90x/Italian_Cities/milestone/1)
+## Next: v2.1.0 — reviewed reconciliation
 
 The next milestone focuses on evidence, not record-count growth:
 
-- make source acquisition and derivative checks easier to reproduce;
-- define a reviewed, licensed process for postal-code corrections;
-- add safe contributor tooling and examples for evidence-backed corrections;
+- review unmatched and historical-province cases without fuzzy promotion;
+- define an authorized process for postal-code corrections;
+- add source-update tooling and migration aliases for changed identities;
 - improve Pages accessibility and release discovery without adding runtime
   tracking or third-party geocoding calls;
 - increase targeted tests around provenance and public data contracts.
@@ -34,12 +36,11 @@ Data corrections require an authoritative or appropriately licensed source,
 reference date, attribution and a reproducible transformation. The public
 Nominatim service is not an accepted bulk-enrichment source.
 
-## Later: v2.0.0 stable
+## Later: stable operational line
 
 A stable release requires all of the following:
 
-- a documented legal basis for every distributed data source;
-- verified or explicitly scoped postal-code provenance;
+- a documented compatible official source for operational postal validation;
 - a current and complete administrative reference, with migrations documented;
 - coordinate provenance that distinguishes authoritative, derived and missing
   values;
@@ -63,7 +64,7 @@ before implementing a new source or changing the schema.
 
 - scraping or bulk geocoding against services that prohibit systematic use;
 - treating a CAP as a unique place identifier;
-- silently replacing legacy values without preserving provenance;
+- silently replacing source values without preserving provenance;
 - manually editing generated CSV, JSON, XLSX, SQLite or SQL outputs;
 - claiming official, complete or operationally verified coverage without
   evidence.

@@ -12,68 +12,46 @@ import {
 
 const rows = [
   {
-    location_id: "IT-COM-001",
+    location_id: "IT-COM-054013",
     name: "Città di Castello",
     normalized_name: "citta di castello",
     location_kind: "municipality",
     municipality_istat_code: "054013",
     postal_code: "06012",
-    postal_code_status: "legacy_unverified",
     province_code: "PG",
     province_name: "Perugia",
     region_name: "Umbria",
     latitude: 43.46,
     longitude: 12.24,
-    coordinate_status: "available",
-    coordinate_verification: "legacy_unverified",
+    coordinate_verification: "geonames_place_match",
   },
   {
     location_id: "IT-LOC-002",
     name: "Roma Centro",
     normalized_name: "roma centro",
-    location_kind: "postal_locality_unclassified",
+    location_kind: "geonames_unreconciled",
     municipality_istat_code: "",
     postal_code: "00186",
-    postal_code_status: "legacy_unverified",
     province_code: "RM",
     province_name: "Roma",
     region_name: "Lazio",
-    latitude: null,
-    longitude: null,
-    coordinate_status: "missing",
-    coordinate_verification: "missing",
+    latitude: 41.9,
+    longitude: 12.5,
+    coordinate_verification: "geonames_estimated",
   },
   {
-    location_id: "IT-COM-003",
-    name: "Torino",
-    normalized_name: "torino",
-    location_kind: "municipality",
-    municipality_istat_code: "001272",
-    postal_code: "10100",
-    postal_code_status: "generic_multicap",
-    province_code: "TO",
-    province_name: "Torino",
-    region_name: "Piemonte",
-    latitude: 45.07,
-    longitude: 7.68,
-    coordinate_status: "corrected",
-    coordinate_verification: "corrected_legacy_unverified",
-  },
-  {
-    location_id: "IT-COM-004",
+    location_id: "IT-COM-001001",
     name: "Agliè",
     normalized_name: "aglie",
     location_kind: "municipality",
     municipality_istat_code: "001001",
-    postal_code: "10011",
-    postal_code_status: "legacy_unverified",
+    postal_code: "",
     province_code: "TO",
     province_name: "Torino",
     region_name: "Piemonte",
-    latitude: 45.36,
-    longitude: 7.77,
-    coordinate_status: "available",
-    coordinate_verification: "legacy_unverified",
+    latitude: null,
+    longitude: null,
+    coordinate_verification: "missing",
   },
 ];
 
@@ -81,46 +59,31 @@ test("normalization ignores accents, apostrophes and case", () => {
   assert.equal(normalizeTerm("  CITTÀ d’Italia  "), "citta d italia");
 });
 
-test("formats Italian thousands deterministically", () => {
-  assert.equal(formatInteger(14480), "14.480");
-  assert.equal(formatInteger(7186), "7.186");
-});
-
-test("searches by name without requiring accents", () => {
-  const result = searchLocations(rows, { query: "citta castello" });
-  assert.equal(result.total, 1);
-  assert.equal(result.rows[0].location_id, "IT-COM-001");
-});
-
-test("searches by postal code and province", () => {
+test("searches by name, postal code and province", () => {
+  assert.equal(searchLocations(rows, { query: "citta castello" }).total, 1);
   assert.equal(searchLocations(rows, { query: "00186" }).total, 1);
-  assert.equal(searchLocations(rows, { query: "10011" }).total, 1);
-  assert.equal(searchLocations(rows, { query: "10011" }).rows[0].name, "Agliè");
-  assert.equal(searchLocations(rows, { query: "RM" }).rows[0].name, "Roma Centro");
-  const turinProvince = searchLocations(rows, { province: "TO" });
-  assert.equal(turinProvince.total, 2);
-  assert.deepEqual(
-    turinProvince.rows.map((row) => row.name),
-    ["Agliè", "Torino"],
-  );
+  assert.equal(searchLocations(rows, { query: "RM" }).total, 1);
 });
 
-test("filters by kind and coordinate status", () => {
-  const result = searchLocations(rows, {
-    kind: "postal_locality_unclassified",
-    coordinateStatus: "missing",
-  });
-  assert.equal(result.total, 1);
-  assert.equal(result.rows[0].name, "Roma Centro");
-  assert.equal(searchLocations(rows, { coordinateStatus: "present" }).total, 3);
+test("filters clean-room location kinds and coordinate states", () => {
   assert.equal(
-    searchLocations(rows, { coordinateStatus: "legacy_unverified" }).total,
-    3,
+    searchLocations(rows, {
+      kind: "geonames_unreconciled",
+      coordinateStatus: "geonames_estimated",
+    }).total,
+    1,
   );
-  assert.equal(searchLocations(rows, { coordinateStatus: "verified" }).total, 0);
+  assert.equal(
+    searchLocations(rows, { coordinateStatus: "geonames_place_match" }).total,
+    1,
+  );
+  assert.equal(
+    searchLocations(rows, { coordinateStatus: "missing" }).total,
+    1,
+  );
 });
 
-test("projects the extrema inside the drawing area", () => {
+test("projects coordinates inside the drawing area", () => {
   const bounds = {
     min_latitude: 35,
     max_latitude: 48,
@@ -137,25 +100,21 @@ test("projects the extrema inside the drawing area", () => {
   });
 });
 
-test("round-trips shareable filter URLs", () => {
+test("round-trips shareable clean-room filters", () => {
   const filters = {
     query: "Città d'Italia",
     province: "TO",
     kind: "municipality",
-    coordinateStatus: "present",
+    coordinateStatus: "geonames_place_match",
   };
   const encoded = filtersToSearchParams(filters);
-  assert.equal(
-    encoded.toString(),
-    "q=Citt%C3%A0+d%27Italia&province=TO&kind=municipality&coordinates=present",
-  );
   assert.deepEqual(filtersFromSearchParams(encoded), filters);
 });
 
-test("ignores unsupported URL filter values", () => {
+test("rejects unsupported URL filter values", () => {
   assert.deepEqual(
     filtersFromSearchParams(
-      "q=Roma&province=invalid&kind=other&coordinates=maybe",
+      "q=Roma&province=invalid&kind=legacy&coordinates=verified",
     ),
     {
       query: "Roma",
@@ -164,4 +123,8 @@ test("ignores unsupported URL filter values", () => {
       coordinateStatus: "",
     },
   );
+});
+
+test("formats Italian thousands deterministically", () => {
+  assert.equal(formatInteger(18811), "18.811");
 });

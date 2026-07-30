@@ -2,7 +2,6 @@ import {
   filtersFromSearchParams,
   filtersToSearchParams,
   formatInteger,
-  formatPercent,
   projectCoordinates,
   searchLocations,
 } from "./core.mjs";
@@ -37,10 +36,10 @@ const elements = {
 
 function populateStats(stats) {
   const mapping = {
-    total: formatInteger(stats.total_locations),
+    total: formatInteger(stats.postal_code_relations),
     municipalities: formatInteger(stats.municipalities),
     postalCodes: formatInteger(stats.unique_postal_codes),
-    coordinates: `${formatPercent(stats.coordinate_coverage_percent)}%`,
+    coordinates: formatInteger(stats.with_coordinates),
   };
   for (const [name, value] of Object.entries(mapping)) {
     for (const target of document.querySelectorAll(`[data-stat="${name}"]`)) {
@@ -68,9 +67,11 @@ function populateProvinces(rows) {
 }
 
 function kindLabel(row) {
-  return row.location_kind === "municipality"
-    ? "Comune ISTAT"
-    : "Località non classificata";
+  if (row.location_kind === "municipality") return "Comune ISTAT";
+  if (row.location_kind === "geonames_ambiguous") {
+    return "Località GeoNames ambigua";
+  }
+  return "Località GeoNames non riconciliata";
 }
 
 function renderResults() {
@@ -104,7 +105,7 @@ function renderResults() {
 
     const cap = document.createElement("span");
     cap.className = "cap-badge";
-    cap.textContent = row.postal_code;
+    cap.textContent = row.postal_code || "CAP mancante";
 
     const location = document.createElement("span");
     location.className = "result-location";
@@ -115,17 +116,15 @@ function renderResults() {
     const coordinateText =
       row.latitude === null
         ? "coordinate mancanti"
-        : row.coordinate_verification === "legacy_unverified"
-          ? "coordinate legacy non verificate"
-          : row.coordinate_verification === "corrected_legacy_unverified"
-            ? "coordinate corrette ma non verificate"
-            : "coordinate verificate";
+        : row.coordinate_verification === "geonames_place_match"
+          ? `coordinate GeoNames associate al luogo · accuracy ${row.coordinate_accuracy}`
+          : `coordinate GeoNames stimate · accuracy ${row.coordinate_accuracy}`;
     const postalText =
-      row.postal_code_status === "generic_multicap"
-        ? "CAP generico città multi-CAP"
-        : row.postal_code_status === "legacy_unverified"
-          ? "CAP legacy non verificato"
-          : `CAP ${row.postal_code_status}`;
+      row.postal_code_status === "missing"
+        ? "CAP non disponibile"
+        : row.postal_code_status === "geonames_ambiguous"
+          ? "CAP GeoNames con riconciliazione ambigua"
+          : "CAP GeoNames non ufficiale";
     meta.textContent = `${kindLabel(row)} · ${postalText} · ${coordinateText}`;
 
     heading.append(cap);
@@ -178,9 +177,14 @@ function drawBoundaries(context, width, height, bounds) {
 function populateAccessibleMap(rows) {
   const regions = new Map();
   for (const row of rows) {
-    const current = regions.get(row.region_name) ?? { total: 0, present: 0 };
+    const current = regions.get(row.region_name) ?? {
+      total: 0,
+      present: 0,
+      missing: 0,
+    };
     current.total += 1;
     if (row.latitude !== null) current.present += 1;
+    else current.missing += 1;
     regions.set(row.region_name, current);
   }
 
@@ -195,7 +199,7 @@ function populateAccessibleMap(rows) {
       name,
       formatInteger(values.total),
       formatInteger(values.present),
-      `${formatPercent((values.present / values.total) * 100)}%`,
+      formatInteger(values.missing),
     ]) {
       const cell = document.createElement("td");
       cell.textContent = value;
@@ -274,12 +278,13 @@ function selectLocation(row) {
   state.selected = row;
   if (row.latitude === null) {
     elements.mapDetail.textContent =
-      `${row.name} (${row.postal_code}, ${row.province_code}): ` +
+      `${row.name} (${row.postal_code || "CAP mancante"}, ${row.province_code}): ` +
       "coordinate non disponibili.";
   } else {
     elements.mapDetail.textContent =
       `${row.name} (${row.postal_code}, ${row.province_code}) · ` +
-      `${row.latitude.toFixed(5)}, ${row.longitude.toFixed(5)}`;
+      `${row.latitude.toFixed(5)}, ${row.longitude.toFixed(5)} · ` +
+      `GeoNames accuracy ${row.coordinate_accuracy}`;
   }
   drawMap();
   elements.canvas.scrollIntoView({ behavior: "smooth", block: "center" });

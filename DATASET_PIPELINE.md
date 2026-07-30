@@ -1,171 +1,125 @@
-# Dataset pipeline
+# Clean-room dataset pipeline
 
-## Obiettivo
-
-La pipeline rende ogni artefatto dati una conseguenza riproducibile di fonti,
-schema e trasformazioni versionate. CSV, JSON, XLSX e SQLite non sono fonti:
-non devono essere modificati manualmente.
-
-## Flusso
+## Flusso canonico
 
 ```text
-sources/manifest.json
-        |
-        +-- legacy CSV immutabile
-        +-- riferimento comuni ISTAT
-        |
-        v
-scripts/build_dataset.py
-        |
-        +-- normalizzazione e partizionamento
-        +-- report differenze
-        |
-        +--> data/municipalities.csv
-        +--> data/localities.csv
-        +--> data/postal_codes.csv
-        +--> data/italian_locations.csv
-                          |
-                          v
-              scripts/export_formats.py
-                          |
-                          +--> JSON
-                          +--> XLSX
-                          +--> SQLite
-                          |
-                          v
-              scripts/validate_dataset.py
-                          |
-                          v
-              scripts/check_determinism.py
-                    (due build)
-                          |
-                          v
-               scripts/build_release.py
-                          |
-                          +--> CSV / JSON / XLSX
-                          +--> SQLite / SQL
-                          +--> SHA256SUMS
-                          |
-                          v
-              scripts/validate_release.py
+ISTAT municipalities snapshot -----+
+                                   +--> checksum gate
+GeoNames IT.zip snapshot ----------+        |
+                                            v
+                                  exact conservative reconciliation
+                                            |
+                 +--------------------------+-----------------------+
+                 v                          v                       v
+       municipalities.csv           localities.csv          postal_codes.csv
+                 +--------------------------+-----------------------+
+                                            v
+                                  italian_locations.csv
+                                            |
+                         +------------------+------------------+
+                         v                  v                  v
+                       JSON               XLSX              SQLite
+                                            |
+                                            v
+                                    Pages / release bundle
 
-project.json
-        |
-        +-- versione dataset e schema
-        +-- stato della release
-        +-- baseline della release precedente
+legacy CSV --> historical comparison only --> reports/legacy-comparison.json
 ```
 
-## Contratti
+Il modello canonico è creato da `build_clean_room(istat_path, geonames_path)`.
+La funzione non accetta un input legacy. Il digest canonico dipende soltanto
+dagli identificativi ISTAT e GeoNames riconciliati.
 
-1. Tutte le fonti richieste sono dichiarate in `sources/manifest.json` con
-   percorso, ruolo, data, licenza e SHA-256.
-2. Il build termina con errore se un checksum non coincide.
-3. `name` conserva la rappresentazione legacy; `normalized_name` è una chiave
-   di ricerca deterministica, senza differenze di accento, apostrofo,
-   punteggiatura o maiuscole/minuscole.
-4. `postal_code` è sempre testo conforme a `^[0-9]{5}$`.
-5. Le righe sono ordinate per chiavi esplicite e mai per ordine accidentale
-   della fonte o del database.
-6. Gli output vengono scritti prima su file temporanei e poi sostituiti.
-7. `reports/release-diff.json` confronta i record tramite `legacy_uuid`
-   contro la baseline della release precedente dichiarata in `project.json`
-   e separa cambi di schema da cambi semantici.
-8. Il validatore carica ogni formato e confronta campo per campo tutti i
-   record.
-9. La GitHub Action esegue il job bloccante `Data quality gate` su ogni pull
-   request e fallisce per violazioni di schema, identità, CAP, ISTAT,
-   gerarchia territoriale, coordinate, righe vuote, duplicati o integrità.
-10. SQLite viene confrontato semanticamente: il layout binario delle pagine
-    può cambiare tra versioni della libreria, mentre schema, metadati e record
-    devono essere identici. Gli artefatti committati vengono validati prima
-    della rigenerazione, quindi una modifica manuale non viene nascosta.
-11. `scripts/check_determinism.py` esegue due build consecutive e richiede
-    hash byte-per-byte identici per CSV, JSON, XLSX e report; per SQLite
-    confronta il digest ordinato dei record.
-12. Il bundle release copia gli output canonici, genera uno script SQL
-    SQLite-compatible e registra il checksum binario di ogni asset.
-13. Il validatore release importa il SQL in un database temporaneo, verifica
-    schema, righe e digest e rifiuta file mancanti, aggiuntivi o alterati.
+## Acquisizione e checksum
+
+`sources/manifest.json` registra URL, percorso, timestamp, checksum, licenza,
+attribuzione, ruolo e versione del formato. `scripts/source_data.py` verifica
+SHA-256 prima di aprire il workbook ISTAT o `IT.zip`.
+
+Lo snapshot GeoNames è committato come file originale; non viene modificato o
+estratto manualmente nel repository.
+
+## Riconciliazione
+
+`scripts/reconcile_sources.py` usa:
+
+- nome Unicode normalizzato;
+- sigla e nome provincia;
+- regione/divisione amministrativa;
+- CAP per identità e deduplicazione della relazione;
+- codici amministrativi disponibili.
+
+Un solo candidato coerente produce `exact_unambiguous`. Più candidati
+producono `multiple_candidates`. Nessun candidato produce
+`unmatched_no_parent`. Non esistono fuzzy matching o scelte automatiche fra
+candidati.
+
+Tutti i comuni ISTAT vengono creati prima della riconciliazione. Se non esiste
+un CAP GeoNames, il comune riceve una relazione `missing`.
+
+## Output e atomicità
+
+Gli output CSV e JSON sono scritti su un file temporaneo e sostituiti con
+`os.replace`. XLSX e SQLite vengono costruiti in file temporanei. L'ordine è
+esplicito e indipendente dall'ordine accidentale delle fonti.
+
+`scripts/export_formats.py` genera JSON, XLSX e SQLite soltanto dalla vista
+canonica. `scripts/export_sql.py` crea lo script SQLite-compatible.
+`scripts/build_release.py` prepara nove asset, incluso `SHA256SUMS`.
+
+## Report
+
+- `reports/build-metadata.json`: fonti, qualità, readiness e statistiche;
+- `reports/legacy-comparison.json`: confronto storico limitato e deterministico;
+- `reports/release-diff.json`: confronto logico con v1.1.0;
+- `reports/export-manifest.json`: digest degli export;
+- `reports/determinism.json`: firme di due build;
+- `reports/quality-validation.json`: gate strutturali separati dalla readiness.
+
+Il report legacy può cambiare se cambia il legacy; gli output canonici no.
+
+## Quality model
+
+Una build valida dichiara separatamente:
+
+```text
+structural_quality: passed
+operational_data_readiness: experimental_non_official
+```
+
+Il primo valore significa che schema, integrità, checksum, determinismo e
+formati sono coerenti. Il secondo impedisce di interpretare il risultato come
+certificazione postale.
 
 ## Comandi
 
-Build completo:
-
 ```bash
-python3 scripts/build_dataset.py
+python -m pip install -r requirements.txt -r requirements-dev.txt
+python scripts/build_dataset.py
+python scripts/check_determinism.py
+python scripts/validate_dataset.py
+ruff check scripts tests
+mypy
+coverage run -m unittest discover -s tests
+coverage report
+node --test tests/pages_core.test.mjs
+python scripts/build_pages.py
+python scripts/build_release.py
+python scripts/validate_release.py
+git diff --check
 ```
 
-Solo tabelle CSV e report differenze:
+La CI esegue questi gate su Python 3.11, 3.12 e 3.13. Le Actions sono fissate
+a commit SHA immutabili.
 
-```bash
-python3 scripts/build_dataset.py --no-exports
-```
+## Aggiornamento fonti
 
-Rigenerazione dei soli formati derivati:
+1. acquisire un nuovo snapshot dalla stessa origine autorizzata;
+2. conservarlo sotto un percorso datato;
+3. aggiornare manifest, checksum, timestamp e riferimento;
+4. modificare la trasformazione se il formato cambia;
+5. rigenerare tutto;
+6. esaminare report e statistiche;
+7. aprire una PR e attendere tutti i gate.
 
-```bash
-python3 scripts/export_formats.py
-```
-
-Validazione e test:
-
-```bash
-python3 scripts/check_determinism.py
-python3 scripts/validate_dataset.py
-python3 -m unittest discover -s tests -v
-python3 scripts/build_release.py
-python3 scripts/validate_release.py
-```
-
-I risultati machine-readable sono:
-
-- `reports/release-diff.json`;
-- `reports/export-manifest.json`;
-- `reports/determinism.json`;
-- `reports/quality-validation.json`.
-
-## XLSX
-
-La pipeline è interamente orchestrata in Python. `export_formats.py` usa
-`XlsxWriter`, dichiarato in `requirements.txt`, esclusivamente per creare il
-workbook.
-
-Nel workbook:
-
-- il CAP è testo;
-- latitudine e longitudine sono celle numeriche;
-- intestazione, filtri e righe bloccate rendono il dataset esplorabile;
-- il foglio `Dataset Info` contiene conteggi, checksum e riferimenti;
-- metadati ZIP e timestamp sono normalizzati per consentire build
-  deterministiche.
-
-## Modificare i dati
-
-Una modifica valida parte da una fonte dichiarata o da una regola nello script.
-Il contributore aggiorna manifest e trasformazione, rigenera tutto, esamina il
-diff report e infine esegue validatore e test. Una modifica diretta a un file
-generato è incompleta e deve essere rigenerata.
-
-## Release
-
-`dist/<versione>/` è temporaneo e non versionato. La versione deve coincidere
-con `dataset_version` in `project.json`. Il bundle contiene:
-
-- `municipalities.csv`;
-- `localities.csv`;
-- `postal_codes.csv`;
-- `italian_locations.csv`;
-- `italian_locations.json`;
-- `italian_locations.xlsx`;
-- `italian_locations.sqlite`;
-- `italian_locations.sql`;
-- `SHA256SUMS`.
-
-Il dump SQL Server preservato sotto `legacy/` non viene letto dal packaging
-come formato distribuibile. Rimane soltanto una delle baseline storiche da cui
-la pipeline ricostruisce e verifica il canonico.
-
-Il workflow rifiuta un tag diverso dalla versione dichiarata e non sovrascrive
-una release già esistente. Quando `release_status` è `prerelease`, la release
-GitHub viene creata come pre-release: non è una promozione a dataset stabile.
+CSV, JSON, XLSX, SQLite e SQL non devono mai essere corretti a mano.

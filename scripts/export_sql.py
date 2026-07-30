@@ -52,7 +52,7 @@ def export_sql(rows: list[dict[str, str]], output: Path) -> None:
             "BEGIN TRANSACTION;\n"
             'CREATE TABLE "italian_locations" (\n'
             f"    {columns},\n"
-            '    PRIMARY KEY ("location_id")\n'
+            '    PRIMARY KEY ("location_postal_id")\n'
             ") WITHOUT ROWID;\n\n"
         )
 

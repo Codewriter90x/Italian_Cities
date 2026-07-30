@@ -3,17 +3,17 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Italian Cities — dataset sperimentale di località e CAP legacy</title>
+    <title>Italian Cities — dataset clean-room ISTAT e GeoNames</title>
     <meta
       name="description"
-      content="Esplora un dataset sperimentale di località italiane, CAP legacy e coordinate non ancora verificate."
+      content="Esplora la prerelease clean-room v2 costruita da comuni ISTAT e relazioni CAP GeoNames non ufficiali."
     >
     <meta name="theme-color" content="#081522">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Italian Cities — dataset geografico sperimentale">
     <meta
       property="og:description"
-      content="Ricerca località, CAP legacy e coordinate con stato di affidabilità esplicito."
+      content="Ricerca comuni ISTAT, località e CAP GeoNames con provenienza e affidabilità esplicite."
     >
     <meta
       property="og:url"
@@ -46,44 +46,44 @@
     <main>
       <aside class="trust-banner" role="note" aria-label="Limiti del dataset">
         <strong>Dataset sperimentale, non postale ufficiale.</strong>
-        I CAP e le coordinate legacy non sono verificati per l’uso operativo.
-        I CAP generici delle città multi-CAP non sono validi per indirizzare
-        una spedizione. Consulta fonti e licenze prima del riuso.
+        GeoNames non è Poste Italiane. CAP e coordinate sono forniti senza
+        garanzia; alcune coordinate sono stimate algoritmicamente. Non usare
+        questi dati per certificare o indirizzare spedizioni.
       </aside>
       <section class="hero" aria-labelledby="hero-title">
         <div>
-          <p class="eyebrow">Working dataset v1.1.0 · prerelease</p>
+          <p class="eyebrow">Clean-room dataset v2.0.0 · prerelease</p>
           <h1 id="hero-title">Trova un luogo italiano.</h1>
           <p class="hero-copy">
-            Esplora comuni riconosciuti tramite ISTAT e località postali
-            non ancora classificate. Cerca per nome, CAP o provincia e verifica
-            subito la disponibilità delle coordinate.
+            Tutti i comuni provengono dallo snapshot ISTAT. CAP, località e
+            coordinate provengono dal dump gratuito GeoNames CC BY 4.0, con
+            stato di riconciliazione e accuracy conservati.
           </p>
           <div class="hero-actions">
             <a class="button" href="#search">Inizia la ricerca</a>
             <a
               class="button secondary"
-              href="https://github.com/Codewriter90x/Italian_Cities/releases/tag/v1.1.0"
-            >Scarica la release corrente v1.1.0</a>
+              href="https://github.com/Codewriter90x/Italian_Cities/tree/main/data"
+            >Scarica la prerelease v2 da main</a>
           </div>
         </div>
 
         <div class="hero-stats" aria-label="Statistiche principali">
           <div class="stat">
-            <strong class="stat-value" data-stat="total">14.480</strong>
+            <strong class="stat-value" data-stat="total">18.811</strong>
             <span class="stat-label">relazioni luogo–CAP</span>
           </div>
           <div class="stat">
-            <strong class="stat-value" data-stat="municipalities">7.186</strong>
-            <span class="stat-label">comuni riconosciuti</span>
+            <strong class="stat-value" data-stat="municipalities">7.894</strong>
+            <span class="stat-label">comuni ISTAT</span>
           </div>
           <div class="stat">
-            <strong class="stat-value" data-stat="postalCodes">4.459</strong>
+            <strong class="stat-value" data-stat="postalCodes">4.735</strong>
             <span class="stat-label">CAP distinti</span>
           </div>
           <div class="stat">
-            <strong class="stat-value" data-stat="coordinates">85,55%</strong>
-            <span class="stat-label">coordinate presenti, non verificate</span>
+            <strong class="stat-value" data-stat="coordinates">17.768</strong>
+            <span class="stat-label">luoghi con coordinate GeoNames</span>
           </div>
         </div>
       </section>
@@ -119,8 +119,11 @@
                 <select id="kind" name="kind">
                   <option value="">Tutti</option>
                   <option value="municipality">Comune ISTAT</option>
-                  <option value="postal_locality_unclassified">
-                    Località non classificata
+                  <option value="geonames_unreconciled">
+                    Località GeoNames non riconciliata
+                  </option>
+                  <option value="geonames_ambiguous">
+                    Località GeoNames ambigua
                   </option>
                 </select>
               </div>
@@ -129,8 +132,12 @@
                 <select id="coordinate-status" name="coordinate-status">
                   <option value="">Qualsiasi stato</option>
                   <option value="present">Presenti</option>
-                  <option value="legacy_unverified">Legacy non verificate</option>
-                  <option value="verified">Verificate</option>
+                  <option value="geonames_place_match">
+                    GeoNames associate al luogo
+                  </option>
+                  <option value="geonames_estimated">
+                    GeoNames stimate
+                  </option>
                   <option value="missing">Mancanti</option>
                 </select>
               </div>
@@ -147,7 +154,7 @@
         <section class="map-panel" id="map" aria-labelledby="map-title">
           <div class="map-header">
             <div>
-              <p class="eyebrow">12.388 punti legacy non verificati</p>
+              <p class="eyebrow">Coordinate GeoNames non ufficiali</p>
               <h2 id="map-title">Copertura geografica</h2>
             </div>
             <div class="map-legend" aria-label="Legenda">
@@ -185,7 +192,7 @@
                     <th scope="col">Regione</th>
                     <th scope="col">Record</th>
                     <th scope="col">Con coordinate</th>
-                    <th scope="col">Copertura</th>
+                    <th scope="col">Mancanti</th>
                   </tr>
                 </thead>
                 <tbody id="map-fallback-body"></tbody>
@@ -198,6 +205,12 @@
               href="https://www.istat.it/notizia/confini-delle-unita-amministrative-a-fini-statistici-al-1-gennaio-2018-2/"
             >fonte CC BY 4.0</a>; geometrie semplificate per il web.
           </p>
+          <p class="map-source">
+            Località, CAP e coordinate:
+            <a href="https://www.geonames.org/">GeoNames</a>, CC BY 4.0.
+            GeoNames non è Poste Italiane; accuracy e coordinate sono quelle
+            dichiarate nel dump e non costituiscono certificazione geografica.
+          </p>
         </section>
       </div>
 
@@ -207,33 +220,34 @@
         <p>
           CSV, JSON, XLSX, SQLite e SQL derivano dalla stessa vista canonica.
           Gli asset della release includono checksum SHA-256. Il dataset non è
-          un elenco postale ufficiale: consulta sempre fonti e limiti.
+          un elenco postale ufficiale. La release v2 è preparata ma non ancora
+          pubblicata; questi link scaricano gli output correnti da <code>main</code>.
         </p>
         <div class="download-actions">
           <a
             class="button"
-            href="https://github.com/Codewriter90x/Italian_Cities/releases/download/v1.1.0/italian_locations.csv"
-          >CSV v1.1.0</a>
+            href="https://github.com/Codewriter90x/Italian_Cities/raw/refs/heads/main/data/italian_locations.csv"
+          >CSV v2 prerelease</a>
           <a
             class="button secondary"
-            href="https://github.com/Codewriter90x/Italian_Cities/releases/download/v1.1.0/italian_locations.json"
-          >JSON v1.1.0</a>
+            href="https://github.com/Codewriter90x/Italian_Cities/raw/refs/heads/main/data/italian_locations.json"
+          >JSON v2 prerelease</a>
           <a
             class="button secondary"
-            href="https://github.com/Codewriter90x/Italian_Cities/releases/download/v1.1.0/italian_locations.sqlite"
-          >SQLite v1.1.0</a>
+            href="https://github.com/Codewriter90x/Italian_Cities/raw/refs/heads/main/data/italian_locations.sqlite"
+          >SQLite v2 prerelease</a>
           <a
             class="button secondary"
             href="https://github.com/Codewriter90x/Italian_Cities/releases/tag/v1.1.0"
-          >Tutti gli asset e checksum</a>
+          >Ultima release pubblicata: v1.1.0</a>
         </div>
       </section>
     </main>
 
     <footer class="site-footer">
       <p>
-        Snapshot legacy 2023-05-02 · riferimento comuni ISTAT 2026-02-21.
-        Coordinate WGS84 legacy, non confini amministrativi.
+        Comuni ISTAT 2026-02-21 · GeoNames Postal Codes 2026-07-30.
+        Il legacy è escluso dal canonico e usato solo nel report comparativo.
       </p>
       <p>
         <a href="https://github.com/Codewriter90x/Italian_Cities/issues/new/choose">
