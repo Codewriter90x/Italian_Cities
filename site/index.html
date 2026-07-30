@@ -63,8 +63,8 @@
             <a class="button" href="#search">Inizia la ricerca</a>
             <a
               class="button secondary"
-              href="https://github.com/Codewriter90x/Italian_Cities/releases/tag/v1.0.0"
-            >Scarica la baseline v1.0.0</a>
+              href="https://github.com/Codewriter90x/Italian_Cities/releases/tag/v1.1.0"
+            >Scarica la release corrente v1.1.0</a>
           </div>
         </div>
 
@@ -164,10 +164,39 @@
           <canvas
             id="coverage-map"
             role="img"
+            aria-describedby="map-detail map-accessible-title"
             aria-label="Mappa a punti delle coordinate disponibili in Italia"
-          ></canvas>
+          >
+            La mappa mostra la copertura delle coordinate sul confine regionale
+            ISTAT. La tabella subito dopo offre gli stessi dati in forma
+            accessibile.
+          </canvas>
           <p class="map-detail" id="map-detail" aria-live="polite">
             Seleziona un risultato per evidenziarlo sulla mappa.
+          </p>
+          <details class="map-accessible">
+            <summary id="map-accessible-title">
+              Alternativa testuale: copertura per regione
+            </summary>
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Regione</th>
+                    <th scope="col">Record</th>
+                    <th scope="col">Con coordinate</th>
+                    <th scope="col">Copertura</th>
+                  </tr>
+                </thead>
+                <tbody id="map-fallback-body"></tbody>
+              </table>
+            </div>
+          </details>
+          <p class="map-source">
+            Confini regionali generalizzati ISTAT al 1° gennaio 2026,
+            <a
+              href="https://www.istat.it/notizia/confini-delle-unita-amministrative-a-fini-statistici-al-1-gennaio-2018-2/"
+            >fonte CC BY 4.0</a>; geometrie semplificate per il web.
           </p>
         </section>
       </div>
@@ -183,16 +212,20 @@
         <div class="download-actions">
           <a
             class="button"
-            href="https://raw.githubusercontent.com/Codewriter90x/Italian_Cities/main/data/italian_locations.csv"
-          >CSV working copy</a>
+            href="https://github.com/Codewriter90x/Italian_Cities/releases/download/v1.1.0/italian_locations.csv"
+          >CSV v1.1.0</a>
           <a
             class="button secondary"
-            href="https://raw.githubusercontent.com/Codewriter90x/Italian_Cities/main/data/italian_locations.json"
-          >JSON</a>
+            href="https://github.com/Codewriter90x/Italian_Cities/releases/download/v1.1.0/italian_locations.json"
+          >JSON v1.1.0</a>
           <a
             class="button secondary"
-            href="https://raw.githubusercontent.com/Codewriter90x/Italian_Cities/main/data/italian_locations.sqlite"
-          >SQLite</a>
+            href="https://github.com/Codewriter90x/Italian_Cities/releases/download/v1.1.0/italian_locations.sqlite"
+          >SQLite v1.1.0</a>
+          <a
+            class="button secondary"
+            href="https://github.com/Codewriter90x/Italian_Cities/releases/tag/v1.1.0"
+          >Tutti gli asset e checksum</a>
         </div>
       </section>
     </main>

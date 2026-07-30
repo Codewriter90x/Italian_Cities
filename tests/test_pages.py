@@ -40,6 +40,7 @@ class GitHubPagesBuildTests(unittest.TestCase):
                     ".nojekyll",
                     "assets/app.js",
                     "assets/core.mjs",
+                    "assets/italy-regions.geojson",
                     "assets/locations.json",
                     "assets/social-preview.jpg",
                     "assets/styles.css",
@@ -119,13 +120,32 @@ class GitHubPagesBuildTests(unittest.TestCase):
             'id="query"',
             'id="province"',
             'id="coverage-map"',
+            'id="map-fallback-body"',
             'property="og:image"',
-            "italian_locations.csv",
-            "italian_locations.json",
-            "italian_locations.sqlite",
+            "releases/download/v1.1.0/italian_locations.csv",
+            "releases/download/v1.1.0/italian_locations.json",
+            "releases/download/v1.1.0/italian_locations.sqlite",
+            "Confini regionali generalizzati ISTAT",
         ):
             self.assertIn(required, source)
         self.assertNotIn("http://", source)
+
+    def test_committed_geographic_base_has_official_provenance(self) -> None:
+        payload = json.loads(
+            (
+                REPOSITORY_ROOT / "site" / "assets" / "italy-regions.geojson"
+            ).read_text(encoding="utf-8")
+        )
+        self.assertEqual("FeatureCollection", payload["type"])
+        self.assertEqual(20, len(payload["features"]))
+        self.assertEqual("2026-01-01", payload["source"]["reference_date"])
+        self.assertEqual("CC BY 4.0", payload["source"]["license"])
+        self.assertEqual(
+            "b011a590656c3a3ebc297fba80726a376aa843b6f164641cf6a4a990021a81d6",
+            payload["source"]["archive_sha256"],
+        )
+        self.assertIn("istat.it", payload["source"]["url"])
+        self.assertIn("simplified", payload["source"]["modifications"])
 
     def test_required_issue_forms_exist(self) -> None:
         template_dir = REPOSITORY_ROOT / ".github" / "ISSUE_TEMPLATE"
