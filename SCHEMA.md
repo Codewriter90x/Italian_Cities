@@ -1,4 +1,4 @@
-# Dataset schema — version 2.0.0
+# Dataset schema — version 2.1.0
 
 ## Perimetro semantico
 
@@ -6,7 +6,7 @@ Il dataset rappresenta associazioni tra un nome geografico e un CAP. Non è
 un elenco ufficiale completo dei soli comuni italiani.
 
 - **Comune**: unità amministrativa riconosciuta nell'elenco ISTAT scelto come
-  riferimento. Nella Milestone 1 una riga è `municipality` soltanto se nome
+  riferimento. Una riga è `municipality` soltanto se nome
   normalizzato e sigla di provincia coincidono esattamente.
 - **Località**: luogo denominato e associato a un CAP; può non avere autonomia
   amministrativa o postale.
@@ -36,8 +36,8 @@ finché una fonte autorevole non documenta la relazione.
 
 ### `postal_codes.csv`
 
-Grana: una relazione luogo-CAP. Il CAP non è una chiave univoca. Nella
-Milestone 2 ogni luogo ha una sola relazione legacy marcata `is_primary=true`;
+Grana: una relazione luogo-CAP. Il CAP non è una chiave univoca. Attualmente
+ogni luogo ha una sola relazione legacy marcata `is_primary=true`;
 lo schema consente future relazioni multiple.
 
 ### `italian_locations.csv`
@@ -60,15 +60,19 @@ intestazione e terminatori di riga LF.
 | `municipality_istat_code` | stringa di 6 cifre | solo comuni | Codice ISTAT corrente del comune riconosciuto |
 | `parent_municipality_id` | identificatore | no | Relazione futura, vuota finché non documentata |
 | `postal_code` | stringa, `^[0-9]{5}$` | sì | CAP con eventuali zeri iniziali |
+| `postal_code_status` | enum | sì | `legacy_unverified`, `generic_multicap`, `verified` o `obsolete` |
 | `province_code` | stringa, `^[A-Z]{2}$` | sì | Sigla legacy della provincia |
-| `province_name` | stringa | sì | Nome legacy della provincia |
+| `province_name` | stringa | sì | Denominazione ufficiale nello snapshot ISTAT |
+| `legacy_province_name` | stringa | sì | Denominazione originaria preservata |
 | `region_name` | stringa | sì | Nome legacy della regione |
 | `country_code` | ISO 3166-1 alpha-2 | sì | Sempre `IT` |
 | `country_name` | stringa | sì | Nome paese legacy |
 | `latitude` | decimale WGS84 | con longitudine | Vuoto se la coppia non è disponibile |
 | `longitude` | decimale WGS84 | con latitudine | Vuoto se la coppia non è disponibile |
 | `coordinate_status` | enum | sì | `available`, `corrected` o `missing` |
+| `coordinate_verification` | enum | sì | `legacy_unverified`, `corrected_legacy_unverified`, `verified` o `missing` |
 | `source_snapshot` | stringa | sì | Baseline di provenienza del record |
+| `source_ids` | lista `;` | sì | Identificativi delle fonti dichiarate che contribuiscono al record |
 
 I campi vuoti sono l'unica rappresentazione ammessa dei valori mancanti. La
 stringa letterale `NULL` non è ammessa nel canonico.
@@ -97,8 +101,8 @@ entro `1e-12`.
 Lo script release `italian_locations.sql` usa lo stesso ordine di colonne e
 memorizza ogni campo come `TEXT NOT NULL`, inclusi CAP, identificativi e
 coordinate. È destinato a SQLite e conserva le stringhe vuote del canonico.
-Il validatore lo importa integralmente e confronta il digest ordinato dei
-14.480 record.
+Il validatore lo importa integralmente e confronta il digest ordinato di tutti
+i record.
 
 ## Identificativi stabili
 
@@ -129,22 +133,34 @@ deve essere riutilizzato per nuove righe.
 
 ## Contratto di qualità
 
-Il quality gate `3.0.0` non modifica lo schema dati `2.0.0`. Verifica:
+Il quality gate `4.0.0` applica lo schema dati `2.1.0`. Verifica:
 
 - intestazioni esatte e nessuna colonna aggiunta, rimossa o rinominata;
 - identificativi non vuoti e unici alla grana di ogni tabella;
 - CAP di cinque cifre;
+- stato semantico dei CAP e riconoscimento dei CAP generici multi-CAP;
 - codici ISTAT di sei cifre presenti nello snapshot dichiarato;
 - coerenza fra codice ISTAT, sigla di provincia e regione;
 - coordinate complete, numeriche, finite e comprese nel bounding box
   prudenziale Italia `latitudine 35–48`, `longitudine 6–19`;
+- stato di verifica delle coordinate coerente con presenza e provenienza;
+- provenienza esplicita delle fonti legacy e ISTAT;
 - nessuna riga completamente vuota e nessun duplicato logico;
 - ricostruzione esatta del canonico tramite comuni, località e relazioni CAP;
 - equivalenza degli export e due build consecutive deterministiche.
 
-I nomi di provincia e regione sono display label legacy. La relazione
-amministrativa autorevole usa il codice ISTAT e la sigla di provincia; il
-validatore accetta i suffissi bilingui ufficiali nelle denominazioni regionali.
+`province_name` è normalizzato allo snapshot ISTAT e viene confrontato con la
+sigla. `legacy_province_name` conserva il valore storico, inclusi refusi e
+varianti. Il validatore accetta i suffissi bilingui ufficiali nelle
+denominazioni regionali.
+
+Un CAP di cinque cifre è soltanto sintatticamente valido. Nessun CAP legacy è
+considerato verificato senza una fonte postale autorizzata. I codici generici
+noti delle città multi-CAP sono marcati `generic_multicap`.
+
+La presenza di una coordinata non ne dimostra l'accuratezza. Tutte le
+coordinate legacy sono marcate `legacy_unverified`; una futura coordinata
+verificata dovrà registrare fonte, metodo e data.
 
 ## Scelte di migrazione
 

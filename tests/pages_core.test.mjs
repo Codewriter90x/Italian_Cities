@@ -16,12 +16,14 @@ const rows = [
     location_kind: "municipality",
     municipality_istat_code: "054013",
     postal_code: "06012",
+    postal_code_status: "legacy_unverified",
     province_code: "PG",
     province_name: "Perugia",
     region_name: "Umbria",
     latitude: 43.46,
     longitude: 12.24,
     coordinate_status: "available",
+    coordinate_verification: "legacy_unverified",
   },
   {
     location_id: "IT-LOC-002",
@@ -30,12 +32,14 @@ const rows = [
     location_kind: "postal_locality_unclassified",
     municipality_istat_code: "",
     postal_code: "00186",
+    postal_code_status: "legacy_unverified",
     province_code: "RM",
     province_name: "Roma",
     region_name: "Lazio",
     latitude: null,
     longitude: null,
     coordinate_status: "missing",
+    coordinate_verification: "missing",
   },
   {
     location_id: "IT-COM-003",
@@ -44,12 +48,30 @@ const rows = [
     location_kind: "municipality",
     municipality_istat_code: "001272",
     postal_code: "10100",
+    postal_code_status: "generic_multicap",
     province_code: "TO",
     province_name: "Torino",
     region_name: "Piemonte",
     latitude: 45.07,
     longitude: 7.68,
+    coordinate_status: "corrected",
+    coordinate_verification: "corrected_legacy_unverified",
+  },
+  {
+    location_id: "IT-COM-004",
+    name: "Agliè",
+    normalized_name: "aglie",
+    location_kind: "municipality",
+    municipality_istat_code: "001001",
+    postal_code: "10011",
+    postal_code_status: "legacy_unverified",
+    province_code: "TO",
+    province_name: "Torino",
+    region_name: "Piemonte",
+    latitude: 45.36,
+    longitude: 7.77,
     coordinate_status: "available",
+    coordinate_verification: "legacy_unverified",
   },
 ];
 
@@ -70,10 +92,14 @@ test("searches by name without requiring accents", () => {
 
 test("searches by postal code and province", () => {
   assert.equal(searchLocations(rows, { query: "00186" }).total, 1);
+  assert.equal(searchLocations(rows, { query: "10011" }).total, 1);
+  assert.equal(searchLocations(rows, { query: "10011" }).rows[0].name, "Agliè");
   assert.equal(searchLocations(rows, { query: "RM" }).rows[0].name, "Roma Centro");
-  assert.equal(
-    searchLocations(rows, { province: "TO" }).rows[0].name,
-    "Torino",
+  const turinProvince = searchLocations(rows, { province: "TO" });
+  assert.equal(turinProvince.total, 2);
+  assert.deepEqual(
+    turinProvince.rows.map((row) => row.name),
+    ["Agliè", "Torino"],
   );
 });
 
@@ -84,6 +110,12 @@ test("filters by kind and coordinate status", () => {
   });
   assert.equal(result.total, 1);
   assert.equal(result.rows[0].name, "Roma Centro");
+  assert.equal(searchLocations(rows, { coordinateStatus: "present" }).total, 3);
+  assert.equal(
+    searchLocations(rows, { coordinateStatus: "legacy_unverified" }).total,
+    3,
+  );
+  assert.equal(searchLocations(rows, { coordinateStatus: "verified" }).total, 0);
 });
 
 test("projects the extrema inside the drawing area", () => {

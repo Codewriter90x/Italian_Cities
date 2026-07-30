@@ -13,9 +13,10 @@ from dataset_common import (
     read_csv_rows,
     record_digest,
 )
+from project_metadata import DATASET_VERSION, SCHEMA_VERSION, version_number
 
 
-DEFAULT_OUTPUT = Path("dist/v1.0.0/italian_locations.sql")
+DEFAULT_OUTPUT = Path("dist") / DATASET_VERSION / "italian_locations.sql"
 INSERT_BATCH_SIZE = 250
 
 
@@ -44,7 +45,7 @@ def export_sql(rows: list[dict[str, str]], output: Path) -> None:
 
     with temporary.open("w", encoding="utf-8", newline="\n") as destination:
         destination.write(
-            "-- Italian Cities v1.0.0\n"
+            f"-- Italian Cities {DATASET_VERSION}\n"
             "-- Generated from data/italian_locations.csv; do not edit manually.\n"
             "-- SQLite-compatible schema and data. All source columns are TEXT.\n\n"
             "PRAGMA foreign_keys = ON;\n"
@@ -81,9 +82,9 @@ def export_sql(rows: list[dict[str, str]], output: Path) -> None:
             'INSERT INTO "_metadata" ("key", "value") VALUES\n'
             f"('record_digest', {sql_literal(record_digest(rows))}),\n"
             f"('row_count', {sql_literal(str(len(rows)))}),\n"
-            "('schema_version', '2.0.0'),\n"
-            "('release_version', 'v1.0.0');\n"
-            "PRAGMA user_version = 2;\n"
+            f"('schema_version', {sql_literal(SCHEMA_VERSION)}),\n"
+            f"('release_version', {sql_literal(DATASET_VERSION)});\n"
+            f"PRAGMA user_version = {version_number(SCHEMA_VERSION)};\n"
             "COMMIT;\n"
         )
     os.replace(temporary, output)

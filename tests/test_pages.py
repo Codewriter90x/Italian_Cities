@@ -12,6 +12,7 @@ REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPOSITORY_ROOT / "scripts"))
 
 from build_pages import build_site  # noqa: E402
+from project_metadata import DATASET_VERSION  # noqa: E402
 
 
 def directory_hashes(root: Path) -> dict[str, str]:
@@ -55,18 +56,59 @@ class GitHubPagesBuildTests(unittest.TestCase):
                         encoding="utf-8"
                     )
                 )
-                self.assertEqual("v1.0.0", payload["metadata"]["release"])
-                self.assertEqual(14_480, len(payload["rows"]))
-                self.assertEqual(14_480, payload["stats"]["total_locations"])
-                self.assertEqual(7_186, payload["stats"]["municipalities"])
-                self.assertEqual(
-                    7_294, payload["stats"]["unclassified_localities"]
+                rows = payload["rows"]
+                total = len(rows)
+                municipalities = sum(
+                    row["location_kind"] == "municipality" for row in rows
                 )
-                self.assertEqual(4_459, payload["stats"]["unique_postal_codes"])
-                self.assertEqual(12_388, payload["stats"]["with_coordinates"])
-                self.assertEqual(2_092, payload["stats"]["missing_coordinates"])
+                with_coordinates = sum(row["latitude"] is not None for row in rows)
+                verified_coordinates = sum(
+                    row["coordinate_verification"] == "verified" for row in rows
+                )
+                legacy_unverified_coordinates = sum(
+                    row["coordinate_verification"]
+                    in {"legacy_unverified", "corrected_legacy_unverified"}
+                    for row in rows
+                )
+                self.assertEqual(DATASET_VERSION, payload["metadata"]["release"])
+                self.assertEqual("prerelease", payload["metadata"]["release_status"])
                 self.assertEqual(
-                    85.55, payload["stats"]["coordinate_coverage_percent"]
+                    total, payload["stats"]["total_locations"]
+                )
+                self.assertEqual(municipalities, payload["stats"]["municipalities"])
+                self.assertEqual(
+                    total - municipalities,
+                    payload["stats"]["unclassified_localities"],
+                )
+                self.assertEqual(
+                    len({row["postal_code"] for row in rows}),
+                    payload["stats"]["unique_postal_codes"],
+                )
+                self.assertEqual(
+                    with_coordinates, payload["stats"]["with_coordinates"]
+                )
+                self.assertEqual(
+                    total - with_coordinates,
+                    payload["stats"]["missing_coordinates"],
+                )
+                self.assertEqual(
+                    round(with_coordinates / total * 100, 2),
+                    payload["stats"]["coordinate_coverage_percent"],
+                )
+                self.assertEqual(
+                    verified_coordinates,
+                    payload["stats"]["verified_coordinates"],
+                )
+                self.assertEqual(
+                    legacy_unverified_coordinates,
+                    payload["stats"]["legacy_unverified_coordinates"],
+                )
+                self.assertEqual(
+                    sum(
+                        row["postal_code_status"] == "generic_multicap"
+                        for row in rows
+                    ),
+                    payload["stats"]["generic_multicap_rows"],
                 )
 
     def test_site_declares_search_map_downloads_and_metadata(self) -> None:

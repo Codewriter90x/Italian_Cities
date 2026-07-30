@@ -19,9 +19,10 @@ from dataset_common import (
     sha256_file,
     write_json,
 )
+from project_metadata import QUALITY_GATE_VERSION
 
 
-DEFAULT_REPORT = REPORTS_DIR / "milestone3-determinism.json"
+DEFAULT_REPORT = REPORTS_DIR / "determinism.json"
 BYTE_STABLE_PATHS = {
     "municipalities_csv": GENERATED_PATHS["municipalities"],
     "localities_csv": GENERATED_PATHS["localities"],
@@ -29,8 +30,8 @@ BYTE_STABLE_PATHS = {
     "italian_locations_csv": GENERATED_PATHS["italian_locations"],
     "italian_locations_json": GENERATED_PATHS["json"],
     "italian_locations_xlsx": GENERATED_PATHS["xlsx"],
-    "milestone2_diff_report": REPORTS_DIR / "milestone2-diff.json",
-    "milestone2_exports_report": REPORTS_DIR / "milestone2-exports.json",
+    "release_diff_report": REPORTS_DIR / "release-diff.json",
+    "export_manifest": REPORTS_DIR / "export-manifest.json",
 }
 
 
@@ -106,7 +107,7 @@ def main() -> None:
         }
         report: dict[str, object] = {
             "status": "passed" if not mismatches else "failed",
-            "quality_gate_version": "3.0.0",
+            "quality_gate_version": QUALITY_GATE_VERSION,
             "runs": 2,
             "comparison": {
                 "byte_identical": not bool(mismatches.get("byte_sha256")),
@@ -120,7 +121,7 @@ def main() -> None:
     except (FileNotFoundError, KeyError, RuntimeError, sqlite3.DatabaseError) as error:
         report = {
             "status": "failed",
-            "quality_gate_version": "3.0.0",
+            "quality_gate_version": QUALITY_GATE_VERSION,
             "runs": 2,
             "comparison": {},
             "signatures": {},

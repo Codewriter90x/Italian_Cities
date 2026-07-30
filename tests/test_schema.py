@@ -94,6 +94,35 @@ class SchemaTests(unittest.TestCase):
             )
         )
 
+    def test_quality_annotations_are_present(self) -> None:
+        required_sources = {"legacy_csv", "istat_municipalities"}
+        for row in self.locations:
+            self.assertIn(
+                row["postal_code_status"],
+                {"generic_multicap", "legacy_unverified", "verified", "obsolete"},
+            )
+            self.assertTrue(row["legacy_province_name"])
+            self.assertEqual(set(row["source_ids"].split(";")), required_sources)
+
+    def test_multicap_city_codes_are_not_claimed_as_verified(self) -> None:
+        generic = {
+            ("bari", "70100"),
+            ("bologna", "40100"),
+            ("firenze", "50100"),
+            ("genova", "16100"),
+            ("milano", "20100"),
+            ("napoli", "80100"),
+            ("roma", "00100"),
+            ("torino", "10100"),
+            ("venezia", "30100"),
+        }
+        actual = {
+            (row["normalized_name"], row["postal_code"])
+            for row in self.locations
+            if row["postal_code_status"] == "generic_multicap"
+        }
+        self.assertEqual(actual, generic)
+
 
 if __name__ == "__main__":
     unittest.main()

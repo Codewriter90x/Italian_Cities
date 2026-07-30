@@ -19,15 +19,6 @@
       "sha256": "83842076860450f7e482daecea6b7a769f5f93d0bf5b0d48802b44896d7a26d5",
       "license_status": "CC BY 4.0 attribution required",
       "url": "https://www.istat.it/storage/codici-unita-amministrative/Elenco-comuni-italiani.xlsx"
-    },
-    {
-      "id": "milestone1_baseline",
-      "path": "legacy/milestone-1-canonical/italian_postal_localities.csv",
-      "role": "Semantic comparison baseline",
-      "reference_date": "2026-07-29",
-      "sha256": "735a7e9a1e7fb4eab005022478772ceab73d0034120f4f243ca68d4c64668a3d",
-      "license_status": "Provisional; see DATA_SOURCES.md",
-      "url": "https://github.com/Codewriter90x/Italian_Cities/commit/86d0165b47ee3fa33df333b421880a33a84fbb61"
     }
   ]
 }

@@ -21,53 +21,7 @@ MILESTONE1_BASELINE = (
 )
 SOURCE_MANIFEST = ROOT / "sources/manifest.json"
 
-MUNICIPALITY_FIELDS = (
-    "municipality_id",
-    "istat_code",
-    "legacy_uuid",
-    "name",
-    "normalized_name",
-    "postal_code",
-    "province_code",
-    "province_name",
-    "region_name",
-    "country_code",
-    "country_name",
-    "latitude",
-    "longitude",
-    "coordinate_status",
-    "source_snapshot",
-)
-
-LOCALITY_FIELDS = (
-    "locality_id",
-    "legacy_uuid",
-    "name",
-    "normalized_name",
-    "locality_type",
-    "parent_municipality_id",
-    "postal_code",
-    "province_code",
-    "province_name",
-    "region_name",
-    "country_code",
-    "country_name",
-    "latitude",
-    "longitude",
-    "coordinate_status",
-    "source_snapshot",
-)
-
-POSTAL_CODE_FIELDS = (
-    "location_id",
-    "location_kind",
-    "postal_code",
-    "province_code",
-    "is_primary",
-    "source_snapshot",
-)
-
-ITALIAN_LOCATION_FIELDS = (
+V1_ITALIAN_LOCATION_FIELDS = (
     "location_id",
     "legacy_uuid",
     "name",
@@ -85,6 +39,86 @@ ITALIAN_LOCATION_FIELDS = (
     "longitude",
     "coordinate_status",
     "source_snapshot",
+)
+
+MUNICIPALITY_FIELDS = (
+    "municipality_id",
+    "istat_code",
+    "legacy_uuid",
+    "name",
+    "normalized_name",
+    "postal_code",
+    "postal_code_status",
+    "province_code",
+    "province_name",
+    "legacy_province_name",
+    "region_name",
+    "country_code",
+    "country_name",
+    "latitude",
+    "longitude",
+    "coordinate_status",
+    "coordinate_verification",
+    "source_snapshot",
+    "source_ids",
+)
+
+LOCALITY_FIELDS = (
+    "locality_id",
+    "legacy_uuid",
+    "name",
+    "normalized_name",
+    "locality_type",
+    "parent_municipality_id",
+    "postal_code",
+    "postal_code_status",
+    "province_code",
+    "province_name",
+    "legacy_province_name",
+    "region_name",
+    "country_code",
+    "country_name",
+    "latitude",
+    "longitude",
+    "coordinate_status",
+    "coordinate_verification",
+    "source_snapshot",
+    "source_ids",
+)
+
+POSTAL_CODE_FIELDS = (
+    "location_id",
+    "location_kind",
+    "postal_code",
+    "postal_code_status",
+    "province_code",
+    "is_primary",
+    "source_snapshot",
+    "source_ids",
+)
+
+ITALIAN_LOCATION_FIELDS = (
+    "location_id",
+    "legacy_uuid",
+    "name",
+    "normalized_name",
+    "location_kind",
+    "municipality_istat_code",
+    "parent_municipality_id",
+    "postal_code",
+    "postal_code_status",
+    "province_code",
+    "province_name",
+    "legacy_province_name",
+    "region_name",
+    "country_code",
+    "country_name",
+    "latitude",
+    "longitude",
+    "coordinate_status",
+    "coordinate_verification",
+    "source_snapshot",
+    "source_ids",
 )
 
 GENERATED_PATHS = {
