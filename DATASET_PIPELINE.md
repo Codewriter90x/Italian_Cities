@@ -39,6 +39,11 @@ SHA-256 prima di aprire il workbook ISTAT o `IT.zip`.
 Lo snapshot GeoNames è committato come file originale; non viene modificato o
 estratto manualmente nel repository.
 
+L'archivio dei confini regionali generalizzati ISTAT è dichiarato come fonte
+ausiliaria non canonica. È committato con checksum e la CI ricostruisce
+obbligatoriamente `site/assets/italy-regions.geojson`; un cache assente o
+dipendenze geografiche mancanti fanno fallire il gate.
+
 ## Riconciliazione
 
 `scripts/reconcile_sources.py` usa:
@@ -78,6 +83,11 @@ canonica. `scripts/export_sql.py` crea lo script SQLite-compatible.
 - `reports/determinism.json`: firme di due build;
 - `reports/quality-validation.json`: gate strutturali separati dalla readiness.
 
+Quest'ultimo include anche la distribuzione dei riusi esatti di coordinate,
+alla grana del luogo univoco. I cluster grandi sono marcati
+`review_required`: non rendono strutturalmente invalido il dump sorgente, ma
+impediscono di descrivere `geonames_place_match` come verifica geografica.
+
 Il report legacy può cambiare se cambia il legacy; gli output canonici no.
 
 ## Quality model
@@ -96,7 +106,10 @@ certificazione postale.
 ## Comandi
 
 ```bash
-python -m pip install -r requirements.txt -r requirements-dev.txt
+python -m pip install \
+  -r requirements.txt \
+  -r requirements-dev.txt \
+  -r requirements-geography.txt
 python scripts/build_dataset.py
 python scripts/check_determinism.py
 python scripts/validate_dataset.py
@@ -104,6 +117,9 @@ ruff check scripts tests
 mypy
 coverage run -m unittest discover -s tests
 coverage report
+python scripts/validate_typed_contract.py
+python scripts/build_geography.py --check --require-rebuild
+python scripts/check_workflow_pins.py
 node --test tests/pages_core.test.mjs
 python scripts/build_pages.py
 python scripts/build_release.py
@@ -111,8 +127,9 @@ python scripts/validate_release.py
 git diff --check
 ```
 
-La CI esegue questi gate su Python 3.11, 3.12 e 3.13. Le Actions sono fissate
-a commit SHA immutabili.
+La CI esegue questi gate su Python 3.11, 3.12, 3.13 e 3.14. Le Actions sono
+fissate a commit SHA immutabili e un test impedisce regressioni a tag o branch.
+`pip-audit` controlla le dipendenze dichiarate.
 
 ## Aggiornamento fonti
 

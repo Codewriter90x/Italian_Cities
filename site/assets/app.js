@@ -3,6 +3,7 @@ import {
   filtersToSearchParams,
   formatInteger,
   inflateRows,
+  municipalityPagePath,
   projectCoordinates,
   searchLocations,
 } from "./core.mjs";
@@ -129,7 +130,7 @@ function renderResults() {
       row.latitude === null
         ? "coordinate mancanti"
         : row.coordinate_verification === "geonames_place_match"
-          ? `coordinate GeoNames associate al luogo · accuracy ${row.coordinate_accuracy}`
+          ? `record GeoNames con match anagrafico · accuracy ${row.coordinate_accuracy}; accuratezza geografica non certificata`
           : `coordinate GeoNames stimate · accuracy ${row.coordinate_accuracy}`;
     const postalText =
       row.postal_code_status === "missing"
@@ -143,6 +144,14 @@ function renderResults() {
     button.append(heading, location, meta);
     button.addEventListener("click", () => selectLocation(row));
     item.append(button);
+    const detailPath = municipalityPagePath(row);
+    if (detailPath) {
+      const detailLink = document.createElement("a");
+      detailLink.className = "result-detail-link";
+      detailLink.href = detailPath;
+      detailLink.textContent = "Scheda statica del comune";
+      item.append(detailLink);
+    }
     fragment.append(item);
   }
   elements.results.append(fragment);

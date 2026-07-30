@@ -44,6 +44,7 @@ RELEASE_DOWNLOAD_ROOT = (
     f"{REPOSITORY_URL}/releases/download/{RELEASE_VERSION}"
 )
 
+
 def sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as stream:
@@ -54,6 +55,13 @@ def sha256(path: Path) -> str:
 
 def release_asset_url(name: str) -> str:
     return f"{RELEASE_DOWNLOAD_ROOT}/{name}"
+
+
+def municipality_path(row: dict[str, Any]) -> str:
+    return (
+        f"comuni/{row['municipality_istat_code']}-"
+        f"{slugify(row['name'])}/"
+    )
 
 
 def structured_data(stats: dict[str, Any]) -> str:
@@ -225,19 +233,22 @@ def page_document(
     extra_structured_data: dict[str, Any] | None = None,
 ) -> str:
     canonical = f"{SITE_ROOT}{canonical_path}"
-    graph: list[dict[str, Any]] = [
-        {
-            "@type": page_type,
-            "@id": f"{canonical}#page",
-            "url": canonical,
-            "name": title,
-            "description": description,
-            "dateModified": BUILD_DATE,
-            "inLanguage": "it-IT",
-            "isPartOf": {"@id": f"{SITE_ROOT}#website"},
-        }
-    ]
+    page_entry: dict[str, Any] = {
+        "@type": page_type,
+        "@id": f"{canonical}#page",
+        "url": canonical,
+        "name": title,
+        "description": description,
+        "dateModified": BUILD_DATE,
+        "inLanguage": "it-IT",
+        "isPartOf": {"@id": f"{SITE_ROOT}#website"},
+    }
+    graph: list[dict[str, Any]] = [page_entry]
     if extra_structured_data:
+        if page_type == "ProfilePage" and extra_structured_data.get("@id"):
+            page_entry["mainEntity"] = {
+                "@id": extra_structured_data["@id"]
+            }
         graph.append(extra_structured_data)
     json_ld = json.dumps(
         {"@context": "https://schema.org", "@graph": graph},
@@ -395,7 +406,7 @@ def build_information_pages(
             <tr><td><code>postal_code</code></td><td>CAP GeoNames a cinque cifre oppure vuoto con stato missing.</td></tr>
             <tr><td><code>province_code</code></td><td>Sigla della provincia.</td></tr>
             <tr><td><code>latitude</code>, <code>longitude</code></td><td>Coordinate WGS84 opzionali.</td></tr>
-            <tr><td><code>coordinate_verification</code></td><td>Origine e livello di associazione della coordinata.</td></tr>
+            <tr><td><code>coordinate_verification</code></td><td>Origine e tipo di riconciliazione; non certifica l'accuratezza geografica.</td></tr>
             <tr><td><code>source_ids</code></td><td>Fonti canoniche che contribuiscono al record.</td></tr>
           </tbody>
         </table></div>
@@ -541,16 +552,16 @@ def build_information_pages(
         for (province_name, province_code), items in sorted(province_groups.items()):
             links = []
             for municipality in items:
-                query = quote_plus(municipality["name"])
                 links.append(
-                    f'<li><a href="{SITE_ROOT}?q={query}'
-                    f'&amp;province={html.escape(province_code)}#search">'
+                    f'<li><a href="{SITE_ROOT}{municipality_path(municipality)}">'
                     f"{html.escape(municipality['name'])}</a>"
                     f" <small>ISTAT {html.escape(municipality['municipality_istat_code'])}</small></li>"
                 )
             province_sections.append(
                 f"<section class=\"municipality-group\"><h2>"
-                f"{html.escape(province_name)} ({html.escape(province_code)})"
+                f'<a href="{SITE_ROOT}province/{province_code.casefold()}/">'
+                f"{html.escape(province_name)} "
+                f"({html.escape(province_code)})</a>"
                 f"</h2><ul class=\"municipality-list\">{''.join(links)}</ul></section>"
             )
         region_body = f"""
@@ -572,7 +583,7 @@ def build_information_pages(
             I CAP e le coordinate provengono da GeoNames e possono essere
             incompleti o non aggiornati.</aside>
           <section class="content-section"><h2>Elenco dei comuni</h2>
-            <p>Seleziona un comune per aprirlo nella ricerca interattiva.</p>
+            <p>Seleziona un comune per aprire la sua scheda statica.</p>
             {''.join(province_sections)}
           </section>
         """
@@ -602,7 +613,210 @@ def build_information_pages(
                 ),
             )
         )
+
+    municipality_relations: dict[str, list[dict[str, Any]]] = {}
+    municipalities_by_province: dict[
+        tuple[str, str, str],
+        list[dict[str, Any]],
+    ] = {}
+    for row in rows:
+        if row["location_kind"] != "municipality":
+            continue
+        municipality_relations.setdefault(row["location_id"], []).append(row)
+    for relations in municipality_relations.values():
+        municipality = relations[0]
+        province_key = (
+            municipality["province_code"],
+            municipality["province_name"],
+            municipality["region_name"],
+        )
+        municipalities_by_province.setdefault(province_key, []).append(
+            municipality
+        )
+
+    for (
+        province_code,
+        province_name,
+        region_name,
+    ), municipalities in sorted(municipalities_by_province.items()):
+        municipalities.sort(
+            key=lambda row: (
+                row["name"],
+                row["municipality_istat_code"],
+            )
+        )
+        province_links = "".join(
+            f'<li><a href="{SITE_ROOT}{municipality_path(row)}">'
+            f"{html.escape(row['name'])}</a> "
+            f"<small>ISTAT "
+            f"{html.escape(row['municipality_istat_code'])}</small></li>"
+            for row in municipalities
+        )
+        province_body = f"""
+          <nav class="breadcrumbs" aria-label="Percorso"><a href="{SITE_ROOT}">Home</a> /
+            <a href="{SITE_ROOT}regioni/{slugify(region_name)}/">{html.escape(region_name)}</a> /
+            {html.escape(province_name)}</nav>
+          <p class="eyebrow">Provincia {html.escape(province_code)} · {version}</p>
+          <h1>Comuni della provincia di {html.escape(province_name)}</h1>
+          <p class="content-lead">Elenco di
+            {format_integer(len(municipalities))} comuni ISTAT della provincia
+            di {html.escape(province_name)}, nella regione
+            {html.escape(region_name)}. CAP e coordinate associati nelle
+            schede provengono da GeoNames e non sono dati postali ufficiali.</p>
+          <section class="content-section"><h2>Elenco dei comuni</h2>
+            <ul class="municipality-list">{province_links}</ul>
+          </section>
+        """
+        pages.append(
+            write_page(
+                output,
+                f"province/{province_code.casefold()}",
+                page_document(
+                    title=(
+                        f"Comuni della provincia di {province_name} "
+                        f"({province_code})"
+                    ),
+                    description=(
+                        f"Elenco di {len(municipalities)} comuni ISTAT della "
+                        f"provincia di {province_name}, con codici, CAP "
+                        "GeoNames e stato delle coordinate."
+                    ),
+                    canonical_path=f"province/{province_code.casefold()}/",
+                    body=province_body,
+                    page_type="CollectionPage",
+                    extra_structured_data={
+                        "@type": "AdministrativeArea",
+                        "@id": (
+                            f"{SITE_ROOT}province/"
+                            f"{province_code.casefold()}/#province"
+                        ),
+                        "name": province_name,
+                        "containedInPlace": {
+                            "@type": "AdministrativeArea",
+                            "name": region_name,
+                        },
+                    },
+                ),
+            )
+        )
+
+    for _, relations in sorted(municipality_relations.items()):
+        municipality = relations[0]
+        municipality_postal_codes = sorted(
+            {
+                relation["postal_code"]
+                for relation in relations
+                if relation["postal_code"]
+            }
+        )
+        postal_text = (
+            ", ".join(
+                html.escape(value) for value in municipality_postal_codes
+            )
+            if municipality_postal_codes
+            else "non disponibile nello snapshot GeoNames"
+        )
+        if municipality["latitude"] is None:
+            coordinate_text = "Coordinate non disponibili."
+        else:
+            coordinate_text = (
+                f"Record GeoNames: {municipality['latitude']:.5f}, "
+                f"{municipality['longitude']:.5f}; accuracy "
+                f"{html.escape(municipality['coordinate_accuracy'])}. "
+                "Il match anagrafico non certifica l'accuratezza geografica."
+            )
+        search_query = quote_plus(municipality["name"])
+        body = f"""
+          <nav class="breadcrumbs" aria-label="Percorso"><a href="{SITE_ROOT}">Home</a> /
+            <a href="{SITE_ROOT}regioni/{slugify(municipality['region_name'])}/">{html.escape(municipality['region_name'])}</a> /
+            <a href="{SITE_ROOT}province/{municipality['province_code'].casefold()}/">{html.escape(municipality['province_name'])}</a> /
+            {html.escape(municipality['name'])}</nav>
+          <p class="eyebrow">Comune ISTAT
+            {html.escape(municipality['municipality_istat_code'])}</p>
+          <h1>{html.escape(municipality['name'])}</h1>
+          <p class="content-lead">{html.escape(municipality['name'])} è un
+            comune della provincia di
+            {html.escape(municipality['province_name'])}
+            ({html.escape(municipality['province_code'])}), in
+            {html.escape(municipality['region_name'])}.</p>
+          <div class="content-grid">
+            <article class="content-card"><h2>Codice ISTAT</h2><p>
+              <code>{html.escape(municipality['municipality_istat_code'])}</code>
+            </p></article>
+            <article class="content-card"><h2>CAP GeoNames</h2><p>
+              {postal_text}</p></article>
+            <article class="content-card"><h2>Coordinate</h2><p>
+              {coordinate_text}</p></article>
+          </div>
+          <aside class="trust-banner content-warning"><strong>Uso corretto.</strong>
+            I CAP e le coordinate di questa scheda derivano dal dump GeoNames
+            del {GEONAMES_REFERENCE_DATE}; non sono certificati da Poste
+            Italiane né verificati sul territorio.</aside>
+          <section class="content-section"><h2>Consulta e scarica</h2>
+            <ul class="resource-list">
+              <li><a href="{SITE_ROOT}?q={search_query}&amp;province={html.escape(municipality['province_code'])}#search">Apri nella ricerca interattiva</a></li>
+              <li><a href="{release_asset_url('italian_locations.csv')}">Scarica il CSV completo {version}</a></li>
+              <li><a href="{REPOSITORY_URL}/issues/new/choose">Segnala una correzione documentata</a></li>
+            </ul>
+          </section>
+        """
+        pages.append(
+            write_page(
+                output,
+                municipality_path(municipality).rstrip("/"),
+                page_document(
+                    title=(
+                        f"{municipality['name']}: codice ISTAT, CAP e "
+                        "coordinate"
+                    ),
+                    description=(
+                        f"Scheda del comune di {municipality['name']} "
+                        f"({municipality['province_code']}): codice ISTAT "
+                        f"{municipality['municipality_istat_code']}, CAP "
+                        "GeoNames e stato delle coordinate."
+                    ),
+                    canonical_path=municipality_path(municipality),
+                    body=body,
+                    page_type="ProfilePage",
+                    extra_structured_data={
+                        "@type": "AdministrativeArea",
+                        "@id": (
+                            f"{SITE_ROOT}{municipality_path(municipality)}"
+                            "#municipality"
+                        ),
+                        "name": municipality["name"],
+                        "identifier": (
+                            municipality["municipality_istat_code"]
+                        ),
+                        "containedInPlace": {
+                            "@type": "AdministrativeArea",
+                            "name": municipality["province_name"],
+                        },
+                    },
+                ),
+            )
+        )
     return pages
+
+
+def write_not_found_page(output: Path) -> None:
+    document = page_document(
+        title="Pagina non trovata",
+        description="La pagina richiesta non esiste nel sito Italian Cities.",
+        canonical_path="404.html",
+        body=f"""
+          <p class="eyebrow">Errore 404</p>
+          <h1>Pagina non trovata</h1>
+          <p class="content-lead">Il collegamento potrebbe essere cambiato.
+            Torna alla <a href="{SITE_ROOT}">ricerca dei comuni</a> oppure
+            consulta la <a href="{SITE_ROOT}regioni/">copertura regionale</a>.
+          </p>
+        """,
+    ).replace(
+        '<meta name="robots" content="index, follow, max-image-preview:large">',
+        '<meta name="robots" content="noindex, follow">',
+    )
+    (output / "404.html").write_text(document, encoding="utf-8")
 
 
 def write_sitemap(output: Path, paths: list[str]) -> None:
@@ -690,6 +904,7 @@ def build_site(output: Path = DEFAULT_OUTPUT) -> dict[str, Any]:
     shutil.copy2(SOCIAL_PREVIEW, assets / "social-preview.jpg")
     render_homepage(output, stats)
     information_pages = build_information_pages(output, rows, stats)
+    write_not_found_page(output)
     (output / ".nojekyll").write_text("", encoding="utf-8")
     (output / "robots.txt").write_text(
         "User-agent: *\nAllow: /\n"

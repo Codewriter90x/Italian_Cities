@@ -27,7 +27,6 @@ function searchableText(row) {
   return normalizeTerm(
     [
       row.name,
-      row.normalized_name,
       row.postal_code,
       row.province_code,
       row.province_name,
@@ -35,6 +34,22 @@ function searchableText(row) {
       row.municipality_istat_code,
     ].join(" "),
   );
+}
+
+export function slugifyTerm(value = "") {
+  return normalizeTerm(value)
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+export function municipalityPagePath(row) {
+  if (
+    row.location_kind !== "municipality" ||
+    !/^\d{6}$/.test(row.municipality_istat_code ?? "")
+  ) {
+    return "";
+  }
+  return `./comuni/${row.municipality_istat_code}-${slugifyTerm(row.name)}/`;
 }
 
 function relevance(row, normalizedQuery) {

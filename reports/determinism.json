@@ -8,7 +8,7 @@
   "runs": 2,
   "signatures": {
     "byte_sha256": {
-      "build_metadata": "f12a901848d2f65f6d3e309e76d78eb1759a53b6b4707f4f80120c46151a0c5e",
+      "build_metadata": "21552203af29355f948bd9f3d7bdf53d59da49878c4a6278b60435b1c7248a90",
       "export_manifest": "09f23108a80d10b22a79848496070b74115ec54898ad955033bca8ba153ebdf7",
       "italian_locations_csv": "803adc8dcb9e4cf0c65f6284e640a4e3b44b6f8b599f66c01cfaf9de231cf977",
       "italian_locations_json": "7a20df78d925d4ce9e8be8d3ec31b7687665ac64f3f21a6adba793f7099acf5f",

@@ -20,6 +20,17 @@ python scripts/export_typed_json.py \
   --sqlite-output dist/italian_locations.typed.sqlite
 ```
 
+The generated JSON is validated against
+`schemas/italian_locations-v4.schema.json` with a Draft 2020-12 validator:
+
+```bash
+python scripts/validate_typed_contract.py
+```
+
+The schema fixes the exact field order, numeric/null types, enums, Italian
+coordinate bounds and the consistency rules for missing CAP and coordinates.
+A negative regression test proves that string coordinates are rejected.
+
 The preview SQLite table uses `REAL`, `INTEGER` and `NULL` directly. The
 original v2 JSON, SQLite table and SQL script stay unchanged.
 

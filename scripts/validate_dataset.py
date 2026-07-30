@@ -37,7 +37,10 @@ from validators.common import (
     add_quality_error,
     completely_blank_record_lines,
 )
-from validators.coordinates import validate_coordinate_table
+from validators.coordinates import (
+    analyze_coordinate_distribution,
+    validate_coordinate_table,
+)
 from validators.formats import validate_formats
 from validators.provenance import validate_verification_and_provenance
 from validators.schema import (
@@ -62,6 +65,7 @@ QUALITY_CHECK_NAMES = (
     "numeric_coordinates",
     "coordinate_bounds",
     "coordinate_verification",
+    "coordinate_distribution",
     "provenance_completeness",
     "no_empty_rows",
     "no_logical_duplicates",
@@ -371,6 +375,20 @@ def validate() -> dict[str, object]:
     accuracy_counts = Counter(
         row["coordinate_accuracy"] or "missing" for row in locations
     )
+    coordinate_distribution = analyze_coordinate_distribution(locations)
+    distribution_check = checks["coordinate_distribution"]
+    review_groups = coordinate_distribution["groups_requiring_review"]
+    distribution_check["status"] = (
+        "review_required" if review_groups else "passed"
+    )
+    distribution_check["violations"] = review_groups
+    distribution_check["blocking"] = False
+    if review_groups:
+        warnings.append(
+            f"{review_groups} exact shared-coordinate groups contain at least "
+            f"{coordinate_distribution['review_threshold']} unique locations; "
+            "review coordinate_distribution before geographic use."
+        )
     return {
         "structural_quality": "passed" if not errors else "failed",
         "operational_data_readiness": OPERATIONAL_DATA_READINESS,
@@ -393,6 +411,7 @@ def validate() -> dict[str, object]:
             sorted(coordinate_counts.items())
         ),
         "coordinate_accuracy_counts": dict(sorted(accuracy_counts.items())),
+        "coordinate_distribution": coordinate_distribution,
         "cross_format_equivalence": equivalence,
     }
 

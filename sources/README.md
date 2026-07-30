@@ -33,6 +33,14 @@ replace the dated snapshot in place.
 GeoNames is not Poste Italiane. Its README says coordinates can be determined
 or estimated algorithmically and the data is provided without warranty.
 
+## Auxiliary geographic input
+
+`cache/Limiti01012026_g.zip` is the checksum-pinned ISTAT generalized
+administrative-boundary archive dated 2026-01-01. It is not a canonical
+dataset input: it only rebuilds `site/assets/italy-regions.geojson`. The
+archive is committed so CI can prove the web map is reproducible without
+silently skipping the source rebuild.
+
 ## Historical input
 
 The legacy CSV is declared with `canonical_input: false`. It is outside this

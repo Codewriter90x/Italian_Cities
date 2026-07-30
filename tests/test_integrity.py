@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import inspect
 import json
 import sys
@@ -32,6 +33,7 @@ from legacy_comparison import build_legacy_comparison  # noqa: E402
 from reconciliation_backlog import build_backlog  # noqa: E402
 from source_data import (  # noqa: E402
     DEFAULT_GEONAMES,
+    DEFAULT_ISTAT_REGIONS,
     DEFAULT_LEGACY,
     load_istat_records,
     load_manifest,
@@ -139,6 +141,19 @@ class IntegrityTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "checksum mismatch"):
                 validate_declared_sources(geonames_path=modified)
 
+    def test_geographic_source_is_declared_and_checksum_gated(self) -> None:
+        manifest = validate_declared_sources()
+        source = next(
+            item
+            for item in manifest["sources"]
+            if item["id"] == "istat_region_boundaries"
+        )
+        self.assertFalse(source["canonical_input"])
+        self.assertEqual(
+            source["sha256"],
+            hashlib.sha256(DEFAULT_ISTAT_REGIONS.read_bytes()).hexdigest(),
+        )
+
     def test_legacy_report_is_deterministic_and_investigative(self) -> None:
         first = build_legacy_comparison(DEFAULT_LEGACY, self.locations)
         second = build_legacy_comparison(DEFAULT_LEGACY, self.locations)
@@ -167,12 +182,20 @@ class IntegrityTests(unittest.TestCase):
         )
         self.assertNotIn("status", report)
         self.assertTrue(all(report["cross_format_equivalence"].values()))
+        blocking_checks = [
+            check
+            for check in report["quality_checks"].values()
+            if check.get("blocking", True)
+        ]
         self.assertTrue(
-            all(
-                check["status"] == "passed"
-                for check in report["quality_checks"].values()
-            )
+            all(check["status"] == "passed" for check in blocking_checks)
         )
+        distribution = report["coordinate_distribution"]
+        self.assertGreater(
+            distribution["largest_shared_coordinate_group"],
+            distribution["review_threshold"],
+        )
+        self.assertGreater(distribution["groups_requiring_review"], 0)
 
     def test_committed_determinism_report_matches_outputs(self) -> None:
         report = json.loads(DETERMINISM_REPORT.read_text(encoding="utf-8"))

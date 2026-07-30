@@ -26,7 +26,7 @@
   "operational_data_readiness": "experimental_non_official",
   "postal_use_warning": "Experimental, non-official data. GeoNames is not Poste Italiane.",
   "schema_version": "3.0.0",
-  "source_manifest_sha256": "02f4f84002abfa710bb8b20561165e8615c4bf35716c515fa2ab2fdc97f2ea25",
+  "source_manifest_sha256": "ec18bcb983c4fdff17c9a75a58fb995d3cfb4490f29be39a8c22a1e3a56758ef",
   "statistics": {
     "ambiguous_matches": 0,
     "exact_matches": 8095,

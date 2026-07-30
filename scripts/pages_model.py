@@ -11,7 +11,6 @@ from typing import Any
 WEB_FIELDS = (
     "location_id",
     "name",
-    "normalized_name",
     "location_kind",
     "municipality_istat_code",
     "postal_code",
@@ -24,7 +23,6 @@ WEB_FIELDS = (
     "coordinate_verification",
     "coordinate_accuracy",
     "reconciliation_outcome",
-    "reconciliation_confidence",
 )
 
 

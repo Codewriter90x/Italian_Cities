@@ -34,6 +34,20 @@ GeoNames dichiara che molte coordinate sono trovate o stimate
 algoritmicamente e fornisce i dati “as is”. Il campo `accuracy` originale è
 preservato. GeoNames non è Poste Italiane e non è descritto come tale.
 
+### ISTAT — confini regionali generalizzati
+
+- ruolo: sola base cartografica riproducibile della GitHub Pages, non input del
+  dataset canonico;
+- data di riferimento: 1 gennaio 2026;
+- archivio: `sources/cache/Limiti01012026_g.zip`;
+- SHA-256:
+  `b011a590656c3a3ebc297fba80726a376aa843b6f164641cf6a4a990021a81d6`;
+- licenza/attribuzione: ISTAT, CC BY 4.0.
+
+La CI ricostruisce il GeoJSON semplificato dal file originale e confronta i
+byte con l'asset committato. Il controllo non può più risultare verde saltando
+la ricostruzione.
+
 ## Legacy
 
 `legacy/2023-05-02-original/Italian Cities.csv` ha SHA-256

@@ -397,6 +397,14 @@ a:focus-visible {
   border-color: rgba(69, 215, 232, 0.42);
 }
 
+.result-detail-link {
+  display: inline-block;
+  margin: 0.45rem 0.75rem 0.7rem;
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
 .result-heading {
   display: flex;
   gap: 0.75rem;
