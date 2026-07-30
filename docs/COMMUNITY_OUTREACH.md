@@ -6,9 +6,8 @@ Questo documento prepara il lancio di Italian Cities senza pubblicare
 automaticamente messaggi su community esterne. Prima dell'invio occorre
 leggere regole, canali corretti e disclosure richieste dalla singola community.
 
-> **Gate:** non promuovere il dataset come release stabile finché provenienza
-> e diritti upstream del legacy non sono risolti. I testi seguenti chiedono una
-> revisione tecnica della pre-release.
+> **Gate:** non promuovere il dataset come banca dati postale ufficiale.
+> GeoNames non è Poste Italiane e la v2 resta una prerelease sperimentale.
 
 ## Link canonici
 
@@ -21,19 +20,19 @@ leggere regole, canali corretti e disclosure richieste dalla singola community.
 
 **Titolo**
 
-> Italian Cities v1.1.0 pre-release: revisione aperta di un dataset geografico legacy
+> Italian Cities v2.0.0 clean-room prerelease: revisione aperta
 
 **Testo**
 
-> Sto revisionando Italian Cities v1.1.0 pre-release: 14.480 relazioni luogo–CAP, 7.186
-> comuni riconosciuti tramite ISTAT, 4.459 CAP distinti e coordinate per
-> l'85,55% dei record. CSV, JSON, XLSX, SQLite e SQL sono generati dalla
-> stessa pipeline e verificati con checksum e test di integrità.
+> Sto revisionando Italian Cities v2.0.0 prerelease: 7.894 comuni dallo
+> snapshot ISTAT e 18.811 relazioni costruite dal dump GeoNames Postal Codes
+> IT. CSV, JSON, XLSX, SQLite e SQL sono generati dalla stessa pipeline e
+> verificati con checksum e test di integrità.
 >
 > La nuova ricerca web permette di filtrare per nome, CAP e provincia e mostra
 > la copertura geografica. Il README dichiara anche i limiti: non è un elenco
-> postale ufficiale; nessun CAP o punto legacy è dichiarato verificato e la
-> provenienza upstream dei valori legacy non è interamente dimostrata.
+> postale ufficiale; GeoNames non è Poste Italiane e CAP e coordinate non sono
+> dichiarati ufficialmente verificati. Il legacy è escluso dal canonico.
 >
 > Cerco soprattutto revisione su fonti compatibili, licenze e correzioni
 > verificabili: [ricerca web] · [repository] · [working dataset].
@@ -45,7 +44,7 @@ Sostituire i riferimenti fra parentesi con i link canonici.
 Punti da evidenziare:
 
 - manifest e checksum delle fonti;
-- provenienza e licenze dichiarate, inclusi i limiti del legacy;
+- provenienza e licenze dichiarate per ISTAT e GeoNames;
 - build deterministica e diff machine-readable;
 - moduli di correzione basati su evidenze.
 
@@ -59,8 +58,8 @@ Destinazioni da valutare:
 
 Call to action:
 
-> Mi interessa soprattutto un confronto su provenienza dei CAP legacy,
-> riconciliazione delle località e fonti ufficiali riutilizzabili.
+> Mi interessa soprattutto un confronto sulla riconciliazione conservativa
+> delle località e su fonti postali ufficiali riutilizzabili.
 
 ## Adattamento .NET
 
@@ -92,8 +91,8 @@ Destinazione da valutare:
 
 Esempio breve:
 
-> La Pages visualizza direttamente i 12.388 punti WGS84 senza geocoding
-> massivo né tile provider. Restano 2.092 coordinate mancanti: vorrei
+> La Pages visualizza direttamente coordinate GeoNames senza geocoding
+> runtime né tile provider. Restano 396 comuni senza coordinate: vorrei
 > confrontarmi su centroidi da confini ufficiali, estratti OSM e metodi
 > riproducibili con licenza chiara.
 
@@ -108,7 +107,8 @@ Destinazioni da valutare:
 1. Verificare che Pages, release e download siano raggiungibili anonimamente.
 2. Dichiarare che l'autore sta presentando il proprio progetto.
 3. Non descrivere il dataset come ufficiale o completamente aggiornato.
-4. Includere il caveat sulla provenienza legacy.
-5. Dichiarare che CAP e coordinate non sono verificati.
+4. Dichiarare che il legacy non contribuisce più al canonico.
+5. Dichiarare che GeoNames non è Poste Italiane e che CAP e coordinate non
+   sono ufficialmente verificati.
 6. Personalizzare il messaggio per il canale ed evitare cross-post identici.
 7. Rispondere ai commenti e riportare le correzioni nelle issue strutturate.

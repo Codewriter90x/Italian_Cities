@@ -60,18 +60,14 @@ export function searchLocations(
     if (coordinateStatus === "present" && row.latitude === null) return false;
     if (coordinateStatus === "missing" && row.latitude !== null) return false;
     if (
-      coordinateStatus === "legacy_unverified" &&
-      !["legacy_unverified", "corrected_legacy_unverified"].includes(
-        row.coordinate_verification,
-      )
+      coordinateStatus === "geonames_place_match" &&
+      row.coordinate_verification !== "geonames_place_match"
     ) {
       return false;
     }
     if (
-      coordinateStatus === "verified" &&
-      ["missing", "legacy_unverified", "corrected_legacy_unverified"].includes(
-        row.coordinate_verification,
-      )
+      coordinateStatus === "geonames_estimated" &&
+      row.coordinate_verification !== "geonames_estimated"
     ) {
       return false;
     }
@@ -137,12 +133,13 @@ export function formatPercent(value) {
 
 const ALLOWED_KINDS = new Set([
   "municipality",
-  "postal_locality_unclassified",
+  "geonames_unreconciled",
+  "geonames_ambiguous",
 ]);
 const ALLOWED_COORDINATE_STATUSES = new Set([
   "present",
-  "legacy_unverified",
-  "verified",
+  "geonames_place_match",
+  "geonames_estimated",
   "missing",
 ]);
 

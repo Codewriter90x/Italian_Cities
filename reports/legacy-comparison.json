@@ -1,0 +1,1128 @@
+{
+  "counts": {
+    "coordinate_disagreements_over_0_01_degrees": 1414,
+    "exact_name_postal_code": 10881,
+    "exact_name_province_postal_code": 10738,
+    "only_geonames": 7677,
+    "only_legacy": 3742,
+    "postal_code_disagreements": 3018
+  },
+  "current_geonames": {
+    "logical_name_cap_records": 18415
+  },
+  "legacy": {
+    "logical_name_cap_records": 14480,
+    "path": "legacy/2023-05-02-original/Italian Cities.csv",
+    "records": 14480,
+    "sha256": "45f31340a6f0c390927aa1224424a75c6c968e601aa2df0a746413431e82d050"
+  },
+  "legacy_role": "historical_comparison_only",
+  "percentages": {
+    "geonames_exact_match_percent": 58.31,
+    "legacy_exact_match_percent": 74.16,
+    "legacy_exact_name_postal_code_percent": 75.15
+  },
+  "possible_source_clues": {
+    "interpretation": "Shared values may indicate common upstream facts or later reuse, but cannot establish the legacy source.",
+    "shared_name_cap_pairs": 10738
+  },
+  "provenance_warning": "A match is only a similarity between snapshots and is not proof of the legacy dataset's original source.",
+  "report_type": "historical_investigative_comparison",
+  "samples": {
+    "coordinate_disagreements": [
+      {
+        "angular_distance_degrees": 0.076845,
+        "geonames_coordinates": [
+          "43.6209",
+          "12.6564"
+        ],
+        "legacy_coordinates": [
+          "43.5998917",
+          "12.582482"
+        ],
+        "normalized_name": "abbadia di naro",
+        "postal_code": "61041",
+        "province_code": "PU"
+      },
+      {
+        "angular_distance_degrees": 0.236117,
+        "geonames_coordinates": [
+          "44.8284",
+          "8.6632"
+        ],
+        "legacy_coordinates": [
+          "44.8660843",
+          "8.4301097"
+        ],
+        "normalized_name": "abbazia",
+        "postal_code": "15024",
+        "province_code": "AL"
+      },
+      {
+        "angular_distance_degrees": 0.013251,
+        "geonames_coordinates": [
+          "45.7084",
+          "8.9076"
+        ],
+        "legacy_coordinates": [
+          "45.7035836",
+          "8.9199448"
+        ],
+        "normalized_name": "abbiate guazzone",
+        "postal_code": "21049",
+        "province_code": "VA"
+      },
+      {
+        "angular_distance_degrees": 0.073491,
+        "geonames_coordinates": [
+          "44.9398",
+          "8.2988"
+        ],
+        "legacy_coordinates": [
+          "44.9462995",
+          "8.3720026"
+        ],
+        "normalized_name": "accorneri",
+        "postal_code": "14030",
+        "province_code": "AT"
+      },
+      {
+        "angular_distance_degrees": 0.182299,
+        "geonames_coordinates": [
+          "41.8919",
+          "12.5113"
+        ],
+        "legacy_coordinates": [
+          "41.7827205",
+          "12.3653115"
+        ],
+        "normalized_name": "acilia",
+        "postal_code": "00125",
+        "province_code": "RM"
+      },
+      {
+        "angular_distance_degrees": 0.115489,
+        "geonames_coordinates": [
+          "38.116",
+          "13.3178"
+        ],
+        "legacy_coordinates": [
+          "38.0916111",
+          "13.4306847"
+        ],
+        "normalized_name": "acqua dei corsari",
+        "postal_code": "90121",
+        "province_code": "PA"
+      },
+      {
+        "angular_distance_degrees": 0.020297,
+        "geonames_coordinates": [
+          "43.031",
+          "13.1548"
+        ],
+        "legacy_coordinates": [
+          "43.0298075",
+          "13.1750621"
+        ],
+        "normalized_name": "acquacanina",
+        "postal_code": "62035",
+        "province_code": "MC"
+      },
+      {
+        "angular_distance_degrees": 0.261446,
+        "geonames_coordinates": [
+          "46.6304",
+          "11.4693"
+        ],
+        "legacy_coordinates": [
+          "46.69033795",
+          "11.723782483933562"
+        ],
+        "normalized_name": "afers",
+        "postal_code": "39040",
+        "province_code": "BZ"
+      },
+      {
+        "angular_distance_degrees": 0.010035,
+        "geonames_coordinates": [
+          "45.553",
+          "10.7864"
+        ],
+        "legacy_coordinates": [
+          "45.5540914",
+          "10.7764241"
+        ],
+        "normalized_name": "affi",
+        "postal_code": "37010",
+        "province_code": "VR"
+      },
+      {
+        "angular_distance_degrees": 0.021127,
+        "geonames_coordinates": [
+          "45.4959",
+          "9.1815"
+        ],
+        "legacy_coordinates": [
+          "45.5151242",
+          "9.1727368"
+        ],
+        "normalized_name": "affori",
+        "postal_code": "20161",
+        "province_code": "MI"
+      },
+      {
+        "angular_distance_degrees": 0.076084,
+        "geonames_coordinates": [
+          "38.0809",
+          "16.0411"
+        ],
+        "legacy_coordinates": [
+          "38.08346115",
+          "15.965058833524559"
+        ],
+        "normalized_name": "africo",
+        "postal_code": "89030",
+        "province_code": "RC"
+      },
+      {
+        "angular_distance_degrees": 0.041942,
+        "geonames_coordinates": [
+          "40.0493",
+          "15.9897"
+        ],
+        "legacy_coordinates": [
+          "40.0586677",
+          "16.0305826"
+        ],
+        "normalized_name": "agromonte",
+        "postal_code": "85043",
+        "province_code": "PZ"
+      },
+      {
+        "angular_distance_degrees": 0.155157,
+        "geonames_coordinates": [
+          "46.7758",
+          "11.9383"
+        ],
+        "legacy_coordinates": [
+          "46.9259583",
+          "11.977367"
+        ],
+        "normalized_name": "ahornach",
+        "postal_code": "39030",
+        "province_code": "BZ"
+      },
+      {
+        "angular_distance_degrees": 0.212559,
+        "geonames_coordinates": [
+          "46.7758",
+          "11.9383"
+        ],
+        "legacy_coordinates": [
+          "46.98829205",
+          "11.943646067399136"
+        ],
+        "normalized_name": "ahrntal",
+        "postal_code": "39030",
+        "province_code": "BZ"
+      },
+      {
+        "angular_distance_degrees": 0.092448,
+        "geonames_coordinates": [
+          "46.1559",
+          "9.6662"
+        ],
+        "legacy_coordinates": [
+          "46.10349",
+          "9.590044"
+        ],
+        "normalized_name": "albaredo per san marco",
+        "postal_code": "23010",
+        "province_code": "SO"
+      },
+      {
+        "angular_distance_degrees": 0.021391,
+        "geonames_coordinates": [
+          "45.7833",
+          "9.1167"
+        ],
+        "legacy_coordinates": [
+          "45.7793769",
+          "9.095672"
+        ],
+        "normalized_name": "albate",
+        "postal_code": "22100",
+        "province_code": "CO"
+      },
+      {
+        "angular_distance_degrees": 0.080569,
+        "geonames_coordinates": [
+          "45.4978",
+          "9.4125"
+        ],
+        "legacy_coordinates": [
+          "45.5007125",
+          "9.4930162"
+        ],
+        "normalized_name": "albignano d adda",
+        "postal_code": "20060",
+        "province_code": "MI"
+      },
+      {
+        "angular_distance_degrees": 0.069283,
+        "geonames_coordinates": [
+          "45.8328",
+          "12.4672"
+        ],
+        "legacy_coordinates": [
+          "45.881673",
+          "12.516308"
+        ],
+        "normalized_name": "albina",
+        "postal_code": "31018",
+        "province_code": "TV"
+      },
+      {
+        "angular_distance_degrees": 0.011803,
+        "geonames_coordinates": [
+          "44.6286",
+          "10.6102"
+        ],
+        "legacy_coordinates": [
+          "44.6201821",
+          "10.6019259"
+        ],
+        "normalized_name": "albinea",
+        "postal_code": "42020",
+        "province_code": "RE"
+      },
+      {
+        "angular_distance_degrees": 0.035322,
+        "geonames_coordinates": [
+          "44.3517",
+          "8.4879"
+        ],
+        "legacy_coordinates": [
+          "44.3300864",
+          "8.5158377"
+        ],
+        "normalized_name": "albisola capo",
+        "postal_code": "17011",
+        "province_code": "SV"
+      },
+      {
+        "angular_distance_degrees": 0.043215,
+        "geonames_coordinates": [
+          "45.9623",
+          "8.454"
+        ],
+        "legacy_coordinates": [
+          "45.9818649",
+          "8.4154676"
+        ],
+        "normalized_name": "albo",
+        "postal_code": "28802",
+        "province_code": "VB"
+      },
+      {
+        "angular_distance_degrees": 0.285866,
+        "geonames_coordinates": [
+          "46.6304",
+          "11.4693"
+        ],
+        "legacy_coordinates": [
+          "46.3686753",
+          "11.3543243"
+        ],
+        "normalized_name": "aldein",
+        "postal_code": "39040",
+        "province_code": "BZ"
+      },
+      {
+        "angular_distance_degrees": 0.06258,
+        "geonames_coordinates": [
+          "44.4563",
+          "12.08"
+        ],
+        "legacy_coordinates": [
+          "44.5053847",
+          "12.0411805"
+        ],
+        "normalized_name": "alfonsine",
+        "postal_code": "48011",
+        "province_code": "RA"
+      },
+      {
+        "angular_distance_degrees": 0.646129,
+        "geonames_coordinates": [
+          "38.5192",
+          "14.9976"
+        ],
+        "legacy_coordinates": [
+          "38.542701449999996",
+          "14.3518990084468"
+        ],
+        "normalized_name": "alicudi",
+        "postal_code": "98050",
+        "province_code": "ME"
+      },
+      {
+        "angular_distance_degrees": 0.011098,
+        "geonames_coordinates": [
+          "45.1333",
+          "7.65"
+        ],
+        "legacy_coordinates": [
+          "45.1278256",
+          "7.6403459"
+        ],
+        "normalized_name": "altessano",
+        "postal_code": "10078",
+        "province_code": "TO"
+      }
+    ],
+    "exact_name_postal_code": [
+      {
+        "normalized_name": "abbadia cerreto",
+        "postal_code": "26834"
+      },
+      {
+        "normalized_name": "abbadia di naro",
+        "postal_code": "61041"
+      },
+      {
+        "normalized_name": "abbadia lariana",
+        "postal_code": "23821"
+      },
+      {
+        "normalized_name": "abbadia san salvatore",
+        "postal_code": "53021"
+      },
+      {
+        "normalized_name": "abbasanta",
+        "postal_code": "09071"
+      },
+      {
+        "normalized_name": "abbateggio",
+        "postal_code": "65020"
+      },
+      {
+        "normalized_name": "abbatesse",
+        "postal_code": "48012"
+      },
+      {
+        "normalized_name": "abbazia",
+        "postal_code": "15024"
+      },
+      {
+        "normalized_name": "abbiate guazzone",
+        "postal_code": "21049"
+      },
+      {
+        "normalized_name": "abbiategrasso",
+        "postal_code": "20081"
+      },
+      {
+        "normalized_name": "abetone",
+        "postal_code": "51021"
+      },
+      {
+        "normalized_name": "abriola",
+        "postal_code": "85010"
+      },
+      {
+        "normalized_name": "acate",
+        "postal_code": "97011"
+      },
+      {
+        "normalized_name": "accadia",
+        "postal_code": "71021"
+      },
+      {
+        "normalized_name": "accaria",
+        "postal_code": "88040"
+      },
+      {
+        "normalized_name": "acceglio",
+        "postal_code": "12021"
+      },
+      {
+        "normalized_name": "accettura",
+        "postal_code": "75011"
+      },
+      {
+        "normalized_name": "acciano",
+        "postal_code": "67020"
+      },
+      {
+        "normalized_name": "acconia",
+        "postal_code": "88022"
+      },
+      {
+        "normalized_name": "accorneri",
+        "postal_code": "14030"
+      },
+      {
+        "normalized_name": "accumoli",
+        "postal_code": "02011"
+      },
+      {
+        "normalized_name": "acerenza",
+        "postal_code": "85011"
+      },
+      {
+        "normalized_name": "acerno",
+        "postal_code": "84042"
+      },
+      {
+        "normalized_name": "acerra",
+        "postal_code": "80011"
+      },
+      {
+        "normalized_name": "aci bonaccorsi",
+        "postal_code": "95020"
+      }
+    ],
+    "exact_name_province_postal_code": [
+      {
+        "normalized_name": "abbadia cerreto",
+        "postal_code": "26834",
+        "province_code": "LO"
+      },
+      {
+        "normalized_name": "abbadia di naro",
+        "postal_code": "61041",
+        "province_code": "PU"
+      },
+      {
+        "normalized_name": "abbadia lariana",
+        "postal_code": "23821",
+        "province_code": "LC"
+      },
+      {
+        "normalized_name": "abbadia san salvatore",
+        "postal_code": "53021",
+        "province_code": "SI"
+      },
+      {
+        "normalized_name": "abbasanta",
+        "postal_code": "09071",
+        "province_code": "OR"
+      },
+      {
+        "normalized_name": "abbateggio",
+        "postal_code": "65020",
+        "province_code": "PE"
+      },
+      {
+        "normalized_name": "abbatesse",
+        "postal_code": "48012",
+        "province_code": "RA"
+      },
+      {
+        "normalized_name": "abbazia",
+        "postal_code": "15024",
+        "province_code": "AL"
+      },
+      {
+        "normalized_name": "abbiate guazzone",
+        "postal_code": "21049",
+        "province_code": "VA"
+      },
+      {
+        "normalized_name": "abbiategrasso",
+        "postal_code": "20081",
+        "province_code": "MI"
+      },
+      {
+        "normalized_name": "abetone",
+        "postal_code": "51021",
+        "province_code": "PT"
+      },
+      {
+        "normalized_name": "abriola",
+        "postal_code": "85010",
+        "province_code": "PZ"
+      },
+      {
+        "normalized_name": "acate",
+        "postal_code": "97011",
+        "province_code": "RG"
+      },
+      {
+        "normalized_name": "accadia",
+        "postal_code": "71021",
+        "province_code": "FG"
+      },
+      {
+        "normalized_name": "accaria",
+        "postal_code": "88040",
+        "province_code": "CZ"
+      },
+      {
+        "normalized_name": "acceglio",
+        "postal_code": "12021",
+        "province_code": "CN"
+      },
+      {
+        "normalized_name": "accettura",
+        "postal_code": "75011",
+        "province_code": "MT"
+      },
+      {
+        "normalized_name": "acciano",
+        "postal_code": "67020",
+        "province_code": "AQ"
+      },
+      {
+        "normalized_name": "acconia",
+        "postal_code": "88022",
+        "province_code": "CZ"
+      },
+      {
+        "normalized_name": "accorneri",
+        "postal_code": "14030",
+        "province_code": "AT"
+      },
+      {
+        "normalized_name": "accumoli",
+        "postal_code": "02011",
+        "province_code": "RI"
+      },
+      {
+        "normalized_name": "acerenza",
+        "postal_code": "85011",
+        "province_code": "PZ"
+      },
+      {
+        "normalized_name": "acerno",
+        "postal_code": "84042",
+        "province_code": "SA"
+      },
+      {
+        "normalized_name": "acerra",
+        "postal_code": "80011",
+        "province_code": "NA"
+      },
+      {
+        "normalized_name": "aci bonaccorsi",
+        "postal_code": "95020",
+        "province_code": "CT"
+      }
+    ],
+    "only_geonames": [
+      {
+        "normalized_name": "abano terme",
+        "postal_code": "35031",
+        "province_code": "PD"
+      },
+      {
+        "normalized_name": "abatemarco",
+        "postal_code": "84060",
+        "province_code": "SA"
+      },
+      {
+        "normalized_name": "abazia di sulmona",
+        "postal_code": "67039",
+        "province_code": "AQ"
+      },
+      {
+        "normalized_name": "abbadia",
+        "postal_code": "53045",
+        "province_code": "SI"
+      },
+      {
+        "normalized_name": "abbadia alpina",
+        "postal_code": "10064",
+        "province_code": "TO"
+      },
+      {
+        "normalized_name": "abbadia di montepulciano",
+        "postal_code": "53045",
+        "province_code": "SI"
+      },
+      {
+        "normalized_name": "abbazia",
+        "postal_code": "24021",
+        "province_code": "BG"
+      },
+      {
+        "normalized_name": "abbazia di fossanova",
+        "postal_code": "04015",
+        "province_code": "LT"
+      },
+      {
+        "normalized_name": "abbazia pisani",
+        "postal_code": "35010",
+        "province_code": "PD"
+      },
+      {
+        "normalized_name": "aberstuckl",
+        "postal_code": "39058",
+        "province_code": "BZ"
+      },
+      {
+        "normalized_name": "abetina vallesana",
+        "postal_code": "23035",
+        "province_code": "SO"
+      },
+      {
+        "normalized_name": "abeto",
+        "postal_code": "06047",
+        "province_code": "PG"
+      },
+      {
+        "normalized_name": "abtei badia",
+        "postal_code": "39036",
+        "province_code": "BZ"
+      },
+      {
+        "normalized_name": "acaia",
+        "postal_code": "73029",
+        "province_code": "LE"
+      },
+      {
+        "normalized_name": "accaria rosaria",
+        "postal_code": "88040",
+        "province_code": "CZ"
+      },
+      {
+        "normalized_name": "acciarello",
+        "postal_code": "89018",
+        "province_code": "RC"
+      },
+      {
+        "normalized_name": "acciaroli",
+        "postal_code": "84068",
+        "province_code": "SA"
+      },
+      {
+        "normalized_name": "acereto",
+        "postal_code": "39032",
+        "province_code": "BZ"
+      },
+      {
+        "normalized_name": "aci platani",
+        "postal_code": "95024",
+        "province_code": "CT"
+      },
+      {
+        "normalized_name": "aci san filippo",
+        "postal_code": "95022",
+        "province_code": "CT"
+      },
+      {
+        "normalized_name": "aci trezza",
+        "postal_code": "95021",
+        "province_code": "CT"
+      },
+      {
+        "normalized_name": "acquacalda",
+        "postal_code": "98055",
+        "province_code": "ME"
+      },
+      {
+        "normalized_name": "acquacalda",
+        "postal_code": "89050",
+        "province_code": "RC"
+      },
+      {
+        "normalized_name": "acquaficara",
+        "postal_code": "98051",
+        "province_code": "ME"
+      },
+      {
+        "normalized_name": "acquafredda",
+        "postal_code": "88046",
+        "province_code": "CZ"
+      }
+    ],
+    "only_legacy": [
+      {
+        "normalized_name": "",
+        "postal_code": "10060",
+        "province_code": "TO"
+      },
+      {
+        "normalized_name": "abano terme bagni",
+        "postal_code": "35031",
+        "province_code": "PD"
+      },
+      {
+        "normalized_name": "abatemarco",
+        "postal_code": "84040",
+        "province_code": "SA"
+      },
+      {
+        "normalized_name": "abazia di sulmona",
+        "postal_code": "67030",
+        "province_code": "AQ"
+      },
+      {
+        "normalized_name": "abbadia alpina",
+        "postal_code": "10060",
+        "province_code": "TO"
+      },
+      {
+        "normalized_name": "abbadia di montepulciano",
+        "postal_code": "53040",
+        "province_code": "SI"
+      },
+      {
+        "normalized_name": "abbazia di fossanova",
+        "postal_code": "04010",
+        "province_code": "LT"
+      },
+      {
+        "normalized_name": "abetina",
+        "postal_code": "23035",
+        "province_code": "SO"
+      },
+      {
+        "normalized_name": "abeto",
+        "postal_code": "06040",
+        "province_code": "PG"
+      },
+      {
+        "normalized_name": "abtei",
+        "postal_code": "39036",
+        "province_code": "BZ"
+      },
+      {
+        "normalized_name": "acaya",
+        "postal_code": "73020",
+        "province_code": "LE"
+      },
+      {
+        "normalized_name": "acciarello",
+        "postal_code": "89010",
+        "province_code": "RC"
+      },
+      {
+        "normalized_name": "acciaroli",
+        "postal_code": "84041",
+        "province_code": "SA"
+      },
+      {
+        "normalized_name": "acereto",
+        "postal_code": "39030",
+        "province_code": "BZ"
+      },
+      {
+        "normalized_name": "aci platani",
+        "postal_code": "95023",
+        "province_code": "CT"
+      },
+      {
+        "normalized_name": "aci san filippo",
+        "postal_code": "95020",
+        "province_code": "CT"
+      },
+      {
+        "normalized_name": "aci trezza",
+        "postal_code": "95026",
+        "province_code": "CT"
+      },
+      {
+        "normalized_name": "acireale citta del fanciullo",
+        "postal_code": "95024",
+        "province_code": "CT"
+      },
+      {
+        "normalized_name": "acquacalda",
+        "postal_code": "98050",
+        "province_code": "ME"
+      },
+      {
+        "normalized_name": "acqualoreto",
+        "postal_code": "05020",
+        "province_code": "TR"
+      },
+      {
+        "normalized_name": "acquamela",
+        "postal_code": "84080",
+        "province_code": "SA"
+      },
+      {
+        "normalized_name": "acquarica di lecce",
+        "postal_code": "73020",
+        "province_code": "LE"
+      },
+      {
+        "normalized_name": "acquarola",
+        "postal_code": "84080",
+        "province_code": "SA"
+      },
+      {
+        "normalized_name": "acquasanta terme",
+        "postal_code": "63041",
+        "province_code": "AP"
+      },
+      {
+        "normalized_name": "acquavena",
+        "postal_code": "84040",
+        "province_code": "SA"
+      }
+    ],
+    "postal_code_disagreements": [
+      {
+        "geonames_postal_codes": [
+          "84060"
+        ],
+        "legacy_postal_codes": [
+          "84040"
+        ],
+        "normalized_name": "abatemarco",
+        "province_code": "SA"
+      },
+      {
+        "geonames_postal_codes": [
+          "67039"
+        ],
+        "legacy_postal_codes": [
+          "67030"
+        ],
+        "normalized_name": "abazia di sulmona",
+        "province_code": "AQ"
+      },
+      {
+        "geonames_postal_codes": [
+          "10064"
+        ],
+        "legacy_postal_codes": [
+          "10060"
+        ],
+        "normalized_name": "abbadia alpina",
+        "province_code": "TO"
+      },
+      {
+        "geonames_postal_codes": [
+          "53045"
+        ],
+        "legacy_postal_codes": [
+          "53040"
+        ],
+        "normalized_name": "abbadia di montepulciano",
+        "province_code": "SI"
+      },
+      {
+        "geonames_postal_codes": [
+          "04015"
+        ],
+        "legacy_postal_codes": [
+          "04010"
+        ],
+        "normalized_name": "abbazia di fossanova",
+        "province_code": "LT"
+      },
+      {
+        "geonames_postal_codes": [
+          "06047"
+        ],
+        "legacy_postal_codes": [
+          "06040"
+        ],
+        "normalized_name": "abeto",
+        "province_code": "PG"
+      },
+      {
+        "geonames_postal_codes": [
+          "89018"
+        ],
+        "legacy_postal_codes": [
+          "89010"
+        ],
+        "normalized_name": "acciarello",
+        "province_code": "RC"
+      },
+      {
+        "geonames_postal_codes": [
+          "84068"
+        ],
+        "legacy_postal_codes": [
+          "84041"
+        ],
+        "normalized_name": "acciaroli",
+        "province_code": "SA"
+      },
+      {
+        "geonames_postal_codes": [
+          "39032"
+        ],
+        "legacy_postal_codes": [
+          "39030"
+        ],
+        "normalized_name": "acereto",
+        "province_code": "BZ"
+      },
+      {
+        "geonames_postal_codes": [
+          "95024"
+        ],
+        "legacy_postal_codes": [
+          "95023"
+        ],
+        "normalized_name": "aci platani",
+        "province_code": "CT"
+      },
+      {
+        "geonames_postal_codes": [
+          "95022"
+        ],
+        "legacy_postal_codes": [
+          "95020"
+        ],
+        "normalized_name": "aci san filippo",
+        "province_code": "CT"
+      },
+      {
+        "geonames_postal_codes": [
+          "95021"
+        ],
+        "legacy_postal_codes": [
+          "95026"
+        ],
+        "normalized_name": "aci trezza",
+        "province_code": "CT"
+      },
+      {
+        "geonames_postal_codes": [
+          "98055"
+        ],
+        "legacy_postal_codes": [
+          "98050"
+        ],
+        "normalized_name": "acquacalda",
+        "province_code": "ME"
+      },
+      {
+        "geonames_postal_codes": [
+          "05023"
+        ],
+        "legacy_postal_codes": [
+          "05020"
+        ],
+        "normalized_name": "acqualoreto",
+        "province_code": "TR"
+      },
+      {
+        "geonames_postal_codes": [
+          "84081"
+        ],
+        "legacy_postal_codes": [
+          "84080"
+        ],
+        "normalized_name": "acquamela",
+        "province_code": "SA"
+      },
+      {
+        "geonames_postal_codes": [
+          "73029"
+        ],
+        "legacy_postal_codes": [
+          "73020"
+        ],
+        "normalized_name": "acquarica di lecce",
+        "province_code": "LE"
+      },
+      {
+        "geonames_postal_codes": [
+          "84085"
+        ],
+        "legacy_postal_codes": [
+          "84080"
+        ],
+        "normalized_name": "acquarola",
+        "province_code": "SA"
+      },
+      {
+        "geonames_postal_codes": [
+          "63095"
+        ],
+        "legacy_postal_codes": [
+          "63041"
+        ],
+        "normalized_name": "acquasanta terme",
+        "province_code": "AP"
+      },
+      {
+        "geonames_postal_codes": [
+          "84060"
+        ],
+        "legacy_postal_codes": [
+          "84040"
+        ],
+        "normalized_name": "acquavena",
+        "province_code": "SA"
+      },
+      {
+        "geonames_postal_codes": [
+          "53045"
+        ],
+        "legacy_postal_codes": [
+          "53040"
+        ],
+        "normalized_name": "acquaviva",
+        "province_code": "SI"
+      },
+      {
+        "geonames_postal_codes": [
+          "63075"
+        ],
+        "legacy_postal_codes": [
+          "63030"
+        ],
+        "normalized_name": "acquaviva picena",
+        "province_code": "AP"
+      },
+      {
+        "geonames_postal_codes": [
+          "63093"
+        ],
+        "legacy_postal_codes": [
+          "63049"
+        ],
+        "normalized_name": "agelli",
+        "province_code": "AP"
+      },
+      {
+        "geonames_postal_codes": [
+          "06063"
+        ],
+        "legacy_postal_codes": [
+          "06060"
+        ],
+        "normalized_name": "agello",
+        "province_code": "PG"
+      },
+      {
+        "geonames_postal_codes": [
+          "54013"
+        ],
+        "legacy_postal_codes": [
+          "54010"
+        ],
+        "normalized_name": "agnino",
+        "province_code": "MS"
+      },
+      {
+        "geonames_postal_codes": [
+          "84060"
+        ],
+        "legacy_postal_codes": [
+          "84040"
+        ],
+        "normalized_name": "agnone cilento",
+        "province_code": "SA"
+      }
+    ]
+  },
+  "samples_truncated": {
+    "coordinate_disagreements": true,
+    "exact_name_postal_code": true,
+    "exact_name_province_postal_code": true,
+    "only_geonames": true,
+    "only_legacy": true,
+    "postal_code_disagreements": true
+  }
+}

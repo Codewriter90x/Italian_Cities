@@ -1,29 +1,25 @@
-# Dataset licensing status
+# Dataset licensing
 
-The Italian Cities dataset is a prerelease working dataset with unresolved
-upstream rights for part of its legacy content.
+Il candidato v2 combina esclusivamente due fonti canoniche attribuite:
 
-## Components
-
-| Component | Status |
+| Componente | Licenza |
 | --- | --- |
-| Legacy names, CAP values and coordinates | Upstream provenance and redistribution rights not fully demonstrated |
-| ISTAT municipality classification and codes | CC BY 4.0 attribution required |
-| Pipeline code and original documentation | CC0 1.0 Universal, to the extent rights are held by the repository owner |
+| Elenco e codici comunali ISTAT | CC BY 4.0 |
+| GeoNames Postal Codes IT | CC BY 4.0 |
+| Codice e documentazione originali | licenza del repository, nei limiti dei diritti detenuti |
 
-The root CC0 dedication does not convert third-party values into CC0 data.
-Consumers must not describe the complete dataset as CC0, official, or cleared
-for unrestricted redistribution.
+Attribuzioni richieste:
 
-## Permitted project status
+- Istituto nazionale di statistica (ISTAT);
+- GeoNames, <https://www.geonames.org/>.
 
-Until the legacy provenance gate is resolved:
+GeoNames non è Poste Italiane. La licenza consente il riuso con attribuzione,
+ma non trasforma CAP o coordinate in dati ufficialmente verificati e non
+fornisce garanzie di accuratezza, completezza o tempestività.
 
-- new dataset versions remain prereleases;
-- CAP values are labelled `legacy_unverified` or `generic_multicap`;
-- legacy coordinates are labelled `legacy_unverified`;
-- promotion must include the provenance warning;
-- a stable release requires an explicit maintainer decision after reviewing
-  source rights and attribution.
+Il legacy con provenienza irrisolta è escluso dal dataset v2. Rimane
+redistribuito solo come archivio storico già presente nel repository e non
+deve essere usato per descrivere la licenza o la provenienza del canonico.
 
-This document records project policy and is not legal advice.
+Questa pagina documenta la politica del progetto e non costituisce consulenza
+legale.

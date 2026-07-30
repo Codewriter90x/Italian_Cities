@@ -30,6 +30,8 @@ BYTE_STABLE_PATHS = {
     "italian_locations_csv": GENERATED_PATHS["italian_locations"],
     "italian_locations_json": GENERATED_PATHS["json"],
     "italian_locations_xlsx": GENERATED_PATHS["xlsx"],
+    "build_metadata": REPORTS_DIR / "build-metadata.json",
+    "legacy_comparison": REPORTS_DIR / "legacy-comparison.json",
     "release_diff_report": REPORTS_DIR / "release-diff.json",
     "export_manifest": REPORTS_DIR / "export-manifest.json",
 }
@@ -50,7 +52,7 @@ def sqlite_semantic_digest(path: Path) -> str:
             for values in connection.execute(
                 f'SELECT {quoted_fields} FROM "italian_locations" '
                 'ORDER BY "normalized_name", "province_code", "postal_code", '
-                '"legacy_uuid"'
+                '"location_id", "location_postal_id"'
             )
         ]
     finally:

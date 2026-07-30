@@ -1,49 +1,44 @@
 {
-  "canonical_rows": 14480,
-  "coordinate_bounds": {
-    "latitude_max": 48.0,
-    "latitude_min": 35.0,
-    "longitude_max": 19.0,
-    "longitude_min": 6.0
-  },
-  "coordinate_status_counts": {
-    "available": 12387,
-    "corrected": 1,
-    "missing": 2092
+  "coordinate_accuracy_counts": {
+    "1": 46,
+    "3": 2418,
+    "4": 15951,
+    "missing": 396
   },
   "coordinate_verification_counts": {
-    "corrected_legacy_unverified": 1,
-    "legacy_unverified": 12387,
-    "missing": 2092
+    "geonames_estimated": 10320,
+    "geonames_place_match": 8095,
+    "missing": 396
+  },
+  "counts": {
+    "canonical_rows": 18811,
+    "localities": 10270,
+    "municipalities": 7894,
+    "municipalities_without_postal_code": 396,
+    "postal_code_relations": 18811
   },
   "cross_format_equivalence": {
-    "csv": true,
     "json": true,
+    "sql": true,
     "sqlite": true,
     "xlsx": true
   },
   "errors": [],
-  "output_semantic_sha256": {
-    "sqlite": "437edb9cf002572829f70aad660a006dc62ceb415cbb2a32b652662cd8375b7a"
-  },
-  "output_sha256": {
-    "italian_locations": "fde543485a77d3a265abe2947419920343121520c3465a2fc6bcc9643356c101",
-    "json": "49e050f1a2ef23d56ff178a3f38cc3d7bf65f305f34874e0f30f0618bde0c81c",
-    "localities": "e9a17a183de0a936b1f54bea47ad940003031662136c837fc77c0d79027c0147",
-    "municipalities": "51feb8037cc196b66e47777d63afb86f7f6b4c729fafb110b8f4d6fdc3d4c1e5",
-    "postal_codes": "c080af8b4907a336844903771b507d32f9c6203625f287b4daadba15f0fdc93e",
-    "xlsx": "91a1dce0293b98a2272d5aff5300bc1057249f4389dc199488ec3686880a3fe7"
-  },
-  "postal_code_status_counts": {
-    "generic_multicap": 9,
-    "legacy_unverified": 14471
-  },
+  "operational_data_readiness": "experimental_non_official",
   "quality_checks": {
+    "clean_room_isolation": {
+      "status": "passed",
+      "violations": 0
+    },
     "coordinate_bounds": {
       "status": "passed",
       "violations": 0
     },
     "coordinate_verification": {
+      "status": "passed",
+      "violations": 0
+    },
+    "cross_format_equivalence": {
       "status": "passed",
       "violations": 0
     },
@@ -68,6 +63,10 @@
       "violations": 0
     },
     "numeric_coordinates": {
+      "status": "passed",
+      "violations": 0
+    },
+    "operational_readiness": {
       "status": "passed",
       "violations": 0
     },
@@ -96,26 +95,12 @@
       "violations": 0
     }
   },
-  "quality_gate_version": "4.0.0",
-  "record_digest": "437edb9cf002572829f70aad660a006dc62ceb415cbb2a32b652662cd8375b7a",
-  "record_type_counts": {
-    "municipality": 7186,
-    "postal_locality_unclassified": 7294
-  },
-  "schema_version": "2.1.0",
-  "status": "passed",
-  "table_rows": {
-    "localities": 7294,
-    "municipalities": 7186,
-    "postal_codes": 14480
-  },
-  "territorial_reference": {
-    "municipalities": 7894,
-    "source": "sources/snapshots/istat/Elenco-comuni-italiani-2026-02-21.xlsx"
-  },
+  "quality_gate_version": "5.0.0",
+  "schema_version": "3.0.0",
+  "structural_quality": "passed",
   "warnings": [
-    "2092 records still lack coordinates",
-    "7294 localities remain unclassified",
-    "Legacy upstream rights remain unresolved; release status must stay prerelease"
+    "GeoNames is not Poste Italiane.",
+    "CAP and coordinates are experimental, non-official and without warranty.",
+    "GeoNames coordinates may be algorithmically estimated."
   ]
 }

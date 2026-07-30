@@ -1,0 +1,52 @@
+{
+  "attribution": {
+    "geonames": "GeoNames postal code dump, CC BY 4.0, https://www.geonames.org/",
+    "istat": "Istituto nazionale di statistica (ISTAT), CC BY 4.0"
+  },
+  "build_date": "2026-07-30",
+  "canonical_source_digest": "9906ae45bdd0f790eaa89773f9bfee530cb959bcc03071fdb93d35005809598f",
+  "canonical_source_ids": [
+    "istat_municipalities",
+    "geonames_postal_codes"
+  ],
+  "coordinate_accuracy_counts": {
+    "1": 46,
+    "3": 2418,
+    "4": 15951,
+    "missing": 396
+  },
+  "coordinate_count_grain": "canonical_location_postal_rows",
+  "coordinate_verification_counts": {
+    "geonames_estimated": 10320,
+    "geonames_place_match": 8095,
+    "missing": 396
+  },
+  "dataset_version": "v2.0.0",
+  "legacy_contributes_to_canonical": false,
+  "operational_data_readiness": "experimental_non_official",
+  "postal_use_warning": "Experimental, non-official data. GeoNames is not Poste Italiane.",
+  "schema_version": "3.0.0",
+  "source_manifest_sha256": "02f4f84002abfa710bb8b20561165e8615c4bf35716c515fa2ab2fdc97f2ea25",
+  "statistics": {
+    "ambiguous_matches": 0,
+    "exact_matches": 8095,
+    "geonames_records": 18415,
+    "istat_municipalities": 7894,
+    "localities": 10270,
+    "municipalities_without_postal_code": 396,
+    "postal_code_relations": 18811,
+    "unmatched_geonames": 10320
+  },
+  "structural_quality": "passed",
+  "unique_location_coordinate_accuracy_counts": {
+    "1": 43,
+    "3": 2415,
+    "4": 15310,
+    "missing": 396
+  },
+  "unique_location_coordinate_verification_counts": {
+    "geonames_estimated": 10270,
+    "geonames_place_match": 7498,
+    "missing": 396
+  }
+}

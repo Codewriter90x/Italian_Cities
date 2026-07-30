@@ -1,7 +1,7 @@
 from __future__ import annotations
 
+import inspect
 import json
-import subprocess
 import sys
 import tempfile
 import unittest
@@ -11,23 +11,31 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
+from build_dataset import build_clean_room  # noqa: E402
+from check_determinism import (  # noqa: E402
+    DEFAULT_REPORT as DETERMINISM_REPORT,
+    collect_signatures,
+)
 from dataset_common import (  # noqa: E402
     GENERATED_PATHS,
     ITALIAN_LOCATION_FIELDS,
     LOCALITY_FIELDS,
     MUNICIPALITY_FIELDS,
     POSTAL_CODE_FIELDS,
-    SOURCE_MANIFEST,
+    REPORTS_DIR,
     canonical_row_sort_key,
     read_csv_rows,
+    record_digest,
 )
-from build_dataset import validate_declared_sources  # noqa: E402
-from normalize_legacy import DEFAULT_ISTAT  # noqa: E402
+from legacy_comparison import build_legacy_comparison  # noqa: E402
+from source_data import (  # noqa: E402
+    DEFAULT_GEONAMES,
+    DEFAULT_LEGACY,
+    load_istat_records,
+    load_manifest,
+    validate_declared_sources,
+)
 from validate_dataset import validate  # noqa: E402
-from check_determinism import (  # noqa: E402
-    DEFAULT_REPORT as DETERMINISM_REPORT,
-    collect_signatures,
-)
 
 
 class IntegrityTests(unittest.TestCase):
@@ -38,191 +46,148 @@ class IntegrityTests(unittest.TestCase):
             ITALIAN_LOCATION_FIELDS,
         )
         cls.municipalities = read_csv_rows(
-            GENERATED_PATHS["municipalities"],
-            MUNICIPALITY_FIELDS,
+            GENERATED_PATHS["municipalities"], MUNICIPALITY_FIELDS
         )
         cls.localities = read_csv_rows(
-            GENERATED_PATHS["localities"],
-            LOCALITY_FIELDS,
+            GENERATED_PATHS["localities"], LOCALITY_FIELDS
         )
         cls.postal_codes = read_csv_rows(
-            GENERATED_PATHS["postal_codes"],
-            POSTAL_CODE_FIELDS,
+            GENERATED_PATHS["postal_codes"], POSTAL_CODE_FIELDS
         )
 
-    def test_primary_identifiers_are_unique(self) -> None:
+    def test_municipality_count_equals_istat_snapshot(self) -> None:
+        official = load_istat_records()
+        self.assertEqual(7894, len(official))
+        self.assertEqual(len(official), len(self.municipalities))
         self.assertEqual(
-            len({row["location_id"] for row in self.locations}),
-            len(self.locations),
-        )
-        self.assertEqual(
-            len({row["legacy_uuid"] for row in self.locations}),
-            len(self.locations),
-        )
-        self.assertEqual(
-            len({row["municipality_id"] for row in self.municipalities}),
-            len(self.municipalities),
-        )
-        self.assertEqual(
-            len({row["istat_code"] for row in self.municipalities}),
-            len(self.municipalities),
-        )
-        self.assertEqual(
-            len({row["locality_id"] for row in self.localities}),
-            len(self.localities),
-        )
-        self.assertEqual(
-            len(
-                {
-                    (row["location_id"], row["postal_code"])
-                    for row in self.postal_codes
-                }
-            ),
-            len(self.postal_codes),
+            {row["istat_code"] for row in official},
+            {row["istat_code"] for row in self.municipalities},
         )
 
-    def test_logical_keys_are_unique_in_every_dataset(self) -> None:
-        for name, rows, fields in (
-            (
-                "municipalities",
-                self.municipalities,
-                ("normalized_name", "postal_code", "province_code"),
-            ),
-            (
-                "localities",
-                self.localities,
-                ("normalized_name", "postal_code", "province_code"),
-            ),
-            (
-                "postal_codes",
-                self.postal_codes,
-                ("location_id", "postal_code", "province_code"),
-            ),
-            (
-                "italian_locations",
-                self.locations,
-                ("normalized_name", "postal_code", "province_code"),
-            ),
-        ):
-            with self.subTest(name=name):
-                keys = [tuple(row[field] for field in fields) for row in rows]
-                self.assertEqual(len(keys), len(set(keys)))
-
-    def test_partition_counts_reconcile(self) -> None:
-        self.assertTrue(self.locations)
-        self.assertTrue(self.municipalities)
-        self.assertTrue(self.localities)
-        self.assertEqual(
-            len(self.municipalities) + len(self.localities),
-            len(self.locations),
+    def test_identifiers_and_logical_relations_are_unique(self) -> None:
+        contracts = (
+            (self.municipalities, "municipality_id"),
+            (self.municipalities, "istat_code"),
+            (self.localities, "locality_id"),
+            (self.postal_codes, "postal_code_relation_id"),
+            (self.locations, "location_postal_id"),
         )
-        self.assertEqual(
-            len(self.municipalities),
-            sum(row["location_kind"] == "municipality" for row in self.locations),
-        )
-        self.assertEqual(
-            len(self.localities),
-            sum(
-                row["location_kind"] == "postal_locality_unclassified"
-                for row in self.locations
-            ),
-        )
+        for rows, field in contracts:
+            values = [row[field] for row in rows]
+            self.assertEqual(len(values), len(set(values)), field)
+        keys = [
+            (row["location_id"], row["postal_code"])
+            for row in self.postal_codes
+        ]
+        self.assertEqual(len(keys), len(set(keys)))
 
-    def test_postal_code_relations_have_no_orphans(self) -> None:
-        location_ids = {row["location_id"] for row in self.locations}
-        postal_location_ids = {row["location_id"] for row in self.postal_codes}
-        self.assertEqual(postal_location_ids, location_ids)
-        self.assertEqual(len(self.postal_codes), len(self.locations))
+    def test_all_municipalities_exist_even_without_postal_code(self) -> None:
+        relation_locations = {
+            row["location_id"] for row in self.postal_codes
+        }
+        self.assertTrue(
+            {
+                row["municipality_id"] for row in self.municipalities
+            }.issubset(relation_locations)
+        )
+        missing = [
+            row
+            for row in self.postal_codes
+            if row["postal_code_status"] == "missing"
+        ]
+        self.assertEqual(396, len(missing))
+        self.assertTrue(all(row["location_kind"] == "municipality" for row in missing))
 
-    def test_canonical_order_is_stable(self) -> None:
+    def test_ambiguous_matches_are_never_promoted(self) -> None:
+        ambiguous = [
+            row
+            for row in self.locations
+            if row["reconciliation_outcome"] == "multiple_candidates"
+        ]
+        for row in ambiguous:
+            self.assertEqual("geonames_ambiguous", row["location_kind"])
+            self.assertFalse(row["parent_municipality_id"])
+            self.assertTrue(row["candidate_municipality_ids"])
+            self.assertFalse(row["municipality_istat_code"])
+
+    def test_canonical_data_has_only_declared_clean_room_sources(self) -> None:
+        manifest = load_manifest()
+        declared = set(manifest["canonical_source_ids"])
+        self.assertEqual(
+            {"istat_municipalities", "geonames_postal_codes"}, declared
+        )
+        for row in self.locations:
+            source_ids = set(row["source_ids"].split(";"))
+            self.assertTrue(source_ids.issubset(declared))
+            self.assertNotIn("legacy_csv", source_ids)
+
+    def test_clean_room_builder_has_no_legacy_input(self) -> None:
+        self.assertNotIn("legacy", inspect.signature(build_clean_room).parameters)
+        first = build_clean_room()["canonical_source_digest"]
+        with tempfile.TemporaryDirectory() as directory:
+            unrelated_legacy = Path(directory) / "legacy.csv"
+            unrelated_legacy.write_text("completely different\n", encoding="utf-8")
+            second = build_clean_room()["canonical_source_digest"]
+        self.assertEqual(first, second)
+
+    def test_source_checksum_gate_rejects_modified_geonames(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            modified = Path(directory) / "IT.zip"
+            modified.write_bytes(DEFAULT_GEONAMES.read_bytes() + b"modified")
+            with self.assertRaisesRegex(ValueError, "checksum mismatch"):
+                validate_declared_sources(geonames_path=modified)
+
+    def test_legacy_report_is_deterministic_and_investigative(self) -> None:
+        first = build_legacy_comparison(DEFAULT_LEGACY, self.locations)
+        second = build_legacy_comparison(DEFAULT_LEGACY, self.locations)
+        self.assertEqual(first, second)
+        self.assertEqual("historical_comparison_only", first["legacy_role"])
+        self.assertIn("not proof", first["provenance_warning"])
+
+    def test_canonical_order_and_cross_table_integrity(self) -> None:
         self.assertEqual(
             self.locations,
             sorted(self.locations, key=canonical_row_sort_key),
         )
-
-    def test_diff_report_describes_real_release_changes(self) -> None:
-        report = json.loads(
-            (ROOT / "reports/release-diff.json").read_text(encoding="utf-8")
-        )
-        self.assertEqual(report["comparison"], {"from": "v1.0.0", "to": "v1.1.0"})
-        self.assertEqual(report["record_changes"]["added"], 0)
-        self.assertEqual(report["record_changes"]["removed"], 0)
-        self.assertGreater(report["record_changes"]["changed"], 0)
         self.assertEqual(
-            set(report["schema_changes"]["added_fields"]),
             {
-                "postal_code_status",
-                "legacy_province_name",
-                "coordinate_verification",
-                "source_ids",
+                row["postal_code_relation_id"] for row in self.postal_codes
             },
+            {row["location_postal_id"] for row in self.locations},
         )
-        self.assertEqual(report["postal_code_status_counts"]["generic_multicap"], 9)
 
-    def test_all_export_formats_are_equivalent(self) -> None:
+    def test_all_formats_and_quality_gates_pass(self) -> None:
         report = validate()
-        self.assertEqual(report["status"], "passed", report["errors"])
+        self.assertEqual("passed", report["structural_quality"], report["errors"])
+        self.assertEqual(
+            "experimental_non_official",
+            report["operational_data_readiness"],
+        )
+        self.assertNotIn("status", report)
         self.assertTrue(all(report["cross_format_equivalence"].values()))
         self.assertTrue(
             all(
                 check["status"] == "passed"
                 for check in report["quality_checks"].values()
-            ),
-            report["quality_checks"],
+            )
         )
-
-    def test_istat_and_territorial_quality_gates_pass(self) -> None:
-        report = validate()
-        for check_name in ("istat_code_validity", "territorial_coherence"):
-            with self.subTest(check=check_name):
-                self.assertEqual(
-                    report["quality_checks"][check_name],
-                    {"status": "passed", "violations": 0},
-                )
 
     def test_committed_determinism_report_matches_outputs(self) -> None:
         report = json.loads(DETERMINISM_REPORT.read_text(encoding="utf-8"))
-        self.assertEqual(report["status"], "passed")
-        self.assertEqual(report["runs"], 2)
+        self.assertEqual("passed", report["status"])
+        self.assertEqual(2, report["runs"])
         self.assertEqual(report["signatures"], collect_signatures())
 
-    def test_source_checksum_gate_rejects_modified_input(self) -> None:
-        with tempfile.TemporaryDirectory() as directory:
-            modified = Path(directory) / "legacy.csv"
-            modified.write_text("modified\n", encoding="utf-8")
-            with self.assertRaisesRegex(ValueError, "checksum mismatch"):
-                validate_declared_sources(
-                    SOURCE_MANIFEST,
-                    legacy_path=modified,
-                    istat_path=DEFAULT_ISTAT,
-                )
-
-    def test_legacy_normalization_does_not_log_report_data(self) -> None:
-        with tempfile.TemporaryDirectory() as directory:
-            output = Path(directory) / "normalized.csv"
-            report = Path(directory) / "report.json"
-            result = subprocess.run(
-                [
-                    sys.executable,
-                    str(ROOT / "scripts" / "normalize_legacy.py"),
-                    "--output",
-                    str(output),
-                    "--report",
-                    str(report),
-                ],
-                check=True,
-                capture_output=True,
-                text=True,
-            )
-            self.assertEqual(
-                result.stdout,
-                "Legacy normalization completed; "
-                "details are available in the report.\n",
-            )
-            self.assertTrue(output.is_file())
-            self.assertTrue(report.is_file())
-            self.assertNotIn("legacy_uuid", result.stdout)
-            self.assertNotIn("corrections", result.stdout)
+    def test_export_manifest_uses_semantic_sqlite_digest(self) -> None:
+        report = json.loads(
+            (REPORTS_DIR / "export-manifest.json").read_text(encoding="utf-8")
+        )
+        sqlite_output = report["outputs"]["sqlite"]
+        self.assertNotIn("sha256", sqlite_output)
+        self.assertEqual(
+            record_digest(self.locations),
+            sqlite_output["semantic_sha256"],
+        )
 
 
 if __name__ == "__main__":

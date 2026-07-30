@@ -1,25 +1,26 @@
 {
+  "operational_data_readiness": "experimental_non_official",
   "outputs": {
     "csv": {
-      "path": "data/italian_locations.csv",
-      "sha256": "fde543485a77d3a265abe2947419920343121520c3465a2fc6bcc9643356c101"
+      "repository_path": "data/italian_locations.csv",
+      "sha256": "803adc8dcb9e4cf0c65f6284e640a4e3b44b6f8b599f66c01cfaf9de231cf977"
     },
     "json": {
-      "path": "data/italian_locations.json",
-      "sha256": "49e050f1a2ef23d56ff178a3f38cc3d7bf65f305f34874e0f30f0618bde0c81c"
+      "repository_path": "data/italian_locations.json",
+      "sha256": "7a20df78d925d4ce9e8be8d3ec31b7687665ac64f3f21a6adba793f7099acf5f"
     },
     "sqlite": {
-      "binary_hash_portability": "not guaranteed across SQLite library versions",
-      "path": "data/italian_locations.sqlite",
-      "semantic_sha256": "437edb9cf002572829f70aad660a006dc62ceb415cbb2a32b652662cd8375b7a"
+      "repository_path": "data/italian_locations.sqlite",
+      "semantic_sha256": "48b3a08779749514d3a816e5c2581953659db29c20a6f76d4eaeddc62ca352b2"
     },
     "xlsx": {
-      "path": "data/italian_locations.xlsx",
-      "sha256": "91a1dce0293b98a2272d5aff5300bc1057249f4389dc199488ec3686880a3fe7"
+      "repository_path": "data/italian_locations.xlsx",
+      "sha256": "5ef6d07d500e4e2e48dadbc33ab74f410a8cc299e480e56828bf6c0427bc14ea"
     }
   },
-  "record_digest": "437edb9cf002572829f70aad660a006dc62ceb415cbb2a32b652662cd8375b7a",
-  "rows": 14480,
-  "schema_version": "2.1.0",
-  "status": "exported"
+  "record_digest": "48b3a08779749514d3a816e5c2581953659db29c20a6f76d4eaeddc62ca352b2",
+  "rows": 18811,
+  "schema_version": "3.0.0",
+  "status": "exported",
+  "structural_quality": "passed"
 }

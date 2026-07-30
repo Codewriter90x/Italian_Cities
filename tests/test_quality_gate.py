@@ -40,60 +40,146 @@ class QualityGateNegativeTests(unittest.TestCase):
             errors=errors,
             checks=checks,
         )
-        self.assertEqual(checks["unique_identifiers"]["violations"], 1)
-        self.assertIn("duplicate identifier", errors[0])
+        self.assertEqual(1, checks["unique_identifiers"]["violations"])
 
-    def test_invalid_cap_is_rejected(self) -> None:
+    def test_empty_identifier_is_rejected(self) -> None:
+        errors: list[str] = []
+        checks = empty_checks()
+        validate_unique_key(
+            rows=[{"id": ""}],
+            fields=("id",),
+            dataset="fixture.csv",
+            errors=errors,
+            checks=checks,
+        )
+        self.assertIn("empty identifier", errors[0])
+
+    def test_invalid_and_inconsistent_cap_are_rejected(self) -> None:
         errors: list[str] = []
         checks = empty_checks()
         validate_postal_code_table(
-            rows=[{"postal_code": "1234"}],
-            dataset="fixture.csv",
-            errors=errors,
-            checks=checks,
-        )
-        self.assertEqual(checks["postal_code_format"]["violations"], 1)
-        self.assertIn("exactly five digits", errors[0])
-
-    def test_duplicate_logical_key_is_rejected(self) -> None:
-        errors: list[str] = []
-        checks = empty_checks()
-        rows = [
-            {"name": "roma", "cap": "00100"},
-            {"name": "roma", "cap": "00100"},
-        ]
-        validate_logical_key(
-            rows=rows,
-            fields=("name", "cap"),
-            dataset="fixture.csv",
-            errors=errors,
-            checks=checks,
-        )
-        self.assertEqual(checks["no_logical_duplicates"]["violations"], 1)
-        self.assertIn("duplicate logical key", errors[0])
-
-    def test_non_numeric_and_implausible_coordinates_are_rejected(self) -> None:
-        errors: list[str] = []
-        checks = empty_checks()
-        validate_coordinate_table(
             rows=[
-                {"latitude": "north", "longitude": "12"},
-                {"latitude": "90", "longitude": "12"},
+                {"postal_code": "1234", "postal_code_status": "geonames_matched"},
+                {"postal_code": "00100", "postal_code_status": "missing"},
             ],
             dataset="fixture.csv",
             errors=errors,
             checks=checks,
         )
-        self.assertEqual(checks["numeric_coordinates"]["violations"], 1)
-        self.assertEqual(checks["coordinate_bounds"]["violations"], 1)
+        self.assertEqual(1, checks["postal_code_format"]["violations"])
+        self.assertEqual(1, checks["postal_code_semantics"]["violations"])
 
-    def test_physical_and_delimiter_only_blank_rows_are_rejected(self) -> None:
+    def test_reserved_and_unknown_postal_statuses_are_rejected(self) -> None:
+        errors: list[str] = []
+        checks = empty_checks()
+        validate_postal_semantics(
+            rows=[
+                {"postal_code_status": "official_verified"},
+                {"postal_code_status": "made_up"},
+            ],
+            dataset="fixture.csv",
+            errors=errors,
+            checks=checks,
+        )
+        self.assertEqual(2, checks["postal_code_semantics"]["violations"])
+
+    def test_duplicate_logical_key_is_rejected(self) -> None:
+        errors: list[str] = []
+        checks = empty_checks()
+        validate_logical_key(
+            rows=[
+                {"name": "roma", "cap": "00100"},
+                {"name": "roma", "cap": "00100"},
+            ],
+            fields=("name", "cap"),
+            dataset="fixture.csv",
+            errors=errors,
+            checks=checks,
+        )
+        self.assertEqual(1, checks["no_logical_duplicates"]["violations"])
+
+    def test_bad_coordinates_and_accuracy_are_rejected(self) -> None:
+        errors: list[str] = []
+        checks = empty_checks()
+        validate_coordinate_table(
+            rows=[
+                {
+                    "latitude": "north",
+                    "longitude": "12",
+                    "coordinate_verification": "geonames_estimated",
+                    "coordinate_accuracy": "4",
+                },
+                {
+                    "latitude": "90",
+                    "longitude": "12",
+                    "coordinate_verification": "geonames_estimated",
+                    "coordinate_accuracy": "4",
+                },
+                {
+                    "latitude": "42",
+                    "longitude": "13",
+                    "coordinate_verification": "official_boundary_derived",
+                    "coordinate_accuracy": "",
+                },
+            ],
+            dataset="fixture.csv",
+            errors=errors,
+            checks=checks,
+        )
+        self.assertEqual(1, checks["numeric_coordinates"]["violations"])
+        self.assertEqual(1, checks["coordinate_bounds"]["violations"])
+        self.assertGreaterEqual(
+            checks["coordinate_verification"]["violations"], 1
+        )
+
+    def test_missing_coordinate_contract_is_enforced(self) -> None:
+        errors: list[str] = []
+        checks = empty_checks()
+        validate_coordinate_table(
+            rows=[
+                {
+                    "latitude": "",
+                    "longitude": "",
+                    "coordinate_verification": "geonames_estimated",
+                    "coordinate_accuracy": "4",
+                }
+            ],
+            dataset="fixture.csv",
+            errors=errors,
+            checks=checks,
+        )
+        self.assertEqual(1, checks["coordinate_verification"]["violations"])
+
+    def test_legacy_and_ambiguous_promotion_are_rejected(self) -> None:
+        errors: list[str] = []
+        checks = empty_checks()
+        validate_verification_and_provenance(
+            rows=[
+                {
+                    "source_ids": "legacy_csv",
+                    "source_record_ids": "legacy-1",
+                    "reconciliation_outcome": "multiple_candidates",
+                    "parent_municipality_id": "IT-COM-000001",
+                    "candidate_municipality_ids": "",
+                }
+            ],
+            dataset="fixture.csv",
+            errors=errors,
+            checks=checks,
+        )
+        self.assertGreaterEqual(
+            checks["provenance_completeness"]["violations"], 2
+        )
+        self.assertGreaterEqual(checks["clean_room_isolation"]["violations"], 2)
+
+    def test_blank_rows_are_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "fixture.csv"
             path.write_text("a,b\n1,2\n\n,\n", encoding="utf-8")
-            self.assertEqual(completely_blank_record_lines(path), [3, 4])
+            self.assertEqual([3, 4], completely_blank_record_lines(path))
 
-    def test_official_bilingual_region_suffix_is_compatible(self) -> None:
+    def test_territorial_alias_and_bilingual_suffix(self) -> None:
+        self.assertTrue(territorial_names_compatible("Abruzzi", "Abruzzo"))
         self.assertTrue(
             territorial_names_compatible(
                 "Trentino-Alto Adige",
@@ -103,59 +189,6 @@ class QualityGateNegativeTests(unittest.TestCase):
         self.assertFalse(
             territorial_names_compatible("Piemonte", "Lombardia")
         )
-
-    def test_generic_multicap_must_be_labelled(self) -> None:
-        errors: list[str] = []
-        checks = empty_checks()
-        validate_postal_semantics(
-            rows=[
-                {
-                    "normalized_name": "roma",
-                    "province_code": "RM",
-                    "postal_code": "00100",
-                    "postal_code_status": "legacy_unverified",
-                }
-            ],
-            dataset="fixture.csv",
-            errors=errors,
-            checks=checks,
-        )
-        self.assertEqual(checks["postal_code_semantics"]["violations"], 1)
-
-    def test_verified_coordinates_require_authoritative_provenance(self) -> None:
-        errors: list[str] = []
-        checks = empty_checks()
-        validate_verification_and_provenance(
-            rows=[
-                {
-                    "coordinate_status": "available",
-                    "coordinate_verification": "verified",
-                    "source_ids": "legacy_csv;istat_municipalities",
-                }
-            ],
-            dataset="fixture.csv",
-            errors=errors,
-            checks=checks,
-        )
-        self.assertEqual(checks["coordinate_verification"]["violations"], 0)
-        self.assertEqual(checks["provenance_completeness"]["violations"], 1)
-
-    def test_coordinate_verification_must_match_presence_state(self) -> None:
-        errors: list[str] = []
-        checks = empty_checks()
-        validate_verification_and_provenance(
-            rows=[
-                {
-                    "coordinate_status": "missing",
-                    "coordinate_verification": "legacy_unverified",
-                    "source_ids": "legacy_csv;istat_municipalities",
-                }
-            ],
-            dataset="fixture.csv",
-            errors=errors,
-            checks=checks,
-        )
-        self.assertEqual(checks["coordinate_verification"]["violations"], 1)
 
 
 if __name__ == "__main__":

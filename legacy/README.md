@@ -7,7 +7,8 @@ The files under `2023-05-02-original/` are byte-for-byte copies of the files
 found on the `main` branch at commit
 `09986a059cdf9ff8920a944faf6fa8e2f9cb88ac`.
 
-They are evidence and migration inputs. They must not be edited in place.
+They are historical evidence only. They must not be edited in place and do not
+contribute to the v2 canonical dataset.
 
 ## Baseline inventory
 
@@ -25,5 +26,5 @@ No earlier source snapshot, import script, or source citation is present in the
 repository history.
 
 Milestone 2 removes the duplicate root-level exports so they cannot be
-mistaken for current editable data. These preserved files remain the immutable
-source baseline used by the generated-data pipeline.
+mistaken for current editable data. The v2 pipeline reads the legacy CSV only
+after the canonical build to produce `reports/legacy-comparison.json`.
