@@ -1,38 +1,42 @@
 # Community outreach kit
 
-Data di preparazione: 2026-07-29
+Aggiornato: 2026-07-30
 
 Questo documento prepara il lancio di Italian Cities senza pubblicare
 automaticamente messaggi su community esterne. Prima dell'invio occorre
 leggere regole, canali corretti e disclosure richieste dalla singola community.
 
+> **Gate:** non promuovere il dataset come release stabile finché provenienza
+> e diritti upstream del legacy non sono risolti. I testi seguenti chiedono una
+> revisione tecnica della pre-release.
+
 ## Link canonici
 
 - Repository: <https://github.com/Codewriter90x/Italian_Cities>
 - Ricerca web: <https://codewriter90x.github.io/Italian_Cities/>
-- Release: <https://github.com/Codewriter90x/Italian_Cities/releases/tag/v1.0.0>
+- Working dataset: <https://github.com/Codewriter90x/Italian_Cities/tree/main/data>
 - Discussioni: <https://github.com/Codewriter90x/Italian_Cities/discussions>
 
 ## Messaggio generale
 
 **Titolo**
 
-> Italian Cities v1.0.0: dataset riproducibile di comuni, località, CAP e coordinate
+> Italian Cities v1.1.0 pre-release: revisione aperta di un dataset geografico legacy
 
 **Testo**
 
-> Ho pubblicato Italian Cities v1.0.0: 14.480 relazioni luogo–CAP, 7.186
+> Sto revisionando Italian Cities v1.1.0 pre-release: 14.480 relazioni luogo–CAP, 7.186
 > comuni riconosciuti tramite ISTAT, 4.459 CAP distinti e coordinate per
 > l'85,55% dei record. CSV, JSON, XLSX, SQLite e SQL sono generati dalla
 > stessa pipeline e verificati con checksum e test di integrità.
 >
 > La nuova ricerca web permette di filtrare per nome, CAP e provincia e mostra
 > la copertura geografica. Il README dichiara anche i limiti: non è un elenco
-> postale ufficiale e la provenienza upstream dei valori legacy non è
-> interamente dimostrata.
+> postale ufficiale; nessun CAP o punto legacy è dichiarato verificato e la
+> provenienza upstream dei valori legacy non è interamente dimostrata.
 >
-> Cerco feedback su correzioni verificabili, fonti compatibili e casi d'uso:
-> [ricerca web] · [repository] · [release].
+> Cerco soprattutto revisione su fonti compatibili, licenze e correzioni
+> verificabili: [ricerca web] · [repository] · [working dataset].
 
 Sostituire i riferimenti fra parentesi con i link canonici.
 
@@ -105,5 +109,6 @@ Destinazioni da valutare:
 2. Dichiarare che l'autore sta presentando il proprio progetto.
 3. Non descrivere il dataset come ufficiale o completamente aggiornato.
 4. Includere il caveat sulla provenienza legacy.
-5. Personalizzare il messaggio per il canale ed evitare cross-post identici.
-6. Rispondere ai commenti e riportare le correzioni nelle issue strutturate.
+5. Dichiarare che CAP e coordinate non sono verificati.
+6. Personalizzare il messaggio per il canale ed evitare cross-post identici.
+7. Rispondere ai commenti e riportare le correzioni nelle issue strutturate.

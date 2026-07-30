@@ -63,12 +63,26 @@ select {
 }
 
 .site-header,
+.trust-banner,
 .hero,
 .page-shell,
 .download-strip,
 .site-footer {
   width: min(1180px, calc(100% - 2rem));
   margin-inline: auto;
+}
+
+.trust-banner {
+  margin-top: 1rem;
+  padding: 1rem 1.15rem;
+  color: #ffe9b3;
+  background: rgba(119, 76, 17, 0.34);
+  border: 1px solid rgba(255, 190, 92, 0.48);
+  border-radius: 0.8rem;
+}
+
+.trust-banner strong {
+  color: #fff4d8;
 }
 
 .site-header {

@@ -16,7 +16,9 @@ from validate_dataset import (  # noqa: E402
     validate_coordinate_table,
     validate_logical_key,
     validate_postal_code_table,
+    validate_postal_semantics,
     validate_unique_key,
+    validate_verification_and_provenance,
 )
 
 
@@ -101,6 +103,59 @@ class QualityGateNegativeTests(unittest.TestCase):
         self.assertFalse(
             territorial_names_compatible("Piemonte", "Lombardia")
         )
+
+    def test_generic_multicap_must_be_labelled(self) -> None:
+        errors: list[str] = []
+        checks = empty_checks()
+        validate_postal_semantics(
+            rows=[
+                {
+                    "normalized_name": "roma",
+                    "province_code": "RM",
+                    "postal_code": "00100",
+                    "postal_code_status": "legacy_unverified",
+                }
+            ],
+            dataset="fixture.csv",
+            errors=errors,
+            checks=checks,
+        )
+        self.assertEqual(checks["postal_code_semantics"]["violations"], 1)
+
+    def test_verified_coordinates_require_authoritative_provenance(self) -> None:
+        errors: list[str] = []
+        checks = empty_checks()
+        validate_verification_and_provenance(
+            rows=[
+                {
+                    "coordinate_status": "available",
+                    "coordinate_verification": "verified",
+                    "source_ids": "legacy_csv;istat_municipalities",
+                }
+            ],
+            dataset="fixture.csv",
+            errors=errors,
+            checks=checks,
+        )
+        self.assertEqual(checks["coordinate_verification"]["violations"], 0)
+        self.assertEqual(checks["provenance_completeness"]["violations"], 1)
+
+    def test_coordinate_verification_must_match_presence_state(self) -> None:
+        errors: list[str] = []
+        checks = empty_checks()
+        validate_verification_and_provenance(
+            rows=[
+                {
+                    "coordinate_status": "missing",
+                    "coordinate_verification": "legacy_unverified",
+                    "source_ids": "legacy_csv;istat_municipalities",
+                }
+            ],
+            dataset="fixture.csv",
+            errors=errors,
+            checks=checks,
+        )
+        self.assertEqual(checks["coordinate_verification"]["violations"], 1)
 
 
 if __name__ == "__main__":

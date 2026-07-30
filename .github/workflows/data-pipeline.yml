@@ -18,10 +18,10 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Check out repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: "3.12"
           cache: pip
@@ -47,10 +47,10 @@ jobs:
       - name: Build deterministic GitHub Pages site
         run: python scripts/build_pages.py
 
-      - name: Build v1.0.0 release assets
+      - name: Build versioned release assets
         run: python scripts/build_release.py
 
-      - name: Validate v1.0.0 release assets
+      - name: Validate versioned release assets
         run: python scripts/validate_release.py
 
       - name: Reject stale, divergent or manually edited artifacts
@@ -58,7 +58,7 @@ jobs:
           git diff --exit-code --
           data
           ":(exclude)data/italian_locations.sqlite"
-          reports/milestone2-diff.json
-          reports/milestone2-exports.json
-          reports/milestone3-determinism.json
-          reports/milestone3-validation.json
+          reports/release-diff.json
+          reports/export-manifest.json
+          reports/determinism.json
+          reports/quality-validation.json

@@ -52,14 +52,31 @@ export function searchLocations(
 ) {
   const normalizedQuery = normalizeTerm(query);
   const tokens = normalizedQuery.split(" ").filter(Boolean);
+  const exactPostalCodeQuery = /^\d{5}$/.test(normalizedQuery);
 
   const matches = rows.filter((row) => {
     if (province && row.province_code !== province) return false;
     if (kind && row.location_kind !== kind) return false;
-    if (coordinateStatus && row.coordinate_status !== coordinateStatus) {
+    if (coordinateStatus === "present" && row.latitude === null) return false;
+    if (coordinateStatus === "missing" && row.latitude !== null) return false;
+    if (
+      coordinateStatus === "legacy_unverified" &&
+      !["legacy_unverified", "corrected_legacy_unverified"].includes(
+        row.coordinate_verification,
+      )
+    ) {
+      return false;
+    }
+    if (
+      coordinateStatus === "verified" &&
+      ["missing", "legacy_unverified", "corrected_legacy_unverified"].includes(
+        row.coordinate_verification,
+      )
+    ) {
       return false;
     }
     if (!tokens.length) return true;
+    if (exactPostalCodeQuery) return row.postal_code === normalizedQuery;
     const haystack = searchableText(row);
     return tokens.every((token) => haystack.includes(token));
   });

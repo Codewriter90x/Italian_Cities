@@ -85,7 +85,8 @@ attribuzione, database derivati e condivisione alle stesse condizioni.
 
 Di conseguenza:
 
-1. la working copy canonica è **provvisoria e non pronta per la release**;
+1. la working copy canonica è **provvisoria e non pronta per una release
+   stabile**;
 2. non deve essere presentata come interamente CC0;
 3. prima della pubblicazione occorre scegliere una delle seguenti strade:
    documentare la fonte e i diritti originari; sostituire i campi senza
@@ -105,19 +106,22 @@ checksum registrato nei report:
 83842076860450f7e482daecea6b7a769f5f93d0bf5b0d48802b44896d7a26d5
 ```
 
-Data della trasformazione Milestone 1: 2026-07-29.
+La baseline storica `v1.0.0` è conservata, con checksum, sotto
+`baselines/releases/v1.0.0/`. Non è una fonte primaria: serve soltanto a
+produrre un diff riproducibile fra release.
 
-## Milestone 2
+## Working dataset v1.1.0
 
-La Milestone 2 non incorpora nuove fonti geografiche e non modifica
-semanticamente i 14.480 record. Importa le fonti già dichiarate, verifica che
-riproducano la baseline M1 e costruisce nuovi schemi ed export.
+La trasformazione del 30 luglio 2026 non incorpora nuove fonti postali o
+geografiche. Normalizza i nomi delle province sul riferimento ISTAT, preserva
+il valore legacy e aggiunge stati espliciti per CAP, coordinate e provenienza.
+Il confronto completo con `v1.0.0` è in `reports/release-diff.json`.
 
-Data build: 2026-07-29. Schema: `2.0.0`.
+Data build: 2026-07-30. Schema: `2.1.0`.
 
-## Milestone 3
+## Quality gate
 
-La Milestone 3 non importa nuove coordinate. Usa lo snapshot ISTAT già
+Il quality gate non importa nuove coordinate. Usa lo snapshot ISTAT già
 dichiarato anche come riferimento bloccante per validare codici comunali,
 province e regioni.
 
@@ -128,19 +132,20 @@ il bulk geocoding su larga scala. Confini ISTAT, estratti OpenStreetMap
 elaborati localmente, un'istanza propria o provider autorizzati sono descritti
 in `COORDINATE_ENRICHMENT.md`.
 
-Data quality gate: 2026-07-29. Versione: `3.0.0`.
+Data quality gate: 2026-07-30. Versione: `4.0.0`.
 
-## Milestone 4 e release v1.0.0
+## Release storica v1.0.0
 
-La Milestone 4 non aggiunge né modifica record. Prepara una distribuzione
-tecnica riproducibile dei dati già presenti e aggiunge attribuzioni e limiti
-direttamente nel README e nelle note di release.
+`v1.0.0` è stata pubblicata prima che la distinzione fra licenza del codice e
+diritti sui dati upstream fosse resa esplicita. Rimane disponibile come
+baseline storica, ma deve essere marcata come pre-release e accompagnata
+dall'avviso di provenienza.
 
 Il bundle non include il dump SQL Server storico. SQLite e lo script SQL
 SQLite-compatible sono entrambi derivati da `data/italian_locations.csv` e
 verificati tramite digest.
 
 Il gate di provenienza legacy resta aperto: l'autorizzazione tecnica alla
-creazione del bundle non dimostra diritti upstream. Per questo il workflow crea
-la GitHub Release come draft. La pubblicazione richiede una decisione esplicita
-del maintainer dopo aver letto l'avviso sulle licenze.
+creazione del bundle non dimostra diritti upstream. Le versioni successive
+vengono quindi create come pre-release finché il maintainer non documenta i
+diritti o sostituisce i campi interessati con fonti compatibili.
