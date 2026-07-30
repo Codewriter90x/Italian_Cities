@@ -1,0 +1,106 @@
+{
+  "coordinate_accuracy_counts": {
+    "1": 46,
+    "3": 2418,
+    "4": 15951,
+    "missing": 396
+  },
+  "coordinate_verification_counts": {
+    "geonames_estimated": 10320,
+    "geonames_place_match": 8095,
+    "missing": 396
+  },
+  "counts": {
+    "canonical_rows": 18811,
+    "localities": 10270,
+    "municipalities": 7894,
+    "municipalities_without_postal_code": 396,
+    "postal_code_relations": 18811
+  },
+  "cross_format_equivalence": {
+    "json": true,
+    "sql": true,
+    "sqlite": true,
+    "xlsx": true
+  },
+  "errors": [],
+  "operational_data_readiness": "experimental_non_official",
+  "quality_checks": {
+    "clean_room_isolation": {
+      "status": "passed",
+      "violations": 0
+    },
+    "coordinate_bounds": {
+      "status": "passed",
+      "violations": 0
+    },
+    "coordinate_verification": {
+      "status": "passed",
+      "violations": 0
+    },
+    "cross_format_equivalence": {
+      "status": "passed",
+      "violations": 0
+    },
+    "cross_table_integrity": {
+      "status": "passed",
+      "violations": 0
+    },
+    "deterministic_build": {
+      "status": "passed",
+      "violations": 0
+    },
+    "istat_code_validity": {
+      "status": "passed",
+      "violations": 0
+    },
+    "no_empty_rows": {
+      "status": "passed",
+      "violations": 0
+    },
+    "no_logical_duplicates": {
+      "status": "passed",
+      "violations": 0
+    },
+    "numeric_coordinates": {
+      "status": "passed",
+      "violations": 0
+    },
+    "operational_readiness": {
+      "status": "passed",
+      "violations": 0
+    },
+    "postal_code_format": {
+      "status": "passed",
+      "violations": 0
+    },
+    "postal_code_semantics": {
+      "status": "passed",
+      "violations": 0
+    },
+    "provenance_completeness": {
+      "status": "passed",
+      "violations": 0
+    },
+    "schema_columns": {
+      "status": "passed",
+      "violations": 0
+    },
+    "territorial_coherence": {
+      "status": "passed",
+      "violations": 0
+    },
+    "unique_identifiers": {
+      "status": "passed",
+      "violations": 0
+    }
+  },
+  "quality_gate_version": "5.0.0",
+  "schema_version": "3.0.0",
+  "structural_quality": "passed",
+  "warnings": [
+    "GeoNames is not Poste Italiane.",
+    "CAP and coordinates are experimental, non-official and without warranty.",
+    "GeoNames coordinates may be algorithmically estimated."
+  ]
+}

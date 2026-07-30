@@ -1,174 +1,127 @@
-# Dataset schema — version 2.1.0
+# Dataset schema — 3.0.0
 
-## Perimetro semantico
+La v2 separa identità amministrativa, località e relazioni CAP. Il CAP non è
+mai una chiave univoca e l'assenza di CAP non elimina un comune.
 
-Il dataset rappresenta associazioni tra un nome geografico e un CAP. Non è
-un elenco ufficiale completo dei soli comuni italiani.
+## Identificativi
 
-- **Comune**: unità amministrativa riconosciuta nell'elenco ISTAT scelto come
-  riferimento. Una riga è `municipality` soltanto se nome
-  normalizzato e sigla di provincia coincidono esattamente.
-- **Località**: luogo denominato e associato a un CAP; può non avere autonomia
-  amministrativa o postale.
-- **Frazione**: località subordinata a un comune. Il legacy non contiene il
-  comune padre né una fonte sufficiente a distinguere con affidabilità le
-  frazioni dalle altre località.
-- **CAP**: codice di avviamento postale di cinque cifre. Può essere condiviso
-  da più luoghi e un luogo può essere associato a più CAP; non è un
-  identificatore.
+- comune: `IT-COM-<codice ISTAT a 6 cifre>`;
+- località: `IT-LOC-<UUIDv5>` da nome normalizzato, provincia, coordinate ed
+  esito di riconciliazione;
+- relazione CAP: `IT-PCR-<UUIDv5>` da `location_id` e CAP, oppure `missing`.
 
-`postal_locality_unclassified` è quindi una categoria prudenziale, non
-sinonimo di frazione.
+## `municipalities.csv`
 
-## Tabelle generate
+Una riga per ciascuno dei 7.894 comuni ISTAT. Campi:
 
-### `municipalities.csv`
+`municipality_id`, `istat_code`, `name`, `normalized_name`, `province_code`,
+`province_name`, `region_name`, `country_code`, `country_name`, `latitude`,
+`longitude`, `coordinate_verification`, `coordinate_accuracy`,
+`coordinate_source_id`, `coordinate_source_record_id`,
+`coordinate_source_date`, `coordinate_method`, `coordinate_confidence`,
+`administrative_source_id`, `administrative_source_record_id`,
+`administrative_source_date`, `source_ids`.
 
-Grana: un comune riconosciuto nel dataset. `municipality_id` è
-`IT-COM-<codice ISTAT>`. Contiene codice ISTAT, UUID legacy, nome e chiave
-normalizzata, CAP, geografia amministrativa, coordinate e provenienza.
+Il codice ISTAT è la chiave stabile. Coordinate e campi `coordinate_*` restano
+vuoti/`missing` quando non esiste un match GeoNames esatto.
 
-### `localities.csv`
+## `localities.csv`
 
-Grana: una località postale non ancora riconciliata. `locality_id` è un UUIDv5
-deterministico preceduto da `IT-LOC-`. `parent_municipality_id` resta vuoto
-finché una fonte autorevole non documenta la relazione.
+Una riga per ogni luogo GeoNames non riconciliato con certezza:
 
-### `postal_codes.csv`
+`locality_id`, `name`, `normalized_name`, `locality_type`,
+`parent_municipality_id`, `candidate_municipality_ids`, `province_code`,
+`province_name`, `region_name`, `country_code`, `country_name`, `latitude`,
+`longitude`, `coordinate_verification`, `coordinate_accuracy`, `source_id`,
+`source_record_ids`, `source_reference_date`, `reconciliation_outcome`,
+`reconciliation_method`, `reconciliation_confidence`.
 
-Grana: una relazione luogo-CAP. Il CAP non è una chiave univoca. Attualmente
-ogni luogo ha una sola relazione legacy marcata `is_primary=true`;
-lo schema consente future relazioni multiple.
+`parent_municipality_id` è sempre vuoto per record ambigui o non riconciliati.
+Le sigle territoriali obsolete presenti in GeoNames, come `SU`, sono
+preservate soltanto su località `unmatched_no_parent` e non vengono promosse a
+classificazione ISTAT.
 
-### `italian_locations.csv`
+## `postal_codes.csv`
 
-Vista canonica unificata di comuni e località. È l'unica base degli export
-JSON, XLSX e SQLite.
+Una riga per relazione molti-a-molti:
 
-## Schema della vista canonica
+`postal_code_relation_id`, `location_id`, `location_kind`, `postal_code`,
+`postal_code_status`, `province_code`, `is_primary`, `source_id`,
+`source_record_ids`, `source_reference_date`, `match_method`, `confidence`,
+`accuracy`.
 
-`data/italian_locations.csv` è UTF-8, delimitato da virgole, con
-intestazione e terminatori di riga LF.
+Un comune senza CAP ha una relazione con `postal_code=""` e
+`postal_code_status=missing`. Ogni altro CAP deve rispettare `^[0-9]{5}$`.
 
-| Campo | Tipo/logica | Obbligatorio | Descrizione |
-| --- | --- | --- | --- |
-| `location_id` | stringa | sì | Identificatore canonico deterministico |
-| `legacy_uuid` | UUID | sì | Identificatore originario conservato per migrazione |
-| `name` | stringa | sì | Denominazione legacy |
-| `normalized_name` | stringa | sì | Chiave di ricerca normalizzata |
-| `location_kind` | enum | sì | `municipality` o `postal_locality_unclassified` |
-| `municipality_istat_code` | stringa di 6 cifre | solo comuni | Codice ISTAT corrente del comune riconosciuto |
-| `parent_municipality_id` | identificatore | no | Relazione futura, vuota finché non documentata |
-| `postal_code` | stringa, `^[0-9]{5}$` | sì | CAP con eventuali zeri iniziali |
-| `postal_code_status` | enum | sì | `legacy_unverified`, `generic_multicap`, `verified` o `obsolete` |
-| `province_code` | stringa, `^[A-Z]{2}$` | sì | Sigla legacy della provincia |
-| `province_name` | stringa | sì | Denominazione ufficiale nello snapshot ISTAT |
-| `legacy_province_name` | stringa | sì | Denominazione originaria preservata |
-| `region_name` | stringa | sì | Nome legacy della regione |
-| `country_code` | ISO 3166-1 alpha-2 | sì | Sempre `IT` |
-| `country_name` | stringa | sì | Nome paese legacy |
-| `latitude` | decimale WGS84 | con longitudine | Vuoto se la coppia non è disponibile |
-| `longitude` | decimale WGS84 | con latitudine | Vuoto se la coppia non è disponibile |
-| `coordinate_status` | enum | sì | `available`, `corrected` o `missing` |
-| `coordinate_verification` | enum | sì | `legacy_unverified`, `corrected_legacy_unverified`, `verified` o `missing` |
-| `source_snapshot` | stringa | sì | Baseline di provenienza del record |
-| `source_ids` | lista `;` | sì | Identificativi delle fonti dichiarate che contribuiscono al record |
+## `italian_locations.csv`
 
-I campi vuoti sono l'unica rappresentazione ammessa dei valori mancanti. La
-stringa letterale `NULL` non è ammessa nel canonico.
+Vista unificata, una riga per relazione CAP:
 
-## Normalizzazione
+| Campo | Descrizione |
+| --- | --- |
+| `location_postal_id` | chiave univoca della riga |
+| `location_id` | comune o località |
+| `name`, `normalized_name` | denominazione e chiave normalizzata |
+| `location_kind` | `municipality`, `geonames_unreconciled` o `geonames_ambiguous` |
+| `municipality_istat_code` | presente soltanto per comuni |
+| `parent_municipality_id` | vuoto finché non documentato |
+| `candidate_municipality_ids` | candidati ordinati per match multiplo |
+| `postal_code` | cinque cifre o vuoto con stato `missing` |
+| `postal_code_status` | stato della relazione CAP |
+| `province_code`, `province_name`, `region_name` | contesto territoriale |
+| `country_code`, `country_name` | `IT`, `Italia` |
+| `latitude`, `longitude` | coppia WGS84 opzionale |
+| `coordinate_verification` | origine/semantica della coordinata |
+| `coordinate_accuracy` | campo GeoNames `accuracy`, preservato |
+| `reconciliation_outcome` | esito separato dal dato CAP |
+| `reconciliation_method` | regola riproducibile applicata |
+| `reconciliation_confidence` | `high`, `ambiguous`, `unmatched`, `not_applicable` |
+| `source_ids` | fonti canoniche coinvolte |
+| `source_record_ids` | record sorgente tracciabili |
+| `source_reference_dates` | date associate alle fonti |
 
-`name` non viene riscritto. `normalized_name`:
+## Enum
 
-1. uniforma apostrofi tipografici e backtick;
-2. applica Unicode NFKD e rimuove i segni diacritici;
-3. applica il case folding;
-4. sostituisce punteggiatura e sequenze di spazi con un singolo spazio;
-5. rimuove gli spazi iniziali e finali.
+`postal_code_status`:
 
-Esempi: `Sant’Agata`, `SANT'AGATA` e `sant agata` producono
-`sant agata`; `Città` produce `citta`.
+- `geonames_matched`;
+- `geonames_ambiguous`;
+- `official_verified` — riservato, inutilizzato;
+- `obsolete` — riservato, inutilizzato;
+- `missing`.
 
-## Equivalenza dei formati
+`coordinate_verification`:
 
-JSON conserva stringhe e ordine delle righe del CSV. SQLite usa colonne `TEXT`
-per preservare identificativi, CAP e precisione testuale delle coordinate.
-Nel workbook il CAP resta testo, mentre latitudine e longitudine sono numeriche.
-Il validatore ammette per XLSX soltanto differenze di rappresentazione numerica
-entro `1e-12`.
+- `geonames_estimated`;
+- `geonames_place_match`;
+- `official_boundary_derived` — riservato, inutilizzato;
+- `missing`.
 
-Lo script release `italian_locations.sql` usa lo stesso ordine di colonne e
-memorizza ogni campo come `TEXT NOT NULL`, inclusi CAP, identificativi e
-coordinate. È destinato a SQLite e conserva le stringhe vuote del canonico.
-Il validatore lo importa integralmente e confronta il digest ordinato di tutti
-i record.
+`reconciliation_outcome`:
 
-## Identificativi stabili
+- `exact_unambiguous`;
+- `multiple_candidates`;
+- `unmatched_no_parent`;
+- `istat_without_postal_code`.
 
-Per i comuni riconosciuti:
+## Riconciliazione
 
-```text
-IT-COM-<codice ISTAT a 6 cifre>
-```
+Un match è `exact_unambiguous` soltanto quando:
 
-Per le località non classificate:
+1. il nome normalizzato coincide;
+2. la sigla provincia GeoNames coincide;
+3. nome provincia e regione sono compatibili con ISTAT;
+4. rimane un solo candidato.
 
-```text
-IT-LOC-<UUIDv5>
-```
+Il CAP partecipa all'identità e alla deduplicazione della relazione, ma non
+viene usato per inventare un comune padre. Non esiste fuzzy matching.
 
-L'UUIDv5 usa il namespace
-`dcdcd1a0-8746-51cc-98a6-b31af7ae78b2` e la chiave:
+## Formati e null
 
-```text
-IT|<postal_code>|<province_code>|<normalized_name>
-```
+CSV e JSON sono UTF-8. CAP e identificativi restano stringhe. SQLite e SQL
+usano colonne `TEXT NOT NULL`; il valore mancante è la stringa vuota, mai
+`NULL`. XLSX conserva CAP come testo, coordinate come numeri e include un
+foglio `Dataset Info` con attribuzione e warning.
 
-La normalizzazione rimuove segni diacritici, uniforma maiuscole/minuscole e
-riduce punteggiatura e spazi. È deterministica, ma un cambio di nome, CAP o
-provincia modifica l'identificativo della località. Le future riconciliazioni
-devono quindi conservare una tabella di alias/migrazione. `legacy_uuid` non
-deve essere riutilizzato per nuove righe.
-
-## Contratto di qualità
-
-Il quality gate `4.0.0` applica lo schema dati `2.1.0`. Verifica:
-
-- intestazioni esatte e nessuna colonna aggiunta, rimossa o rinominata;
-- identificativi non vuoti e unici alla grana di ogni tabella;
-- CAP di cinque cifre;
-- stato semantico dei CAP e riconoscimento dei CAP generici multi-CAP;
-- codici ISTAT di sei cifre presenti nello snapshot dichiarato;
-- coerenza fra codice ISTAT, sigla di provincia e regione;
-- coordinate complete, numeriche, finite e comprese nel bounding box
-  prudenziale Italia `latitudine 35–48`, `longitudine 6–19`;
-- stato di verifica delle coordinate coerente con presenza e provenienza;
-- provenienza esplicita delle fonti legacy e ISTAT;
-- nessuna riga completamente vuota e nessun duplicato logico;
-- ricostruzione esatta del canonico tramite comuni, località e relazioni CAP;
-- equivalenza degli export e due build consecutive deterministiche.
-
-`province_name` è normalizzato allo snapshot ISTAT e viene confrontato con la
-sigla. `legacy_province_name` conserva il valore storico, inclusi refusi e
-varianti. Il validatore accetta i suffissi bilingui ufficiali nelle
-denominazioni regionali.
-
-Un CAP di cinque cifre è soltanto sintatticamente valido. Nessun CAP legacy è
-considerato verificato senza una fonte postale autorizzata. I codici generici
-noti delle città multi-CAP sono marcati `generic_multicap`.
-
-La presenza di una coordinata non ne dimostra l'accuratezza. Tutte le
-coordinate legacy sono marcate `legacy_unverified`; una futura coordinata
-verificata dovrà registrare fonte, metodo e data.
-
-## Scelte di migrazione
-
-- `visible` è stato omesso perché vale `True` per tutte le righe reali e non
-  descrive una proprietà geografica.
-- `country_code=IT` rende il paese machine-readable.
-- latitudine e longitudine sono valori decimali WGS84; SQLite le conserva
-  testualmente per evitare perdita di precisione ed XLSX le espone come numeri.
-- l'ordine delle righe è deterministico e non costituisce identità.
-- `NA` è la sigla valida della provincia di Napoli nel legacy, non un valore
-  mancante. La Milestone 1 non contiene sigle di provincia vuote.
+CSV, JSON, XLSX, SQLite e SQL devono avere lo stesso ordine di campi, record e
+digest semantico. Due build consecutive devono essere identiche.

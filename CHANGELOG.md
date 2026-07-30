@@ -1,5 +1,47 @@
 # Changelog
 
+## v2.0.0 — prerelease candidate, not yet published
+
+### Breaking
+
+- Replaced the legacy-derived canonical dataset with a clean-room build from
+  ISTAT municipalities and GeoNames Postal Codes IT.
+- Raised the dataset schema to `3.0.0` and the quality gate to `5.0.0`.
+- Changed the canonical grain to one row per location–postal-code relation.
+- Removed `legacy_uuid`, `legacy_province_name`, `coordinate_status` and
+  `source_snapshot` from the current schema.
+
+### Added
+
+- All 7,894 municipalities from the declared ISTAT snapshot, including 396
+  without a GeoNames postal-code match.
+- Many-to-many postal relations, explicit reconciliation outcomes, source
+  record identities, source dates, confidence and GeoNames `accuracy`.
+- Immutable GeoNames snapshot, checksum gate, attribution and
+  `reports/legacy-comparison.json`.
+- Separate `structural_quality=passed` and
+  `operational_data_readiness=experimental_non_official`.
+- Clean-room warnings and GeoNames attribution in JSON, XLSX, SQLite, Pages
+  and release notes.
+
+### Changed
+
+- Legacy data is historical comparison material only and no longer
+  contributes to current outputs or Pages.
+- Coordinates are labelled `geonames_place_match`,
+  `geonames_estimated` or `missing`; none are official.
+- Pages uses absolute counts rather than a potentially misleading coverage
+  percentage.
+
+### Known limitations
+
+- GeoNames is not Poste Italiane; CAP and coordinates are non-official and
+  provided without warranty.
+- 10,320 GeoNames records are not reconciled with a municipality.
+- GeoNames still contains 76 records using historical province code `SU`;
+  they remain unparented instead of being remapped automatically.
+- The `v2.0.0` tag and GitHub release await maintainer confirmation.
+
 ## v1.1.0 — pre-release
 
 ### Added

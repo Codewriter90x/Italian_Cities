@@ -21,13 +21,16 @@ def load_project_metadata(path: Path = PROJECT_METADATA_PATH) -> dict[str, Any]:
     required = {
         "build_date",
         "dataset_version",
+        "geonames_reference_date",
         "istat_reference_date",
         "legacy_reference_date",
         "license_status",
+        "operational_data_readiness",
         "previous_release",
         "quality_gate_version",
         "release_status",
         "schema_version",
+        "structural_quality",
     }
     missing = required - set(metadata)
     if missing:
@@ -40,13 +43,28 @@ def load_project_metadata(path: Path = PROJECT_METADATA_PATH) -> dict[str, Any]:
         raise ValueError(f"{path}: quality_gate_version must be MAJOR.MINOR.PATCH")
     if metadata["release_status"] not in {"prerelease", "stable"}:
         raise ValueError(f"{path}: release_status must be prerelease or stable")
-    for key in ("build_date", "istat_reference_date", "legacy_reference_date"):
+    for key in (
+        "build_date",
+        "geonames_reference_date",
+        "istat_reference_date",
+        "legacy_reference_date",
+    ):
         try:
             date.fromisoformat(metadata[key])
         except (TypeError, ValueError) as error:
             raise ValueError(f"{path}: {key} must use YYYY-MM-DD") from error
     if not metadata["license_status"].strip():
         raise ValueError(f"{path}: license_status must not be empty")
+    if metadata["structural_quality"] != "passed":
+        raise ValueError(f"{path}: structural_quality must be passed")
+    if (
+        metadata["operational_data_readiness"]
+        != "experimental_non_official"
+    ):
+        raise ValueError(
+            f"{path}: operational_data_readiness must remain "
+            "experimental_non_official"
+        )
 
     previous = metadata["previous_release"]
     previous_required = {"canonical_path", "canonical_sha256", "version"}
@@ -83,9 +101,12 @@ def version_number(version: str) -> int:
 PROJECT = load_project_metadata()
 BUILD_DATE = PROJECT["build_date"]
 DATASET_VERSION = PROJECT["dataset_version"]
+GEONAMES_REFERENCE_DATE = PROJECT["geonames_reference_date"]
 ISTAT_REFERENCE_DATE = PROJECT["istat_reference_date"]
 LEGACY_REFERENCE_DATE = PROJECT["legacy_reference_date"]
+OPERATIONAL_DATA_READINESS = PROJECT["operational_data_readiness"]
 PREVIOUS_RELEASE = PROJECT["previous_release"]
 QUALITY_GATE_VERSION = PROJECT["quality_gate_version"]
 RELEASE_STATUS = PROJECT["release_status"]
 SCHEMA_VERSION = PROJECT["schema_version"]
+STRUCTURAL_QUALITY = PROJECT["structural_quality"]

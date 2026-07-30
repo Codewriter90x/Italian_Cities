@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import re
 import sys
 import unittest
@@ -19,6 +20,7 @@ from dataset_common import (  # noqa: E402
     read_csv_rows,
 )
 from validate_dataset import completely_blank_record_lines  # noqa: E402
+from validators.formats import load_xlsx_table  # noqa: E402
 
 
 class SchemaTests(unittest.TestCase):
@@ -28,100 +30,109 @@ class SchemaTests(unittest.TestCase):
             GENERATED_PATHS["italian_locations"],
             ITALIAN_LOCATION_FIELDS,
         )
+        cls.postal_codes = read_csv_rows(
+            GENERATED_PATHS["postal_codes"], POSTAL_CODE_FIELDS
+        )
 
     def test_all_declared_csv_schemas(self) -> None:
-        contracts = (
+        for name, fields in (
             ("municipalities", MUNICIPALITY_FIELDS),
             ("localities", LOCALITY_FIELDS),
             ("postal_codes", POSTAL_CODE_FIELDS),
             ("italian_locations", ITALIAN_LOCATION_FIELDS),
-        )
-        for name, fields in contracts:
+        ):
             with self.subTest(name=name):
                 rows = read_csv_rows(GENERATED_PATHS[name], fields)
                 self.assertTrue(rows)
-                self.assertEqual(len(fields), len(rows[0]))
+                self.assertEqual(set(rows[0]), set(fields))
 
     def test_no_completely_blank_csv_rows(self) -> None:
-        for name in (
-            "municipalities",
-            "localities",
-            "postal_codes",
-            "italian_locations",
-        ):
-            with self.subTest(name=name):
-                self.assertEqual(
-                    completely_blank_record_lines(GENERATED_PATHS[name]),
-                    [],
-                )
+        for name in GENERATED_PATHS:
+            if name in {
+                "municipalities",
+                "localities",
+                "postal_codes",
+                "italian_locations",
+            }:
+                with self.subTest(name=name):
+                    self.assertEqual(
+                        completely_blank_record_lines(
+                            GENERATED_PATHS[name]
+                        ),
+                        [],
+                    )
 
     def test_normalized_names_are_reproducible(self) -> None:
         for row in self.locations:
-            self.assertEqual(row["normalized_name"], normalize_name(row["name"]))
+            self.assertEqual(
+                row["normalized_name"], normalize_name(row["name"])
+            )
 
     def test_normalization_contract(self) -> None:
-        equivalents = (
+        for left, right in (
             ("Sant’Agata", "SANT'AGATA"),
             ("Città", "citta"),
             ("  L'Aquila  ", "l aquila"),
-        )
-        for left, right in equivalents:
-            with self.subTest(left=left, right=right):
+        ):
+            with self.subTest(left=left):
                 self.assertEqual(normalize_name(left), normalize_name(right))
 
-    def test_postal_codes_remain_five_character_strings(self) -> None:
-        codes: list[str] = []
-        contracts = (
-            ("municipalities", MUNICIPALITY_FIELDS),
-            ("localities", LOCALITY_FIELDS),
-            ("postal_codes", POSTAL_CODE_FIELDS),
-            ("italian_locations", ITALIAN_LOCATION_FIELDS),
-        )
-        for name, fields in contracts:
-            codes.extend(
-                row["postal_code"]
-                for row in read_csv_rows(GENERATED_PATHS[name], fields)
-            )
-        self.assertTrue(any(code.startswith("0") for code in codes))
-        self.assertTrue(all(re.fullmatch(r"\d{5}", code) for code in codes))
-
-    def test_no_literal_null_values(self) -> None:
-        self.assertFalse(
+    def test_postal_codes_are_five_digits_or_explicitly_missing(self) -> None:
+        self.assertTrue(
             any(
-                value.strip().casefold() == "null"
+                row["postal_code"].startswith("0")
+                for row in self.postal_codes
+                if row["postal_code"]
+            )
+        )
+        for row in self.postal_codes:
+            if row["postal_code_status"] == "missing":
+                self.assertEqual("", row["postal_code"])
+            else:
+                self.assertRegex(row["postal_code"], r"^\d{5}$")
+
+    def test_reserved_official_statuses_are_unused(self) -> None:
+        self.assertFalse(
+            {
+                row["postal_code_status"] for row in self.postal_codes
+            }
+            & {"official_verified", "obsolete"}
+        )
+        self.assertNotIn(
+            "official_boundary_derived",
+            {
+                row["coordinate_verification"]
                 for row in self.locations
-                for value in row.values()
+            },
+        )
+
+    def test_json_metadata_is_explicitly_non_official(self) -> None:
+        payload = json.loads(
+            GENERATED_PATHS["json"].read_text(encoding="utf-8")
+        )
+        metadata = payload["metadata"]
+        self.assertEqual("3.0.0", metadata["schema_version"])
+        self.assertEqual(
+            "experimental_non_official",
+            metadata["operational_data_readiness"],
+        )
+        self.assertIn("GeoNames", metadata["attribution"]["geonames"])
+        self.assertIn("not Poste Italiane", metadata["warning"])
+        self.assertTrue(
+            all(
+                not re.search(r"\blegacy_csv\b", row["source_ids"])
+                for row in payload["rows"]
             )
         )
 
-    def test_quality_annotations_are_present(self) -> None:
-        required_sources = {"legacy_csv", "istat_municipalities"}
-        for row in self.locations:
-            self.assertIn(
-                row["postal_code_status"],
-                {"generic_multicap", "legacy_unverified", "verified", "obsolete"},
-            )
-            self.assertTrue(row["legacy_province_name"])
-            self.assertEqual(set(row["source_ids"].split(";")), required_sources)
-
-    def test_multicap_city_codes_are_not_claimed_as_verified(self) -> None:
-        generic = {
-            ("bari", "70100"),
-            ("bologna", "40100"),
-            ("firenze", "50100"),
-            ("genova", "16100"),
-            ("milano", "20100"),
-            ("napoli", "80100"),
-            ("roma", "00100"),
-            ("torino", "10100"),
-            ("venezia", "30100"),
-        }
-        actual = {
-            (row["normalized_name"], row["postal_code"])
-            for row in self.locations
-            if row["postal_code_status"] == "generic_multicap"
-        }
-        self.assertEqual(actual, generic)
+    def test_xlsx_information_sheet_contains_geonames_attribution(self) -> None:
+        _, rows = load_xlsx_table(
+            GENERATED_PATHS["xlsx"], "Dataset Info"
+        )
+        values = " ".join(value for row in rows for value in row.values())
+        self.assertIn("GeoNames", values)
+        self.assertIn("CC BY 4.0", values)
+        self.assertIn("not Poste Italiane", values)
 
 
 if __name__ == "__main__":

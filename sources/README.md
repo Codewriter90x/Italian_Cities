@@ -1,69 +1,46 @@
-# Declared sources
+# Source snapshots
 
-`manifest.json` is the machine-readable contract for every primary input
-consumed by the pipeline. Each entry records local path, role, reference date,
-checksum, licence status and public URL.
+`manifest.json` is the machine-readable source contract.
 
-## Versioned ISTAT snapshot
+## Canonical inputs
 
-The exact reference consumed by the build is preserved in the repository:
+### ISTAT
 
-| Local filename | Source | Reference date | SHA-256 |
-| --- | --- | --- | --- |
-| `snapshots/istat/Elenco-comuni-italiani-2026-02-21.xlsx` | <https://www.istat.it/storage/codici-unita-amministrative/Elenco-comuni-italiani.xlsx> | 2026-02-21 | `83842076860450f7e482daecea6b7a769f5f93d0bf5b0d48802b44896d7a26d5` |
+`snapshots/istat/Elenco-comuni-italiani-2026-02-21.xlsx`
 
-The snapshot is distributed under the terms and attribution described in
-`snapshots/istat/README.md`; it is not relicensed under the repository's
-historical CC0 file.
+- URL: <https://www.istat.it/storage/codici-unita-amministrative/Elenco-comuni-italiani.xlsx>
+- reference date: 2026-02-21
+- SHA-256:
+  `83842076860450f7e482daecea6b7a769f5f93d0bf5b0d48802b44896d7a26d5`
+- attribution: ISTAT, CC BY 4.0
 
-Verify and run:
+### GeoNames
 
-```bash
-shasum -a 256 sources/snapshots/istat/Elenco-comuni-italiani-2026-02-21.xlsx
-python3 scripts/build_dataset.py
-python3 scripts/validate_dataset.py
-```
+`snapshots/geonames/IT-2026-07-30.zip`
 
-The build refuses missing or checksum-mismatched inputs. The ISTAT file is used
-for conservative exact municipality classification and official province
-labels; non-matches are not guessed.
+- URL: <https://download.geonames.org/export/zip/IT.zip>
+- download index/README: <https://download.geonames.org/export/zip/>
+- acquired: 2026-07-30T09:36:42Z
+- source Last-Modified: 2026-07-30T01:44:40Z
+- SHA-256:
+  `08cf5625f70952ba9c0a126b0af20a048a0e4dad8f6ca60deda5b612d100e7bc`
+- attribution: GeoNames, <https://www.geonames.org/>, CC BY 4.0
+- format: `IT.txt`, 12 tab-separated UTF-8 fields, plus `readme.txt`
 
-The previous release baseline is not an input source. It is declared separately
-in `project.json` and is read only after the new canonical dataset has been
-built, to produce `reports/release-diff.json`.
+The pipeline reads the ZIP directly after checksum verification. Do not
+replace the dated snapshot in place.
 
-To refresh the source, download a new official file, preserve it under a new
-date-stamped filename, update `manifest.json`, document the new reference date
-and regenerate all outputs. Never overwrite an existing snapshot.
+GeoNames is not Poste Italiane. Its README says coordinates can be determined
+or estimated algorithmically and the data is provided without warranty.
 
-See `DATA_SOURCES.md` for provenance and licensing analysis.
+## Historical input
 
-Before adding a geographic source for missing coordinates, follow
-`COORDINATE_ENRICHMENT.md`. In particular, do not query the public Nominatim
-service systematically for this dataset.
+The legacy CSV is declared with `canonical_input: false`. It is outside this
+directory under `legacy/` and is read only by the historical comparison
+report.
 
-## GitHub Pages geographic base
+## Update procedure
 
-The Pages map uses the generalized ISTAT administrative boundaries dated
-2026-01-01, region layer only. This is a presentation source: it does not
-enrich or verify the dataset coordinates.
-
-| Cache filename | Source | Reference date | SHA-256 |
-| --- | --- | --- | --- |
-| `cache/Limiti01012026_g.zip` | [ISTAT generalized administrative boundaries 2026](https://www.istat.it/notizia/confini-delle-unita-amministrative-a-fini-statistici-al-1-gennaio-2018-2/) | 2026-01-01 | `b011a590656c3a3ebc297fba80726a376aa843b6f164641cf6a4a990021a81d6` |
-
-ISTAT data are reused under
-[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The committed
-`site/assets/italy-regions.geojson` derivative is reprojected to EPSG:4326,
-topology-preserving simplified and rounded; its embedded metadata records the
-source and modifications.
-
-Regenerate it without committing the cached archive:
-
-```bash
-curl -fsS \
-  https://www.istat.it/storage/cartografia/confini_amministrativi/generalizzati/2026/Limiti01012026_g.zip \
-  -o sources/cache/Limiti01012026_g.zip
-python3 -m pip install -r requirements-geography.txt
-python3 scripts/build_geography.py
-```
+Download a new snapshot to a new dated path, record headers/timestamps and
+SHA-256, update `manifest.json`, regenerate all outputs and review the
+deterministic reports. Never edit a snapshot or generated output manually.

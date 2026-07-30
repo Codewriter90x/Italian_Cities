@@ -1,19 +1,18 @@
 # Notices and attribution
 
-Italian Cities includes an elaboration based on data from the Istituto
-nazionale di statistica (ISTAT), municipality reference dated 2026-02-21.
-ISTAT material is subject to CC BY 4.0 attribution requirements.
+Italian Cities v2 contains an elaboration of:
 
-Source and legal references:
+- data from the Istituto nazionale di statistica (ISTAT), municipality
+  snapshot dated 2026-02-21, licensed under CC BY 4.0;
+- GeoNames Postal Codes for Italy, snapshot dated 2026-07-30, licensed under
+  CC BY 4.0. Attribution: GeoNames, <https://www.geonames.org/>.
 
-- <https://www.istat.it/classificazione/codici-dei-comuni-delle-province-e-delle-regioni/>
-- <https://www.istat.it/note-legali/>
-- <https://www.istat.it/dati/open-data/>
+GeoNames is not Poste Italiane. Postal codes and coordinates are provided
+without warranty. GeoNames states that many latitude/longitude values are
+determined or estimated algorithmically; the source `accuracy` field is
+preserved by this project.
 
-Legacy postal and coordinate values are preserved from repository artifacts
-dated 2023-05-01 and 2023-05-02. Their underlying reference date, original
-publisher and complete rights chain are unknown.
-
-The CAP values are not an official Poste Italiane directory. In particular,
-generic codes for multi-CAP cities are explicitly labelled and must not be used
-for postal addressing.
+Historical files under `legacy/` do not contribute to the v2 canonical
+dataset, derived formats, release candidate or GitHub Pages data. They are
+used only for a bounded investigative comparison, which cannot establish
+their original provenance.

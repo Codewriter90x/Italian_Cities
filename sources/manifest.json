@@ -1,24 +1,52 @@
 {
-  "manifest_version": "2.0.0",
+  "manifest_version": "3.0.0",
+  "canonical_source_ids": [
+    "istat_municipalities",
+    "geonames_postal_codes"
+  ],
   "sources": [
     {
       "id": "legacy_csv",
       "path": "legacy/2023-05-02-original/Italian Cities.csv",
-      "role": "Historical raw input",
+      "role": "Historical comparison only; never a canonical input",
+      "canonical_input": false,
       "reference_date": "unknown",
       "artifact_date": "2023-05-02",
       "sha256": "45f31340a6f0c390927aa1224424a75c6c968e601aa2df0a746413431e82d050",
       "license_status": "CC0 declared in repository; upstream rights unproven",
-      "url": "https://github.com/Codewriter90x/Italian_Cities"
+      "url": "https://github.com/Codewriter90x/Italian_Cities",
+      "format_version": "legacy semicolon CSV v1"
     },
     {
       "id": "istat_municipalities",
       "path": "sources/snapshots/istat/Elenco-comuni-italiani-2026-02-21.xlsx",
-      "role": "Exact municipality classification and ISTAT codes",
+      "role": "Canonical municipality registry and administrative codes",
+      "canonical_input": true,
       "reference_date": "2026-02-21",
       "sha256": "83842076860450f7e482daecea6b7a769f5f93d0bf5b0d48802b44896d7a26d5",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
       "license_status": "CC BY 4.0 attribution required",
-      "url": "https://www.istat.it/storage/codici-unita-amministrative/Elenco-comuni-italiani.xlsx"
+      "attribution": "Istituto nazionale di statistica (ISTAT)",
+      "url": "https://www.istat.it/storage/codici-unita-amministrative/Elenco-comuni-italiani.xlsx",
+      "format_version": "ISTAT municipality workbook 2026"
+    },
+    {
+      "id": "geonames_postal_codes",
+      "path": "sources/snapshots/geonames/IT-2026-07-30.zip",
+      "role": "Canonical non-official postal-place relations and estimated coordinates",
+      "canonical_input": true,
+      "acquired_at": "2026-07-30T09:36:42Z",
+      "source_last_modified": "2026-07-30T01:44:40Z",
+      "reference_date": "2026-07-30",
+      "sha256": "08cf5625f70952ba9c0a126b0af20a048a0e4dad8f6ca60deda5b612d100e7bc",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "license_status": "CC BY 4.0 attribution required",
+      "attribution": "GeoNames — https://www.geonames.org/",
+      "url": "https://download.geonames.org/export/zip/IT.zip",
+      "download_index_url": "https://download.geonames.org/export/zip/",
+      "format_version": "GeoNames postal code dump: 12 tab-separated UTF-8 fields"
     }
   ]
 }

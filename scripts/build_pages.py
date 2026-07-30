@@ -14,10 +14,12 @@ from typing import Any
 from project_metadata import (
     BUILD_DATE,
     DATASET_VERSION,
+    GEONAMES_REFERENCE_DATE,
     ISTAT_REFERENCE_DATE,
-    LEGACY_REFERENCE_DATE,
+    OPERATIONAL_DATA_READINESS,
     RELEASE_STATUS,
     SCHEMA_VERSION,
+    STRUCTURAL_QUALITY,
 )
 
 
@@ -41,8 +43,10 @@ WEB_FIELDS = (
     "region_name",
     "latitude",
     "longitude",
-    "coordinate_status",
     "coordinate_verification",
+    "coordinate_accuracy",
+    "reconciliation_outcome",
+    "reconciliation_confidence",
 )
 
 
@@ -79,41 +83,42 @@ def read_locations(path: Path) -> list[dict[str, Any]]:
 
 
 def calculate_stats(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    unique_locations = {
+        row["location_id"]: row for row in reversed(rows)
+    }
+    location_rows = list(unique_locations.values())
     with_coordinates = [
         row
-        for row in rows
+        for row in location_rows
         if row["latitude"] is not None and row["longitude"] is not None
     ]
     latitudes = [row["latitude"] for row in with_coordinates]
     longitudes = [row["longitude"] for row in with_coordinates]
 
-    total = len(rows)
-    available = len(with_coordinates)
     return {
-        "total_locations": total,
+        "total_locations": len(location_rows),
+        "postal_code_relations": len(rows),
         "municipalities": sum(
-            row["location_kind"] == "municipality" for row in rows
+            row["location_kind"] == "municipality" for row in location_rows
         ),
         "unclassified_localities": sum(
-            row["location_kind"] == "postal_locality_unclassified"
-            for row in rows
+            row["location_kind"] != "municipality" for row in location_rows
         ),
-        "unique_postal_codes": len({row["postal_code"] for row in rows}),
-        "with_coordinates": available,
-        "missing_coordinates": total - available,
-        "coordinate_coverage_percent": round(available / total * 100, 2),
-        "verified_coordinates": sum(
-            row["coordinate_verification"]
-            not in {"missing", "legacy_unverified", "corrected_legacy_unverified"}
-            for row in rows
+        "unique_postal_codes": len(
+            {row["postal_code"] for row in rows if row["postal_code"]}
         ),
-        "legacy_unverified_coordinates": sum(
-            row["coordinate_verification"]
-            in {"legacy_unverified", "corrected_legacy_unverified"}
-            for row in rows
+        "with_coordinates": len(with_coordinates),
+        "missing_coordinates": len(location_rows) - len(with_coordinates),
+        "geonames_place_match_coordinates": sum(
+            row["coordinate_verification"] == "geonames_place_match"
+            for row in location_rows
         ),
-        "generic_multicap_rows": sum(
-            row["postal_code_status"] == "generic_multicap" for row in rows
+        "geonames_estimated_coordinates": sum(
+            row["coordinate_verification"] == "geonames_estimated"
+            for row in location_rows
+        ),
+        "missing_postal_code_municipalities": sum(
+            row["postal_code_status"] == "missing" for row in rows
         ),
         "provinces": len({row["province_code"] for row in rows}),
         "regions": len({row["region_name"] for row in rows}),
@@ -153,8 +158,25 @@ def build_site(output: Path = DEFAULT_OUTPUT) -> dict[str, Any]:
             "release_status": RELEASE_STATUS,
             "schema_version": SCHEMA_VERSION,
             "build_date": BUILD_DATE,
-            "legacy_reference_date": LEGACY_REFERENCE_DATE,
+            "structural_quality": STRUCTURAL_QUALITY,
+            "operational_data_readiness": OPERATIONAL_DATA_READINESS,
             "istat_reference_date": ISTAT_REFERENCE_DATE,
+            "geonames_reference_date": GEONAMES_REFERENCE_DATE,
+            "canonical_source_ids": [
+                "istat_municipalities",
+                "geonames_postal_codes",
+            ],
+            "attribution": {
+                "istat": "ISTAT — CC BY 4.0",
+                "geonames": (
+                    "GeoNames postal code dump — CC BY 4.0 — "
+                    "https://www.geonames.org/"
+                ),
+            },
+            "warning": (
+                "GeoNames is not Poste Italiane. CAP and coordinates are "
+                "non-official and provided without warranty."
+            ),
         },
         "stats": stats,
         "rows": rows,

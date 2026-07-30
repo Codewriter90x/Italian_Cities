@@ -1,0 +1,26 @@
+{
+  "operational_data_readiness": "experimental_non_official",
+  "outputs": {
+    "csv": {
+      "repository_path": "data/italian_locations.csv",
+      "sha256": "803adc8dcb9e4cf0c65f6284e640a4e3b44b6f8b599f66c01cfaf9de231cf977"
+    },
+    "json": {
+      "repository_path": "data/italian_locations.json",
+      "sha256": "7a20df78d925d4ce9e8be8d3ec31b7687665ac64f3f21a6adba793f7099acf5f"
+    },
+    "sqlite": {
+      "repository_path": "data/italian_locations.sqlite",
+      "semantic_sha256": "48b3a08779749514d3a816e5c2581953659db29c20a6f76d4eaeddc62ca352b2"
+    },
+    "xlsx": {
+      "repository_path": "data/italian_locations.xlsx",
+      "sha256": "5ef6d07d500e4e2e48dadbc33ab74f410a8cc299e480e56828bf6c0427bc14ea"
+    }
+  },
+  "record_digest": "48b3a08779749514d3a816e5c2581953659db29c20a6f76d4eaeddc62ca352b2",
+  "rows": 18811,
+  "schema_version": "3.0.0",
+  "status": "exported",
+  "structural_quality": "passed"
+}
