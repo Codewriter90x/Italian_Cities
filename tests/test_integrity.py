@@ -14,7 +14,6 @@ from dataset_common import (  # noqa: E402
     GENERATED_PATHS,
     ITALIAN_LOCATION_FIELDS,
     LOCALITY_FIELDS,
-    MILESTONE1_BASELINE,
     MUNICIPALITY_FIELDS,
     POSTAL_CODE_FIELDS,
     SOURCE_MANIFEST,
@@ -109,12 +108,23 @@ class IntegrityTests(unittest.TestCase):
                 self.assertEqual(len(keys), len(set(keys)))
 
     def test_partition_counts_reconcile(self) -> None:
-        self.assertEqual(len(self.locations), 14_480)
-        self.assertEqual(len(self.municipalities), 7_186)
-        self.assertEqual(len(self.localities), 7_294)
+        self.assertTrue(self.locations)
+        self.assertTrue(self.municipalities)
+        self.assertTrue(self.localities)
         self.assertEqual(
             len(self.municipalities) + len(self.localities),
             len(self.locations),
+        )
+        self.assertEqual(
+            len(self.municipalities),
+            sum(row["location_kind"] == "municipality" for row in self.locations),
+        )
+        self.assertEqual(
+            len(self.localities),
+            sum(
+                row["location_kind"] == "postal_locality_unclassified"
+                for row in self.locations
+            ),
         )
 
     def test_postal_code_relations_have_no_orphans(self) -> None:
@@ -129,23 +139,24 @@ class IntegrityTests(unittest.TestCase):
             sorted(self.locations, key=canonical_row_sort_key),
         )
 
-    def test_diff_report_has_no_semantic_changes(self) -> None:
+    def test_diff_report_describes_real_release_changes(self) -> None:
         report = json.loads(
-            (ROOT / "reports/milestone2-diff.json").read_text(encoding="utf-8")
+            (ROOT / "reports/release-diff.json").read_text(encoding="utf-8")
         )
+        self.assertEqual(report["comparison"], {"from": "v1.0.0", "to": "v1.1.0"})
+        self.assertEqual(report["record_changes"]["added"], 0)
+        self.assertEqual(report["record_changes"]["removed"], 0)
+        self.assertGreater(report["record_changes"]["changed"], 0)
         self.assertEqual(
-            report["record_changes"],
+            set(report["schema_changes"]["added_fields"]),
             {
-                "added": 0,
-                "removed": 0,
-                "changed": 0,
-                "unchanged": 14_480,
-                "added_legacy_uuids": [],
-                "removed_legacy_uuids": [],
-                "changed_samples": [],
-                "samples_truncated": False,
+                "postal_code_status",
+                "legacy_province_name",
+                "coordinate_verification",
+                "source_ids",
             },
         )
+        self.assertEqual(report["postal_code_status_counts"]["generic_multicap"], 9)
 
     def test_all_export_formats_are_equivalent(self) -> None:
         report = validate()
@@ -183,7 +194,6 @@ class IntegrityTests(unittest.TestCase):
                     SOURCE_MANIFEST,
                     legacy_path=modified,
                     istat_path=DEFAULT_ISTAT,
-                    baseline_path=MILESTONE1_BASELINE,
                 )
 
 

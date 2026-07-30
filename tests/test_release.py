@@ -23,13 +23,14 @@ from dataset_common import (  # noqa: E402
 )
 from export_sql import export_sql  # noqa: E402
 from validate_release import EXPECTED_ASSETS, validate_release  # noqa: E402
+from project_metadata import DATASET_VERSION  # noqa: E402
 
 
 class ReleaseTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
         cls.temporary = tempfile.TemporaryDirectory()
-        cls.release_dir = Path(cls.temporary.name) / "v1.0.0"
+        cls.release_dir = Path(cls.temporary.name) / DATASET_VERSION
         build_release(cls.release_dir)
 
     @classmethod
@@ -55,9 +56,13 @@ class ReleaseTests(unittest.TestCase):
 
     def test_release_checksums_and_sql_import_pass(self) -> None:
         report = validate_release(self.release_dir)
+        canonical_rows = read_csv_rows(
+            GENERATED_PATHS["italian_locations"],
+            ITALIAN_LOCATION_FIELDS,
+        )
         self.assertEqual(report["status"], "passed")
-        self.assertEqual(report["canonical_rows"], 14_480)
-        self.assertEqual(report["sql_import"]["rows"], 14_480)
+        self.assertEqual(report["canonical_rows"], len(canonical_rows))
+        self.assertEqual(report["sql_import"]["rows"], len(canonical_rows))
 
     def test_sql_export_is_byte_deterministic(self) -> None:
         rows = read_csv_rows(

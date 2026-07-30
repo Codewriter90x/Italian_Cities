@@ -13,7 +13,6 @@ sources/manifest.json
         |
         +-- legacy CSV immutabile
         +-- riferimento comuni ISTAT
-        +-- baseline canonica Milestone 1
         |
         v
 scripts/build_dataset.py
@@ -49,6 +48,12 @@ scripts/build_dataset.py
                           |
                           v
               scripts/validate_release.py
+
+project.json
+        |
+        +-- versione dataset e schema
+        +-- stato della release
+        +-- baseline della release precedente
 ```
 
 ## Contratti
@@ -63,10 +68,11 @@ scripts/build_dataset.py
 5. Le righe sono ordinate per chiavi esplicite e mai per ordine accidentale
    della fonte o del database.
 6. Gli output vengono scritti prima su file temporanei e poi sostituiti.
-7. `reports/milestone2-diff.json` confronta i record tramite `legacy_uuid`
-   contro la baseline M1 e separa cambi schema da cambi semantici.
-8. Il validatore carica ogni formato e confronta campo per campo gli stessi
-   14.480 record.
+7. `reports/release-diff.json` confronta i record tramite `legacy_uuid`
+   contro la baseline della release precedente dichiarata in `project.json`
+   e separa cambi di schema da cambi semantici.
+8. Il validatore carica ogni formato e confronta campo per campo tutti i
+   record.
 9. La GitHub Action esegue il job bloccante `Data quality gate` su ogni pull
    request e fallisce per violazioni di schema, identità, CAP, ISTAT,
    gerarchia territoriale, coordinate, righe vuote, duplicati o integrità.
@@ -114,8 +120,10 @@ python3 scripts/validate_release.py
 
 I risultati machine-readable sono:
 
-- `reports/milestone3-determinism.json`;
-- `reports/milestone3-validation.json`.
+- `reports/release-diff.json`;
+- `reports/export-manifest.json`;
+- `reports/determinism.json`;
+- `reports/quality-validation.json`.
 
 ## XLSX
 
@@ -139,9 +147,10 @@ Il contributore aggiorna manifest e trasformazione, rigenera tutto, esamina il
 diff report e infine esegue validatore e test. Una modifica diretta a un file
 generato è incompleta e deve essere rigenerata.
 
-## Release v1.0.0
+## Release
 
-`dist/v1.0.0/` è temporaneo e non versionato. Contiene:
+`dist/<versione>/` è temporaneo e non versionato. La versione deve coincidere
+con `dataset_version` in `project.json`. Il bundle contiene:
 
 - `municipalities.csv`;
 - `localities.csv`;
@@ -156,3 +165,7 @@ generato è incompleta e deve essere rigenerata.
 Il dump SQL Server preservato sotto `legacy/` non viene letto dal packaging
 come formato distribuibile. Rimane soltanto una delle baseline storiche da cui
 la pipeline ricostruisce e verifica il canonico.
+
+Il workflow rifiuta un tag diverso dalla versione dichiarata e non sovrascrive
+una release già esistente. Quando `release_status` è `prerelease`, la release
+GitHub viene creata come pre-release: non è una promozione a dataset stabile.

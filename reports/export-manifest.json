@@ -1,0 +1,25 @@
+{
+  "outputs": {
+    "csv": {
+      "path": "data/italian_locations.csv",
+      "sha256": "fde543485a77d3a265abe2947419920343121520c3465a2fc6bcc9643356c101"
+    },
+    "json": {
+      "path": "data/italian_locations.json",
+      "sha256": "49e050f1a2ef23d56ff178a3f38cc3d7bf65f305f34874e0f30f0618bde0c81c"
+    },
+    "sqlite": {
+      "binary_hash_portability": "not guaranteed across SQLite library versions",
+      "path": "data/italian_locations.sqlite",
+      "semantic_sha256": "437edb9cf002572829f70aad660a006dc62ceb415cbb2a32b652662cd8375b7a"
+    },
+    "xlsx": {
+      "path": "data/italian_locations.xlsx",
+      "sha256": "91a1dce0293b98a2272d5aff5300bc1057249f4389dc199488ec3686880a3fe7"
+    }
+  },
+  "record_digest": "437edb9cf002572829f70aad660a006dc62ceb415cbb2a32b652662cd8375b7a",
+  "rows": 14480,
+  "schema_version": "2.1.0",
+  "status": "exported"
+}

@@ -30,10 +30,27 @@ class CoordinateTests(unittest.TestCase):
 
     def test_coordinate_status_counts(self) -> None:
         counts = Counter(row["coordinate_status"] for row in self.locations)
-        self.assertEqual(
-            counts,
-            Counter({"available": 12_387, "missing": 2_092, "corrected": 1}),
+        self.assertEqual(set(counts), {"available", "missing", "corrected"})
+        self.assertEqual(sum(counts.values()), len(self.locations))
+        self.assertEqual(counts["corrected"], 1)
+
+    def test_coordinate_verification_is_honest(self) -> None:
+        counts = Counter(
+            row["coordinate_verification"] for row in self.locations
         )
+        self.assertEqual(
+            counts["missing"],
+            sum(row["coordinate_status"] == "missing" for row in self.locations),
+        )
+        self.assertEqual(
+            counts["legacy_unverified"],
+            sum(row["coordinate_status"] == "available" for row in self.locations),
+        )
+        self.assertEqual(
+            counts["corrected_legacy_unverified"],
+            sum(row["coordinate_status"] == "corrected" for row in self.locations),
+        )
+        self.assertNotIn("verified", counts)
 
     def test_coordinates_are_complete_pairs(self) -> None:
         for row in self.locations:
@@ -62,6 +79,10 @@ class CoordinateTests(unittest.TestCase):
         self.assertEqual(row["name"], "Brovello Carpugnino")
         self.assertEqual(row["longitude"], "8.539621684096616")
         self.assertEqual(row["coordinate_status"], "corrected")
+        self.assertEqual(
+            row["coordinate_verification"],
+            "corrected_legacy_unverified",
+        )
 
 
 if __name__ == "__main__":

@@ -44,7 +44,7 @@ Nominatim; rispettare sempre termini, limiti e attribuzione della fonte scelta.
    python3 scripts/validate_release.py
    ```
 
-5. Esaminare `reports/milestone2-diff.json`: cambi aggiunti, rimossi o
+5. Esaminare `reports/release-diff.json`: cambi aggiunti, rimossi o
    modificati devono essere intenzionali e spiegati.
 6. Verificare le baseline:
 
@@ -53,8 +53,8 @@ Nominatim; rispettare sempre termini, limiti e attribuzione della fonte scelta.
    shasum -a 256 -c SHA256SUMS
    ```
 
-7. Controllare che `reports/milestone3-determinism.json` e
-   `reports/milestone3-validation.json` abbiano `"status": "passed"` e che
+7. Controllare che `reports/determinism.json` e
+   `reports/quality-validation.json` abbiano `"status": "passed"` e che
    ogni voce `quality_checks` sia superata.
 
 I warning non vanno nascosti: descrivono debito dati o gate di pubblicazione
@@ -97,16 +97,18 @@ mai nel bundle.
 
 ## Release
 
-Il tag deve corrispondere alla versione supportata dal packaging. Il workflow
+Il tag deve corrispondere a `dataset_version` in `project.json`. Il workflow
 `.github/workflows/release.yml`:
 
 1. valida dataset e test sul commit taggato;
 2. costruisce e valida `dist/<versione>/`;
 3. conserva il bundle come artifact CI;
-4. crea o aggiorna una GitHub Release **draft**.
+4. crea una GitHub Release senza sovrascrivere asset già pubblicati;
+5. usa `release_status` per creare una pre-release finché il gate dati/licenze
+   resta aperto.
 
-La pubblicazione della draft è un gate maintainer separato. Richiede il
-controllo di note, checksum, asset e stato di provenienza/licenze.
+La promozione da pre-release a release stabile è un gate maintainer separato.
+Richiede il controllo di note, checksum, asset e stato di provenienza/licenze.
 
 ## GitHub Pages
 
