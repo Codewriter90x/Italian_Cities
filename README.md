@@ -18,9 +18,11 @@ CAP legacy, comuni riconosciuti tramite ISTAT e coordinate quando presenti.
 **Working dataset:** `v1.1.0` prerelease · **Schema:** `2.1.0` ·
 **Build:** 30 luglio 2026.
 
-La release pubblicata `v1.0.0` è una baseline storica e non va interpretata
-come certificazione di accuratezza o licenza. Gli output sotto `data/` sono
-generati: non modificarli manualmente.
+La prerelease corrente è
+[`v1.1.0`](https://github.com/Codewriter90x/Italian_Cities/releases/tag/v1.1.0).
+`v1.0.0` resta una baseline storica e non va interpretata come certificazione
+di accuratezza o licenza. Gli output sotto `data/` sono generati: non
+modificarli manualmente.
 
 ## Copertura
 
@@ -73,21 +75,25 @@ La data ISTAT non rende automaticamente aggiornati CAP e coordinate legacy.
 
 ## Download
 
-Gli output correnti sono disponibili dal branch `main`:
+Gli asset immutabili della prerelease corrente includono checksum e
+attestazioni di provenienza della build:
 
 | Formato | Download |
 | --- | --- |
-| Comuni CSV | [municipalities.csv](https://raw.githubusercontent.com/Codewriter90x/Italian_Cities/main/data/municipalities.csv) |
-| Località CSV | [localities.csv](https://raw.githubusercontent.com/Codewriter90x/Italian_Cities/main/data/localities.csv) |
-| Relazioni CAP CSV | [postal_codes.csv](https://raw.githubusercontent.com/Codewriter90x/Italian_Cities/main/data/postal_codes.csv) |
-| Vista canonica CSV | [italian_locations.csv](https://raw.githubusercontent.com/Codewriter90x/Italian_Cities/main/data/italian_locations.csv) |
-| JSON | [italian_locations.json](https://raw.githubusercontent.com/Codewriter90x/Italian_Cities/main/data/italian_locations.json) |
-| Excel | [italian_locations.xlsx](https://raw.githubusercontent.com/Codewriter90x/Italian_Cities/main/data/italian_locations.xlsx) |
-| SQLite | [italian_locations.sqlite](https://raw.githubusercontent.com/Codewriter90x/Italian_Cities/main/data/italian_locations.sqlite) |
+| Comuni CSV | [municipalities.csv](https://github.com/Codewriter90x/Italian_Cities/releases/download/v1.1.0/municipalities.csv) |
+| Località CSV | [localities.csv](https://github.com/Codewriter90x/Italian_Cities/releases/download/v1.1.0/localities.csv) |
+| Relazioni CAP CSV | [postal_codes.csv](https://github.com/Codewriter90x/Italian_Cities/releases/download/v1.1.0/postal_codes.csv) |
+| Vista canonica CSV | [italian_locations.csv](https://github.com/Codewriter90x/Italian_Cities/releases/download/v1.1.0/italian_locations.csv) |
+| JSON | [italian_locations.json](https://github.com/Codewriter90x/Italian_Cities/releases/download/v1.1.0/italian_locations.json) |
+| Excel | [italian_locations.xlsx](https://github.com/Codewriter90x/Italian_Cities/releases/download/v1.1.0/italian_locations.xlsx) |
+| SQLite | [italian_locations.sqlite](https://github.com/Codewriter90x/Italian_Cities/releases/download/v1.1.0/italian_locations.sqlite) |
+| SQL | [italian_locations.sql](https://github.com/Codewriter90x/Italian_Cities/releases/download/v1.1.0/italian_locations.sql) |
+| SHA-256 | [SHA256SUMS](https://github.com/Codewriter90x/Italian_Cities/releases/download/v1.1.0/SHA256SUMS) |
 
-La baseline pubblicata resta disponibile nella
+La working copy sotto `data/` può anticipare la prossima release. La baseline
+storica resta disponibile nella
 [release v1.0.0](https://github.com/Codewriter90x/Italian_Cities/releases/tag/v1.0.0),
-ma è superata dalla working copy e mantiene i limiti documentati.
+con i propri limiti documentati.
 
 ## Dataset
 
