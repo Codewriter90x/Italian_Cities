@@ -318,13 +318,14 @@ def export_all(
     export_json(rows, canonical_sha256, json_path)
     export_sqlite(rows, canonical_sha256, sqlite_path)
     export_xlsx(rows, canonical_sha256, xlsx_path)
+    semantic_digest = record_digest(rows)
     report = {
         "status": "exported",
         "schema_version": SCHEMA_VERSION,
         "structural_quality": STRUCTURAL_QUALITY,
         "operational_data_readiness": OPERATIONAL_DATA_READINESS,
         "rows": len(rows),
-        "record_digest": record_digest(rows),
+        "record_digest": semantic_digest,
         "outputs": {
             name: {
                 "repository_path": str(path.relative_to(ROOT)),
@@ -334,9 +335,15 @@ def export_all(
                 ("csv", canonical_path),
                 ("json", json_path),
                 ("xlsx", xlsx_path),
-                ("sqlite", sqlite_path),
             )
         },
+    }
+    # SQLite database bytes can differ across SQLite library versions even
+    # when tables, metadata and row order are identical. Keep the committed
+    # manifest portable by recording its canonical record digest instead.
+    report["outputs"]["sqlite"] = {
+        "repository_path": str(sqlite_path.relative_to(ROOT)),
+        "semantic_sha256": semantic_digest,
     }
     write_json(report_path, report)
     return report

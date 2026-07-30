@@ -11,7 +11,7 @@
     },
     "sqlite": {
       "repository_path": "data/italian_locations.sqlite",
-      "sha256": "a84a6b856929209e0958e67913718f9722ca307c86c4aef3a7e99c6334b494a2"
+      "semantic_sha256": "48b3a08779749514d3a816e5c2581953659db29c20a6f76d4eaeddc62ca352b2"
     },
     "xlsx": {
       "repository_path": "data/italian_locations.xlsx",

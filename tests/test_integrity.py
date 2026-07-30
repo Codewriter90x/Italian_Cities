@@ -22,8 +22,10 @@ from dataset_common import (  # noqa: E402
     LOCALITY_FIELDS,
     MUNICIPALITY_FIELDS,
     POSTAL_CODE_FIELDS,
+    REPORTS_DIR,
     canonical_row_sort_key,
     read_csv_rows,
+    record_digest,
 )
 from legacy_comparison import build_legacy_comparison  # noqa: E402
 from source_data import (  # noqa: E402
@@ -175,6 +177,17 @@ class IntegrityTests(unittest.TestCase):
         self.assertEqual("passed", report["status"])
         self.assertEqual(2, report["runs"])
         self.assertEqual(report["signatures"], collect_signatures())
+
+    def test_export_manifest_uses_semantic_sqlite_digest(self) -> None:
+        report = json.loads(
+            (REPORTS_DIR / "export-manifest.json").read_text(encoding="utf-8")
+        )
+        sqlite_output = report["outputs"]["sqlite"]
+        self.assertNotIn("sha256", sqlite_output)
+        self.assertEqual(
+            record_digest(self.locations),
+            sqlite_output["semantic_sha256"],
+        )
 
 
 if __name__ == "__main__":
