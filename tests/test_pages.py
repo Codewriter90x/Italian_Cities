@@ -89,6 +89,7 @@ class GitHubPagesBuildTests(unittest.TestCase):
                 "Confini regionali generalizzati ISTAT",
                 'rel="canonical"',
                 'name="robots"',
+                'name="google-site-verification"',
                 'property="og:image:width"',
                 'type="application/ld+json"',
             ):
