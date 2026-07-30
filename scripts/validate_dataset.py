@@ -4,8 +4,8 @@
 from __future__ import annotations
 
 import argparse
-from collections import Counter
 import json
+from collections import Counter
 from pathlib import Path
 
 from check_determinism import DEFAULT_REPORT as DETERMINISM_REPORT
@@ -50,7 +50,6 @@ from validators.territory import (
     territorial_names_compatible,
     validate_territories,
 )
-
 
 DEFAULT_REPORT = REPORTS_DIR / "quality-validation.json"
 QUALITY_CHECK_NAMES = (

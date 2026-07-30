@@ -16,7 +16,6 @@ import zipfile
 from collections import Counter
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_LEGACY = ROOT / "legacy/2023-05-02-original/Italian Cities.csv"
 DEFAULT_ISTAT = (
@@ -107,13 +106,13 @@ def load_istat_municipalities(path: Path) -> dict[tuple[str, str], dict[str, str
         ]
         sheet_root = ET.fromstring(archive.read("xl/worksheets/sheet1.xml"))
 
-    parsed_rows: list[list[str | None]] = []
-    for row in sheet_root.findall(".//x:sheetData/x:row", ISTAT_NS):
-        values: list[str | None] = [None] * 27
-        for cell in row.findall("x:c", ISTAT_NS):
+    parsed_rows: list[list[str]] = []
+    for sheet_row in sheet_root.findall(".//x:sheetData/x:row", ISTAT_NS):
+        values = [""] * 27
+        for cell in sheet_row.findall("x:c", ISTAT_NS):
             value_node = cell.find("x:v", ISTAT_NS)
-            if value_node is None:
-                value = None
+            if value_node is None or value_node.text is None:
+                value = ""
             elif cell.get("t") == "s":
                 value = shared_strings[int(value_node.text)]
             else:
@@ -122,14 +121,14 @@ def load_istat_municipalities(path: Path) -> dict[tuple[str, str], dict[str, str
         parsed_rows.append(values)
 
     municipalities: dict[tuple[str, str], dict[str, str]] = {}
-    for row in parsed_rows[1:]:
+    for parsed_row in parsed_rows[1:]:
         record = {
-            "istat_code": row[4] or "",
-            "bilingual_name": row[5] or "",
-            "italian_name": row[6] or "",
-            "region_name": row[10] or "",
-            "province_name": row[11] or "",
-            "province_code": row[14] or "",
+            "istat_code": parsed_row[4],
+            "bilingual_name": parsed_row[5],
+            "italian_name": parsed_row[6],
+            "region_name": parsed_row[10],
+            "province_name": parsed_row[11],
+            "province_code": parsed_row[14],
         }
         for name in (record["italian_name"], record["bilingual_name"]):
             if name:

@@ -4,7 +4,7 @@ Italian Cities evolves by improving provenance and reproducibility before
 claiming broader coverage. The roadmap is public, but dates are intentionally
 not promised until the required sources and licences are available.
 
-## Current: v2.0.0 clean-room prerelease candidate
+## Current: v2.0.0 clean-room prerelease
 
 The current line replaces the unresolved legacy source with:
 
@@ -18,8 +18,8 @@ The current line replaces the unresolved legacy source with:
 - searchable GitHub Pages with shareable filters, ISTAT regional boundaries
   and an accessible coverage table.
 
-It remains a prerelease because GeoNames is not Poste Italiane and CAP and
-coordinates are not operationally certified.
+It is published as a prerelease because GeoNames is not Poste Italiane and
+CAP and coordinates are not operationally certified.
 
 ## Next: v2.1.0 — reviewed reconciliation
 

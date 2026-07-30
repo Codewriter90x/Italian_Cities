@@ -5,6 +5,7 @@ from __future__ import annotations
 import re
 
 from dataset_common import normalize_name
+
 from validators.common import QualityChecks, add_quality_error
 
 

@@ -72,6 +72,8 @@ canonica. `scripts/export_sql.py` crea lo script SQLite-compatible.
 - `reports/build-metadata.json`: fonti, qualità, readiness e statistiche;
 - `reports/legacy-comparison.json`: confronto storico limitato e deterministico;
 - `reports/release-diff.json`: confronto logico con v1.1.0;
+- `reports/reconciliation-backlog.json`: segmenti da revisionare per regione,
+  provincia e codice territoriale sorgente;
 - `reports/export-manifest.json`: digest degli export;
 - `reports/determinism.json`: firme di due build;
 - `reports/quality-validation.json`: gate strutturali separati dalla readiness.
@@ -114,7 +116,25 @@ a commit SHA immutabili.
 
 ## Aggiornamento fonti
 
-1. acquisire un nuovo snapshot dalla stessa origine autorizzata;
+Controllare senza modificare il repository:
+
+```bash
+python scripts/update_sources.py --check
+```
+
+Per preparare esplicitamente un nuovo snapshot in un percorso datato:
+
+```bash
+python scripts/update_sources.py \
+  --download geonames_postal_codes \
+  --output sources/cache/IT-new.zip
+```
+
+Lo script rifiuta di sovrascrivere file esistenti e non modifica il manifest.
+Il workflow settimanale `Source freshness` apre una sola issue quando rileva
+un checksum upstream differente; non esegue commit né rigenera il dataset.
+
+1. acquisire o preparare un nuovo snapshot dalla stessa origine autorizzata;
 2. conservarlo sotto un percorso datato;
 3. aggiornare manifest, checksum, timestamp e riferimento;
 4. modificare la trasformazione se il formato cambia;

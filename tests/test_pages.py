@@ -8,12 +8,12 @@ import tempfile
 import unittest
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from build_pages import WEB_FIELDS, build_site  # noqa: E402
 from project_metadata import DATASET_VERSION  # noqa: E402
+from validate_site import validate_site  # noqa: E402
 
 
 def directory_hashes(root: Path) -> dict[str, str]:
@@ -27,7 +27,7 @@ def directory_hashes(root: Path) -> dict[str, str]:
 
 class GitHubPagesBuildTests(unittest.TestCase):
     def test_build_is_complete_and_deterministic(self) -> None:
-        with tempfile.TemporaryDirectory() as first_dir:
+        with tempfile.TemporaryDirectory() as first_dir:  # noqa: SIM117
             with tempfile.TemporaryDirectory() as second_dir:
                 first = Path(first_dir) / "site"
                 second = Path(second_dir) / "site"
@@ -84,6 +84,7 @@ class GitHubPagesBuildTests(unittest.TestCase):
                 "GeoNames</a>, CC BY 4.0",
                 "v2.0.0 · prerelease pubblicata",
                 "releases/download/v2.0.0/italian_locations.csv",
+                "releases/download/v2.0.0/SHA256SUMS",
                 "releases/tag/v2.0.0",
                 "Confini regionali generalizzati ISTAT",
                 'rel="canonical"',
@@ -113,7 +114,12 @@ class GitHubPagesBuildTests(unittest.TestCase):
                 if item["@type"] == "Dataset"
             )
             self.assertEqual("2.0.0", dataset["version"])
-            self.assertEqual(5, len(dataset["distribution"]))
+            self.assertEqual(6, len(dataset["distribution"]))
+            self.assertIn('id="copy-filter-link"', source)
+            self.assertNotIn(
+                "Gli asset pubblicati sono immutabili",
+                source,
+            )
 
     def test_sitemap_and_indexable_information_pages(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_dir:
@@ -151,6 +157,14 @@ class GitHubPagesBuildTests(unittest.TestCase):
         self.assertEqual("FeatureCollection", payload["type"])
         self.assertEqual(20, len(payload["features"]))
         self.assertEqual("CC BY 4.0", payload["source"]["license"])
+
+    def test_site_accessibility_links_and_budgets(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_dir:
+            output = Path(temporary_dir) / "site"
+            build_site(output)
+            report = validate_site(output)
+        self.assertEqual("passed", report["status"])
+        self.assertEqual(25, report["pages"])
 
 
 if __name__ == "__main__":

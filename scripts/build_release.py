@@ -17,7 +17,6 @@ from dataset_common import (
 from export_sql import export_sql
 from project_metadata import DATASET_VERSION
 
-
 RELEASE_VERSION = DATASET_VERSION
 DEFAULT_OUTPUT = ROOT / "dist" / RELEASE_VERSION
 RELEASE_ASSETS = {

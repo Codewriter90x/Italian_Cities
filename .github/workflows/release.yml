@@ -19,7 +19,17 @@ jobs:
       - name: Check out tagged commit
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          fetch-depth: 0
           persist-credentials: false
+
+      - name: Require tagged commit to be integrated in the default branch
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          git fetch --no-tags origin "${DEFAULT_BRANCH}"
+          git merge-base --is-ancestor \
+            "${GITHUB_SHA}" \
+            "origin/${DEFAULT_BRANCH}"
 
       - name: Set up Python
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
@@ -104,7 +114,7 @@ jobs:
           ! gh release view "${GITHUB_REF_NAME}"
           --repo "${GITHUB_REPOSITORY}"
 
-      - name: Create GitHub release
+      - name: Create draft GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -113,6 +123,7 @@ jobs:
             gh release create "${GITHUB_REF_NAME}" \
               --repo "${GITHUB_REPOSITORY}" \
               --verify-tag \
+              --draft \
               --prerelease \
               --title "Italian Cities ${GITHUB_REF_NAME}" \
               --notes-file "release/${GITHUB_REF_NAME}.md"
@@ -120,11 +131,12 @@ jobs:
             gh release create "${GITHUB_REF_NAME}" \
               --repo "${GITHUB_REPOSITORY}" \
               --verify-tag \
+              --draft \
               --title "Italian Cities ${GITHUB_REF_NAME}" \
               --notes-file "release/${GITHUB_REF_NAME}.md"
           fi
 
-      - name: Upload immutable release assets
+      - name: Upload release assets to the draft
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -139,3 +151,29 @@ jobs:
             "dist/${GITHUB_REF_NAME}/italian_locations.sql" \
             "dist/${GITHUB_REF_NAME}/SHA256SUMS" \
             --repo "${GITHUB_REPOSITORY}"
+
+      - name: Verify draft assets before publication
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          expected_assets="$(
+            find "dist/${GITHUB_REF_NAME}" -maxdepth 1 -type f \
+              -exec basename {} \; |
+              LC_ALL=C sort
+          )"
+          published_assets="$(
+            gh release view "${GITHUB_REF_NAME}" \
+              --repo "${GITHUB_REPOSITORY}" \
+              --json assets \
+              --jq '.assets[].name' |
+              LC_ALL=C sort
+          )"
+          test "${expected_assets}" = "${published_assets}"
+
+      - name: Publish the complete release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh release edit "${GITHUB_REF_NAME}"
+          --repo "${GITHUB_REPOSITORY}"
+          --draft=false

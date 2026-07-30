@@ -1,5 +1,7 @@
 sources/cache/*
 !sources/cache/.gitkeep
+.DS_Store
+.venv/
 __pycache__/
 *.pyc
 *.tmp

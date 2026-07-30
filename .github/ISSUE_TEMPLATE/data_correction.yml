@@ -13,7 +13,7 @@ body:
     id: location_id
     attributes:
       label: Identificativo del record
-      description: location_id oppure legacy_uuid.
+      description: location_id del record corrente.
       placeholder: IT-COM-058091
     validations:
       required: true

@@ -15,7 +15,6 @@ from dataset_common import (
 )
 from project_metadata import DATASET_VERSION, SCHEMA_VERSION, version_number
 
-
 DEFAULT_OUTPUT = Path("dist") / DATASET_VERSION / "italian_locations.sql"
 INSERT_BATCH_SIZE = 250
 

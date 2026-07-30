@@ -6,10 +6,9 @@ from __future__ import annotations
 import hashlib
 import uuid
 from collections import Counter, defaultdict
-from typing import Iterable
+from collections.abc import Iterable
 
 from dataset_common import normalize_name
-
 
 LOCATION_NAMESPACE = uuid.uuid5(
     uuid.NAMESPACE_URL,

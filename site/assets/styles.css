@@ -347,12 +347,27 @@ a:focus-visible {
   margin-block: 1.25rem 0.75rem;
 }
 
+.search-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  justify-content: flex-end;
+}
+
 .search-toolbar button {
   padding: 0;
   color: var(--cyan);
   background: none;
   border: 0;
   cursor: pointer;
+}
+
+.copy-status {
+  min-height: 1.5rem;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  text-align: right;
 }
 
 .result-list {

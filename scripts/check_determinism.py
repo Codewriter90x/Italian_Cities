@@ -21,7 +21,6 @@ from dataset_common import (
 )
 from project_metadata import QUALITY_GATE_VERSION
 
-
 DEFAULT_REPORT = REPORTS_DIR / "determinism.json"
 BYTE_STABLE_PATHS = {
     "municipalities_csv": GENERATED_PATHS["municipalities"],
@@ -33,6 +32,7 @@ BYTE_STABLE_PATHS = {
     "build_metadata": REPORTS_DIR / "build-metadata.json",
     "legacy_comparison": REPORTS_DIR / "legacy-comparison.json",
     "release_diff_report": REPORTS_DIR / "release-diff.json",
+    "reconciliation_backlog": REPORTS_DIR / "reconciliation-backlog.json",
     "export_manifest": REPORTS_DIR / "export-manifest.json",
 }
 

@@ -35,6 +35,7 @@ from project_metadata import (
     STRUCTURAL_QUALITY,
 )
 from reconcile_sources import reconcile
+from reconciliation_backlog import build_backlog
 from source_data import (
     DEFAULT_GEONAMES,
     DEFAULT_ISTAT,
@@ -44,11 +45,11 @@ from source_data import (
     validate_declared_sources,
 )
 
-
 DEFAULT_PREVIOUS_RELEASE = ROOT / PREVIOUS_RELEASE["canonical_path"]
 DEFAULT_DIFF_REPORT = REPORTS_DIR / "release-diff.json"
 DEFAULT_LEGACY_REPORT = REPORTS_DIR / "legacy-comparison.json"
 DEFAULT_BUILD_REPORT = REPORTS_DIR / "build-metadata.json"
+DEFAULT_RECONCILIATION_REPORT = REPORTS_DIR / "reconciliation-backlog.json"
 
 
 def parse_args() -> argparse.Namespace:
@@ -68,6 +69,11 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--build-report", type=Path, default=DEFAULT_BUILD_REPORT
+    )
+    parser.add_argument(
+        "--reconciliation-report",
+        type=Path,
+        default=DEFAULT_RECONCILIATION_REPORT,
     )
     parser.add_argument(
         "--no-exports",
@@ -221,6 +227,13 @@ def build_all(args: argparse.Namespace) -> dict[str, Any]:
     unique_accuracy_counts = Counter(
         row["coordinate_accuracy"] or "missing"
         for row in unique_location_rows
+    )
+    write_json(
+        args.reconciliation_report,
+        build_backlog(
+            cast(list[dict[str, str]], model["municipalities"]),
+            cast(list[dict[str, str]], model["localities"]),
+        ),
     )
     build_report = {
         "dataset_version": DATASET_VERSION,
