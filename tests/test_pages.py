@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import sys
 import tempfile
 import unittest
@@ -11,7 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from build_pages import build_site  # noqa: E402
+from build_pages import WEB_FIELDS, build_site  # noqa: E402
 from project_metadata import DATASET_VERSION  # noqa: E402
 
 
@@ -41,6 +42,12 @@ class GitHubPagesBuildTests(unittest.TestCase):
                 )
                 self.assertEqual(DATASET_VERSION, payload["metadata"]["release"])
                 self.assertEqual(
+                    list(WEB_FIELDS),
+                    payload["fields"],
+                )
+                self.assertIsInstance(payload["rows"][0], list)
+                self.assertEqual(len(payload["fields"]), len(payload["rows"][0]))
+                self.assertEqual(
                     "experimental_non_official",
                     payload["metadata"]["operational_data_readiness"],
                 )
@@ -57,24 +64,83 @@ class GitHubPagesBuildTests(unittest.TestCase):
                 self.assertNotIn(
                     "coordinate_coverage_percent", payload["stats"]
                 )
+                self.assertLess(
+                    (first / "assets/locations.json").stat().st_size,
+                    5_000_000,
+                )
+                self.assertEqual(25, first_manifest["page_count"])
 
-    def test_site_declares_clean_room_warnings_and_downloads(self) -> None:
-        source = (ROOT / "site/index.html").read_text(encoding="utf-8")
-        for required in (
-            'id="query"',
-            'id="province"',
-            'id="coverage-map"',
-            'id="map-fallback-body"',
-            "GeoNames non è Poste Italiane",
-            "GeoNames</a>, CC BY 4.0",
-            "v2.0.0 · prerelease",
-            "raw/refs/heads/main/data/italian_locations.csv",
-            "Confini regionali generalizzati ISTAT",
-        ):
-            self.assertIn(required, source)
-        self.assertNotIn("analytics", source.casefold())
-        self.assertNotIn("cookie", source.casefold())
-        self.assertNotIn("nominatim", source.casefold())
+    def test_site_declares_seo_release_and_clean_room_contracts(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_dir:
+            output = Path(temporary_dir) / "site"
+            build_site(output)
+            source = (output / "index.html").read_text(encoding="utf-8")
+            for required in (
+                'id="query"',
+                'id="province"',
+                'id="coverage-map"',
+                'id="map-fallback-body"',
+                "GeoNames non è Poste Italiane",
+                "GeoNames</a>, CC BY 4.0",
+                "v2.0.0 · prerelease pubblicata",
+                "releases/download/v2.0.0/italian_locations.csv",
+                "releases/tag/v2.0.0",
+                "Confini regionali generalizzati ISTAT",
+                'rel="canonical"',
+                'name="robots"',
+                'property="og:image:width"',
+                'type="application/ld+json"',
+            ):
+                self.assertIn(required, source)
+            self.assertNotIn("non ancora pubblicata", source)
+            self.assertNotIn("releases/tag/v1.1.0", source)
+            self.assertNotIn("{{", source)
+            self.assertNotIn("analytics", source.casefold())
+            self.assertNotIn("cookie", source.casefold())
+            self.assertNotIn("nominatim", source.casefold())
+
+            match = re.search(
+                r'<script type="application/ld\+json">(.*?)</script>',
+                source,
+            )
+            self.assertIsNotNone(match)
+            structured = json.loads(match.group(1))
+            types = {item["@type"] for item in structured["@graph"]}
+            self.assertEqual({"WebSite", "Dataset", "FAQPage"}, types)
+            dataset = next(
+                item
+                for item in structured["@graph"]
+                if item["@type"] == "Dataset"
+            )
+            self.assertEqual("2.0.0", dataset["version"])
+            self.assertEqual(5, len(dataset["distribution"]))
+
+    def test_sitemap_and_indexable_information_pages(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_dir:
+            output = Path(temporary_dir) / "site"
+            manifest = build_site(output)
+            sitemap = (output / "sitemap.xml").read_text(encoding="utf-8")
+            self.assertEqual(manifest["page_count"], sitemap.count("<url>"))
+            for path in (
+                "dataset/",
+                "schema/",
+                "fonti/",
+                "regioni/",
+                "regioni/lazio/",
+            ):
+                self.assertIn(
+                    f"https://codewriter90x.github.io/Italian_Cities/{path}",
+                    sitemap,
+                )
+                self.assertTrue((output / path / "index.html").is_file())
+
+            lazio = (output / "regioni/lazio/index.html").read_text(
+                encoding="utf-8"
+            )
+            self.assertIn("Comuni, CAP e coordinate: Lazio", lazio)
+            self.assertIn(">Roma</a>", lazio)
+            self.assertIn("ISTAT 058091", lazio)
+            self.assertIn('rel="canonical"', lazio)
 
     def test_committed_geographic_base_has_official_provenance(self) -> None:
         payload = json.loads(
