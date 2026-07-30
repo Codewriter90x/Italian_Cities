@@ -206,7 +206,6 @@ def validate_formats(
 
     required_reports = (
         REPORTS_DIR / "build-metadata.json",
-        REPORTS_DIR / "legacy-comparison.json",
         REPORTS_DIR / "release-diff.json",
     )
     for report in required_reports:

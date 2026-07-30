@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import hashlib
-import inspect
 import json
 import sys
 import tempfile
@@ -29,12 +28,10 @@ from dataset_common import (  # noqa: E402
     read_csv_rows,
     record_digest,
 )
-from legacy_comparison import build_legacy_comparison  # noqa: E402
 from reconciliation_backlog import build_backlog  # noqa: E402
 from source_data import (  # noqa: E402
     DEFAULT_GEONAMES,
     DEFAULT_ISTAT_REGIONS,
-    DEFAULT_LEGACY,
     load_istat_records,
     load_manifest,
     validate_declared_sources,
@@ -125,12 +122,11 @@ class IntegrityTests(unittest.TestCase):
             self.assertTrue(source_ids.issubset(declared))
             self.assertNotIn("legacy_csv", source_ids)
 
-    def test_clean_room_builder_has_no_legacy_input(self) -> None:
-        self.assertNotIn("legacy", inspect.signature(build_clean_room).parameters)
+    def test_clean_room_builder_is_independent_from_withdrawn_material(self) -> None:
         first = build_clean_room()["canonical_source_digest"]
         with tempfile.TemporaryDirectory() as directory:
-            unrelated_legacy = Path(directory) / "legacy.csv"
-            unrelated_legacy.write_text("completely different\n", encoding="utf-8")
+            unrelated = Path(directory) / "withdrawn.csv"
+            unrelated.write_text("unrelated historical bytes\n", encoding="utf-8")
             second = build_clean_room()["canonical_source_digest"]
         self.assertEqual(first, second)
 
@@ -154,12 +150,14 @@ class IntegrityTests(unittest.TestCase):
             hashlib.sha256(DEFAULT_ISTAT_REGIONS.read_bytes()).hexdigest(),
         )
 
-    def test_legacy_report_is_deterministic_and_investigative(self) -> None:
-        first = build_legacy_comparison(DEFAULT_LEGACY, self.locations)
-        second = build_legacy_comparison(DEFAULT_LEGACY, self.locations)
-        self.assertEqual(first, second)
-        self.assertEqual("historical_comparison_only", first["legacy_role"])
-        self.assertIn("not proof", first["provenance_warning"])
+    def test_withdrawn_material_is_not_distributed(self) -> None:
+        forbidden_paths = (
+            ROOT / "legacy",
+            ROOT / "reports/legacy-comparison.json",
+            ROOT / "baselines/releases/v1.0.0",
+            ROOT / "baselines/releases/v1.1.0",
+        )
+        self.assertTrue(all(not path.exists() for path in forbidden_paths))
 
     def test_canonical_order_and_cross_table_integrity(self) -> None:
         self.assertEqual(

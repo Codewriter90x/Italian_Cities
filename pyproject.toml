@@ -24,10 +24,6 @@ follow_imports = "silent"
 [tool.coverage.run]
 branch = true
 source = ["scripts"]
-omit = [
-  "scripts/normalize_legacy.py",
-  "scripts/validate_milestone1.py",
-]
 
 [tool.coverage.report]
 fail_under = 85

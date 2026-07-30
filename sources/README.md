@@ -41,11 +41,11 @@ dataset input: it only rebuilds `site/assets/italy-regions.geojson`. The
 archive is committed so CI can prove the web map is reproducible without
 silently skipping the source rebuild.
 
-## Historical input
+## Withdrawn historical material
 
-The legacy CSV is declared with `canonical_input: false`. It is outside this
-directory under `legacy/` and is read only by the historical comparison
-report.
+Pre-clean-room material with unresolved provenance and redistribution rights
+has been removed. It is not declared by the manifest and must not be restored
+as an input, baseline, report fixture or release asset.
 
 ## Update procedure
 

@@ -189,7 +189,6 @@ jobs:
           ":(exclude)data/italian_locations.sqlite"
           reports/release-diff.json
           reports/build-metadata.json
-          reports/legacy-comparison.json
           reports/reconciliation-backlog.json
           reports/export-manifest.json
           reports/determinism.json

@@ -22,14 +22,12 @@ DEFAULT_ISTAT = (
 DEFAULT_GEONAMES = (
     ROOT / "sources/snapshots/geonames/IT-2026-07-30.zip"
 )
-DEFAULT_LEGACY = ROOT / "legacy/2023-05-02-original/Italian Cities.csv"
 DEFAULT_ISTAT_REGIONS = ROOT / "sources/cache/Limiti01012026_g.zip"
 
 CANONICAL_SOURCE_IDS = (
     "istat_municipalities",
     "geonames_postal_codes",
 )
-HISTORICAL_SOURCE_IDS = ("legacy_csv",)
 AUXILIARY_SOURCE_IDS = ("istat_region_boundaries",)
 ISTAT_NS = {"x": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
 GEONAMES_FIELDS = (
@@ -64,7 +62,6 @@ def load_manifest(path: Path = SOURCE_MANIFEST) -> dict[str, Any]:
         raise ValueError(f"{path}: duplicate source id")
     for source_id in (
         *CANONICAL_SOURCE_IDS,
-        *HISTORICAL_SOURCE_IDS,
         *AUXILIARY_SOURCE_IDS,
     ):
         if source_id not in source_ids:
@@ -106,13 +103,11 @@ def validate_declared_sources(
     *,
     istat_path: Path = DEFAULT_ISTAT,
     geonames_path: Path = DEFAULT_GEONAMES,
-    legacy_path: Path = DEFAULT_LEGACY,
     geography_path: Path = DEFAULT_ISTAT_REGIONS,
 ) -> dict[str, Any]:
     manifest = load_manifest(manifest_path)
     validate_source(manifest, "istat_municipalities", istat_path)
     validate_source(manifest, "geonames_postal_codes", geonames_path)
-    validate_source(manifest, "legacy_csv", legacy_path)
     validate_source(manifest, "istat_region_boundaries", geography_path)
     return manifest
 

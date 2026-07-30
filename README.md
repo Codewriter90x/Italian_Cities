@@ -36,9 +36,10 @@ La v2 deriva esclusivamente da:
    snapshot del 30 luglio 2026.
 
 Entrambe le fonti richiedono attribuzione CC BY 4.0. Il file GeoNames originale
-è conservato e verificato tramite SHA-256. Il legacy rimane sotto `legacy/`,
-ma non contribuisce ad alcun CSV, JSON, XLSX, SQLite, SQL o dato della Pages.
-È letto soltanto per [`reports/legacy-comparison.json`](reports/legacy-comparison.json).
+è conservato e verificato tramite SHA-256. Il precedente materiale storico a
+provenienza non dimostrata è stato ritirato dal repository, dalle release
+storiche e dalla cronologia pubblica. Non è un input, una baseline o un output
+della pipeline corrente.
 
 ## Copertura della v2
 
@@ -197,18 +198,12 @@ genera inoltre schede HTML indicizzabili per province e comuni, una sitemap e
 una pagina 404 accessibile. Dettagli in
 [`DATASET_PIPELINE.md`](DATASET_PIPELINE.md).
 
-## Differenze rispetto al legacy
+## Materiale storico ritirato
 
-Il confronto investigativo trova 10.881 coppie esatte nome–CAP e 10.738
-coppie esatte nome–provincia–CAP, 3.742 record soltanto nel legacy, 7.677
-soltanto in GeoNames, 3.018 insiemi CAP discordanti e 1.414 differenze
-coordinate oltre 0,01 gradi. Una somiglianza non prova la provenienza del
-legacy.
-
-I 3.742 record esclusivi del legacy scompaiono dal canonico perché la loro
-origine e licenza non sono dimostrate e non sono presenti nello snapshot
-GeoNames scelto. I comuni ISTAT mancanti nel legacy, invece, entrano nella v2
-anche senza CAP.
+Le versioni anteriori alla ricostruzione clean-room dipendevano da materiale
+di cui non è stato possibile dimostrare origine e diritto di redistribuzione.
+Quel materiale e i relativi asset derivati sono stati ritirati. La v2 può
+essere ricostruita esclusivamente dagli snapshot ISTAT e GeoNames dichiarati.
 
 ## Licenze e attribuzione
 

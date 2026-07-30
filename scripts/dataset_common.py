@@ -15,9 +15,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data"
 REPORTS_DIR = ROOT / "reports"
-MILESTONE1_BASELINE = (
-    ROOT / "legacy/milestone-1-canonical/italian_postal_localities.csv"
-)
 SOURCE_MANIFEST = ROOT / "sources/manifest.json"
 
 MUNICIPALITY_FIELDS = (

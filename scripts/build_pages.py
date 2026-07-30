@@ -436,8 +436,8 @@ def build_information_pages(
       <p class="eyebrow">Provenienza verificabile</p>
       <h1>Fonti, licenze e limiti del dataset</h1>
       <p class="content-lead">La build {version} usa fonti dichiarate e
-        riproducibili. Il legacy con provenienza irrisolta non contribuisce
-        agli output correnti.</p>
+        riproducibili. Il materiale pre-clean-room con provenienza irrisolta è
+        stato ritirato e non contribuisce agli output correnti.</p>
       <div class="content-grid">
         <article class="content-card"><h2>ISTAT</h2><p>Elenco dei comuni e
           codici amministrativi, snapshot del {ISTAT_REFERENCE_DATE}, licenza

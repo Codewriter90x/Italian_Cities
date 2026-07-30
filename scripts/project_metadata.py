@@ -22,7 +22,6 @@ def load_project_metadata(path: Path = PROJECT_METADATA_PATH) -> dict[str, Any]:
         "dataset_version",
         "geonames_reference_date",
         "istat_reference_date",
-        "legacy_reference_date",
         "license_status",
         "operational_data_readiness",
         "previous_release",
@@ -46,7 +45,6 @@ def load_project_metadata(path: Path = PROJECT_METADATA_PATH) -> dict[str, Any]:
         "build_date",
         "geonames_reference_date",
         "istat_reference_date",
-        "legacy_reference_date",
     ):
         try:
             date.fromisoformat(metadata[key])
@@ -102,7 +100,6 @@ BUILD_DATE = PROJECT["build_date"]
 DATASET_VERSION = PROJECT["dataset_version"]
 GEONAMES_REFERENCE_DATE = PROJECT["geonames_reference_date"]
 ISTAT_REFERENCE_DATE = PROJECT["istat_reference_date"]
-LEGACY_REFERENCE_DATE = PROJECT["legacy_reference_date"]
 OPERATIONAL_DATA_READINESS = PROJECT["operational_data_readiness"]
 PREVIOUS_RELEASE = PROJECT["previous_release"]
 QUALITY_GATE_VERSION = PROJECT["quality_gate_version"]

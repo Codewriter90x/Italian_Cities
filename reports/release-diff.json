@@ -1,35 +1,39 @@
 {
   "baseline": {
     "fields": [
+      "location_postal_id",
       "location_id",
-      "legacy_uuid",
       "name",
       "normalized_name",
       "location_kind",
       "municipality_istat_code",
       "parent_municipality_id",
+      "candidate_municipality_ids",
       "postal_code",
       "postal_code_status",
       "province_code",
       "province_name",
-      "legacy_province_name",
       "region_name",
       "country_code",
       "country_name",
       "latitude",
       "longitude",
-      "coordinate_status",
       "coordinate_verification",
-      "source_snapshot",
-      "source_ids"
+      "coordinate_accuracy",
+      "reconciliation_outcome",
+      "reconciliation_method",
+      "reconciliation_confidence",
+      "source_ids",
+      "source_record_ids",
+      "source_reference_dates"
     ],
-    "path": "baselines/releases/v1.1.0/italian_locations.csv",
-    "rows": 14480,
-    "sha256": "fde543485a77d3a265abe2947419920343121520c3465a2fc6bcc9643356c101"
+    "path": "baselines/releases/v2.0.0/italian_locations.csv",
+    "rows": 18811,
+    "sha256": "803adc8dcb9e4cf0c65f6284e640a4e3b44b6f8b599f66c01cfaf9de231cf977"
   },
   "build_date": "2026-07-30",
   "comparison": {
-    "from": "v1.1.0",
+    "from": "v2.0.0",
     "to": "v2.0.0"
   },
   "current": {
@@ -64,30 +68,16 @@
     "rows": 18811,
     "sha256": "803adc8dcb9e4cf0c65f6284e640a4e3b44b6f8b599f66c01cfaf9de231cf977"
   },
-  "interpretation": "The v2 source and schema change makes row identity incomparable to v1; logical name/province/CAP keys are reported for context.",
+  "interpretation": "The clean-room v2.0.0 baseline replaces withdrawn pre-clean-room baselines; this comparison confirms the republished tag has no canonical row or schema change.",
   "logical_record_changes": {
-    "added": 8072,
-    "removed": 3741,
-    "shared": 10739
+    "added": 0,
+    "removed": 0,
+    "shared": 18811
   },
   "schema_changes": {
-    "added_fields": [
-      "candidate_municipality_ids",
-      "coordinate_accuracy",
-      "location_postal_id",
-      "reconciliation_confidence",
-      "reconciliation_method",
-      "reconciliation_outcome",
-      "source_record_ids",
-      "source_reference_dates"
-    ],
-    "breaking": true,
-    "removed_fields": [
-      "coordinate_status",
-      "legacy_province_name",
-      "legacy_uuid",
-      "source_snapshot"
-    ],
+    "added_fields": [],
+    "breaking": false,
+    "removed_fields": [],
     "schema_version": "3.0.0"
   },
   "schema_version": "3.0.0"

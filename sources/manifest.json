@@ -6,18 +6,6 @@
   ],
   "sources": [
     {
-      "id": "legacy_csv",
-      "path": "legacy/2023-05-02-original/Italian Cities.csv",
-      "role": "Historical comparison only; never a canonical input",
-      "canonical_input": false,
-      "reference_date": "unknown",
-      "artifact_date": "2023-05-02",
-      "sha256": "45f31340a6f0c390927aa1224424a75c6c968e601aa2df0a746413431e82d050",
-      "license_status": "CC0 declared in repository; upstream rights unproven",
-      "url": "https://github.com/Codewriter90x/Italian_Cities",
-      "format_version": "legacy semicolon CSV v1"
-    },
-    {
       "id": "istat_municipalities",
       "path": "sources/snapshots/istat/Elenco-comuni-italiani-2026-02-21.xlsx",
       "role": "Canonical municipality registry and administrative codes",

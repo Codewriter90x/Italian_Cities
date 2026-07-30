@@ -22,13 +22,12 @@ GeoNames IT.zip snapshot ----------+        |
                                             |
                                             v
                                     Pages / release bundle
-
-legacy CSV --> historical comparison only --> reports/legacy-comparison.json
 ```
 
 Il modello canonico è creato da `build_clean_room(istat_path, geonames_path)`.
-La funzione non accetta un input legacy. Il digest canonico dipende soltanto
-dagli identificativi ISTAT e GeoNames riconciliati.
+Il digest canonico dipende soltanto dagli identificativi ISTAT e GeoNames
+riconciliati. Il materiale storico a provenienza irrisolta è stato ritirato e
+non è presente tra input, baseline o report.
 
 ## Acquisizione e checksum
 
@@ -75,8 +74,8 @@ canonica. `scripts/export_sql.py` crea lo script SQLite-compatible.
 ## Report
 
 - `reports/build-metadata.json`: fonti, qualità, readiness e statistiche;
-- `reports/legacy-comparison.json`: confronto storico limitato e deterministico;
-- `reports/release-diff.json`: confronto logico con v1.1.0;
+- `reports/release-diff.json`: confronto logico con la baseline clean-room
+  `v2.0.0`;
 - `reports/reconciliation-backlog.json`: segmenti da revisionare per regione,
   provincia e codice territoriale sorgente;
 - `reports/export-manifest.json`: digest degli export;
@@ -87,8 +86,6 @@ Quest'ultimo include anche la distribuzione dei riusi esatti di coordinate,
 alla grana del luogo univoco. I cluster grandi sono marcati
 `review_required`: non rendono strutturalmente invalido il dump sorgente, ma
 impediscono di descrivere `geonames_place_match` come verifica geografica.
-
-Il report legacy può cambiare se cambia il legacy; gli output canonici no.
 
 ## Quality model
 

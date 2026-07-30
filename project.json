@@ -3,13 +3,12 @@
   "dataset_version": "v2.0.0",
   "geonames_reference_date": "2026-07-30",
   "istat_reference_date": "2026-02-21",
-  "legacy_reference_date": "2023-05-02",
   "license_status": "clean-room-cc-by-4.0-sources",
   "operational_data_readiness": "experimental_non_official",
   "previous_release": {
-    "canonical_path": "baselines/releases/v1.1.0/italian_locations.csv",
-    "canonical_sha256": "fde543485a77d3a265abe2947419920343121520c3465a2fc6bcc9643356c101",
-    "version": "v1.1.0"
+    "canonical_path": "baselines/releases/v2.0.0/italian_locations.csv",
+    "canonical_sha256": "803adc8dcb9e4cf0c65f6284e640a4e3b44b6f8b599f66c01cfaf9de231cf977",
+    "version": "v2.0.0"
   },
   "quality_gate_version": "5.0.0",
   "release_status": "prerelease",

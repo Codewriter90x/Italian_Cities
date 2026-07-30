@@ -23,15 +23,13 @@ and GeoNames under CC BY 4.0. It must not be represented as entirely CC0.
 Read DATA_LICENSE.md, NOTICE.md and DATA_SOURCES.md before reuse or
 redistribution.
 
-Historical material
--------------------
+Withdrawn historical material
+-----------------------------
 
-Files under legacy/ are retained only as a historical archive and bounded
-comparison input. They do not contribute to the v2 canonical dataset,
-derived formats, GitHub Pages or release assets. Their upstream provenance
-and rights have not been independently established by the current pipeline;
-their presence does not extend the repository CC0 dedication to their
-contents.
+Pre-clean-room data whose upstream provenance and redistribution rights could
+not be established has been withdrawn from the repository and release assets.
+The repository CC0 dedication must not be interpreted as granting rights over
+copies that may still exist in third-party forks, caches or local clones.
 
 No warranty
 -----------

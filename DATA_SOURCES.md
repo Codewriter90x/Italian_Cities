@@ -48,16 +48,13 @@ La CI ricostruisce il GeoJSON semplificato dal file originale e confronta i
 byte con l'asset committato. Il controllo non può più risultare verde saltando
 la ricostruzione.
 
-## Legacy
+## Materiale storico ritirato
 
-`legacy/2023-05-02-original/Italian Cities.csv` ha SHA-256
-`45f31340a6f0c390927aa1224424a75c6c968e601aa2df0a746413431e82d050`.
-È `canonical_input: false`.
-
-La v2 non legge il legacy durante la costruzione del modello canonico. Lo
-legge successivamente soltanto per produrre un report storico investigativo.
-La somiglianza di 10.738 coppie nome–provincia–CAP con GeoNames non dimostra
-la fonte originaria del legacy.
+Il materiale usato dalle versioni anteriori alla ricostruzione clean-room non
+aveva una provenienza e un diritto di redistribuzione dimostrabili. È stato
+quindi rimosso dal branch corrente, dagli asset delle release interessate e
+dalla cronologia Git pubblica. Non è dichiarato nel manifest e non viene
+usato per confronti o baseline.
 
 ## Fonti escluse
 
