@@ -14,7 +14,7 @@ body:
     id: location_id
     attributes:
       label: Identificativo
-      description: "`location_id` o `legacy_uuid` del record."
+      description: "`location_id` del record corrente."
       placeholder: IT-LOC-e6b0bc3e-1acf-5509-8923-238575fc9025
     validations:
       required: true

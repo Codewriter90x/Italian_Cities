@@ -1,0 +1,68 @@
+name: Source freshness
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    name: Check canonical upstream sources
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install runtime dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Compare declared snapshots with upstream artifacts
+        run: >-
+          python scripts/update_sources.py
+          --check
+          --report "${RUNNER_TEMP}/source-freshness.json"
+
+      - name: Preserve freshness evidence
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: source-freshness
+          path: ${{ runner.temp }}/source-freshness.json
+          retention-days: 30
+
+      - name: Open one tracking issue when an update is available
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPORT: ${{ runner.temp }}/source-freshness.json
+        run: |
+          updates="$(python -c 'import json, os; print(", ".join(json.load(open(os.environ["REPORT"]))["updates_available"]))')"
+          if [ -z "${updates}" ]; then
+            exit 0
+          fi
+          existing="$(
+            gh issue list \
+              --repo "${GITHUB_REPOSITORY}" \
+              --state open \
+              --search '"Upstream source update available" in:title' \
+              --json number \
+              --jq 'length'
+          )"
+          if [ "${existing}" -eq 0 ]; then
+            gh issue create \
+              --repo "${GITHUB_REPOSITORY}" \
+              --title "Upstream source update available" \
+              --label "source-update" \
+              --body "The scheduled freshness check detected changes for: ${updates}. Review the workflow artifact and use scripts/update_sources.py to stage a dated snapshot. No source or generated dataset was modified automatically."
+          fi

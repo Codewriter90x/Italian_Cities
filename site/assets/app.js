@@ -9,9 +9,11 @@ import {
 
 const state = {
   rows: [],
+  mapRows: [],
   boundaries: null,
   stats: null,
   selected: null,
+  loadPromise: null,
   filters: {
     query: "",
     province: "",
@@ -28,6 +30,8 @@ const elements = {
   kind: document.querySelector("#kind"),
   coordinateStatus: document.querySelector("#coordinate-status"),
   reset: document.querySelector("#reset-search"),
+  copyFilterLink: document.querySelector("#copy-filter-link"),
+  copyStatus: document.querySelector("#copy-status"),
   resultCount: document.querySelector("#result-count"),
   results: document.querySelector("#result-list"),
   canvas: document.querySelector("#coverage-map"),
@@ -50,6 +54,11 @@ function populateStats(stats) {
 }
 
 function populateProvinces(rows) {
+  const currentProvinceCodes = new Set(
+    rows
+      .filter((row) => row.location_kind === "municipality")
+      .map((row) => row.province_code),
+  );
   const provinces = [
     ...new Map(
       rows.map((row) => [
@@ -62,7 +71,9 @@ function populateProvinces(rows) {
   for (const [code, label] of provinces) {
     const option = document.createElement("option");
     option.value = code;
-    option.textContent = label;
+    option.textContent = currentProvinceCodes.has(code)
+      ? label
+      : `${label} · sigla sorgente non corrente`;
     elements.province.append(option);
   }
 }
@@ -233,7 +244,7 @@ function drawMap() {
 
   const bounds = state.stats.bounds;
   drawBoundaries(context, width, height, bounds);
-  for (const row of state.rows) {
+  for (const row of state.mapRows) {
     if (row.latitude === null || row.longitude === null) continue;
     const point = projectCoordinates(
       row.longitude,
@@ -304,6 +315,31 @@ function updateFilters() {
   window.history.replaceState(null, "", url);
 }
 
+async function copyCurrentFilterLink() {
+  const url = window.location.href;
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(url);
+    } else {
+      const temporary = document.createElement("textarea");
+      temporary.value = url;
+      temporary.setAttribute("readonly", "");
+      temporary.style.position = "fixed";
+      temporary.style.opacity = "0";
+      document.body.append(temporary);
+      temporary.select();
+      if (!document.execCommand("copy")) {
+        throw new Error("copy command unavailable");
+      }
+      temporary.remove();
+    }
+    elements.copyStatus.textContent = "Link dei filtri copiato.";
+  } catch {
+    elements.copyStatus.textContent =
+      "Copia non disponibile: seleziona l’indirizzo dalla barra del browser.";
+  }
+}
+
 function resetSearch() {
   elements.form.reset();
   state.selected = null;
@@ -337,6 +373,11 @@ async function loadDataset() {
       boundaryResponse.json(),
     ]);
     state.rows = inflateRows(payload.fields, payload.rows);
+    state.mapRows = [
+      ...new Map(
+        [...state.rows].reverse().map((row) => [row.location_id, row]),
+      ).values(),
+    ];
     state.stats = payload.stats;
     state.boundaries = boundaries;
     populateStats(payload.stats);
@@ -357,13 +398,39 @@ async function loadDataset() {
   }
 }
 
+function ensureDatasetLoaded() {
+  if (!state.loadPromise) {
+    elements.status.textContent = "Caricamento del dataset…";
+    elements.status.dataset.state = "loading";
+    state.loadPromise = loadDataset();
+  }
+  return state.loadPromise;
+}
+
 elements.form.addEventListener("input", updateFilters);
+elements.form.addEventListener("focusin", ensureDatasetLoaded, { once: true });
 elements.form.addEventListener("submit", (event) => event.preventDefault());
 elements.reset.addEventListener("click", resetSearch);
+elements.copyFilterLink.addEventListener("click", copyCurrentFilterLink);
 window.addEventListener("resize", drawMap);
 window.addEventListener("popstate", () => {
   applyFiltersFromUrl();
   renderResults();
 });
 
-loadDataset();
+if (window.location.search || ["#search", "#map"].includes(window.location.hash)) {
+  ensureDatasetLoaded();
+} else if ("IntersectionObserver" in window) {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        observer.disconnect();
+        ensureDatasetLoaded();
+      }
+    },
+    { rootMargin: "240px" },
+  );
+  observer.observe(elements.form);
+} else {
+  ensureDatasetLoaded();
+}

@@ -8,6 +8,7 @@ on:
       - "data/italian_locations.csv"
       - "project.json"
       - "scripts/build_pages.py"
+      - "scripts/build_geography.py"
       - "scripts/project_metadata.py"
       - "site/**"
       - "tests/pages_core.test.mjs"
@@ -21,6 +22,7 @@ on:
       - "data/italian_locations.csv"
       - "project.json"
       - "scripts/build_pages.py"
+      - "scripts/build_geography.py"
       - "scripts/project_metadata.py"
       - "site/**"
       - "tests/pages_core.test.mjs"
@@ -61,8 +63,14 @@ jobs:
       - name: Test deterministic Pages build
         run: python -m unittest discover -s tests -p "test_pages.py" -v
 
+      - name: Verify committed geographic base
+        run: python scripts/build_geography.py --check
+
       - name: Build GitHub Pages artifact
         run: python scripts/build_pages.py --output _site
+
+      - name: Validate accessibility, local links and performance budgets
+        run: python scripts/validate_site.py _site
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0

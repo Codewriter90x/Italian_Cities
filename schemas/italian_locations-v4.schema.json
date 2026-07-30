@@ -1,0 +1,102 @@
+{
+  "$id": "https://codewriter90x.github.io/Italian_Cities/schemas/italian_locations-v4.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "fields": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "metadata": {
+      "additionalProperties": true,
+      "properties": {
+        "contract_status": {
+          "const": "next_major_preview"
+        },
+        "schema_version": {
+          "const": "4.0.0"
+        }
+      },
+      "required": [
+        "schema_version",
+        "contract_status"
+      ],
+      "type": "object"
+    },
+    "rows": {
+      "items": {
+        "$ref": "#/$defs/location"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "metadata",
+    "fields",
+    "rows"
+  ],
+  "title": "Italian Cities typed JSON preview",
+  "type": "object",
+  "$defs": {
+    "location": {
+      "additionalProperties": false,
+      "properties": {
+        "candidate_municipality_ids": { "type": "string" },
+        "coordinate_accuracy": { "type": ["integer", "null"] },
+        "coordinate_verification": { "type": "string" },
+        "country_code": { "type": "string" },
+        "country_name": { "type": "string" },
+        "latitude": { "type": ["number", "null"] },
+        "location_id": { "type": "string" },
+        "location_kind": { "type": "string" },
+        "location_postal_id": { "type": "string" },
+        "longitude": { "type": ["number", "null"] },
+        "municipality_istat_code": { "type": "string" },
+        "name": { "type": "string" },
+        "normalized_name": { "type": "string" },
+        "parent_municipality_id": { "type": "string" },
+        "postal_code": { "type": "string" },
+        "postal_code_status": { "type": "string" },
+        "province_code": { "type": "string" },
+        "province_name": { "type": "string" },
+        "reconciliation_confidence": { "type": "string" },
+        "reconciliation_method": { "type": "string" },
+        "reconciliation_outcome": { "type": "string" },
+        "region_name": { "type": "string" },
+        "source_ids": { "type": "string" },
+        "source_record_ids": { "type": "string" },
+        "source_reference_dates": { "type": "string" }
+      },
+      "required": [
+        "location_postal_id",
+        "location_id",
+        "name",
+        "normalized_name",
+        "location_kind",
+        "municipality_istat_code",
+        "parent_municipality_id",
+        "candidate_municipality_ids",
+        "postal_code",
+        "postal_code_status",
+        "province_code",
+        "province_name",
+        "region_name",
+        "country_code",
+        "country_name",
+        "latitude",
+        "longitude",
+        "coordinate_verification",
+        "coordinate_accuracy",
+        "reconciliation_outcome",
+        "reconciliation_method",
+        "reconciliation_confidence",
+        "source_ids",
+        "source_record_ids",
+        "source_reference_dates"
+      ],
+      "type": "object"
+    }
+  }
+}

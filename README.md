@@ -21,7 +21,11 @@ coordinate, costruito con una pipeline **clean room**.
 
 Il tag e la prerelease
 [`v2.0.0`](https://github.com/Codewriter90x/Italian_Cities/releases/tag/v2.0.0)
-sono pubblicati con asset immutabili e checksum SHA-256.
+sono pubblicati con tag protetto, attestazioni e checksum SHA-256. Gli asset
+della v2.0.0 non sono retroattivamente immutabili; il workflow applica il
+processo draft–upload–publish alle release future. L'impostazione GitHub
+**Immutable releases** è attiva dal 30 luglio 2026 e si applica soltanto alle
+release pubblicate dopo l'attivazione.
 
 ## Fonti canoniche
 
@@ -191,11 +195,14 @@ anche senza CAP.
 
 ## Licenze e attribuzione
 
+- Il codice e la documentazione originali del repository sono dedicati CC0
+  1.0 nei limiti dei diritti detenuti.
 - © Istituto nazionale di statistica (ISTAT), dati riutilizzati secondo
   CC BY 4.0.
 - GeoNames Postal Codes, © GeoNames, CC BY 4.0,
   <https://www.geonames.org/>.
 
+Il dataset canonico derivato non è CC0 e richiede entrambe le attribuzioni.
 GeoNames non è una fonte ufficiale di Poste Italiane. Vedere
 [`DATA_LICENSE.md`](DATA_LICENSE.md), [`NOTICE.md`](NOTICE.md) e
 [`DATA_SOURCES.md`](DATA_SOURCES.md).
@@ -206,3 +213,6 @@ Ogni aggiornamento richiede uno snapshot immutabile, checksum, licenza,
 attribuzione, build deterministica e una PR verde. Per una correzione aprire
 un [issue form](https://github.com/Codewriter90x/Italian_Cities/issues/new/choose)
 indicando record, fonte, data e licenza.
+
+Un esempio completo del processo è disponibile in
+[`docs/SOURCE_BACKED_CORRECTION_EXAMPLE.md`](docs/SOURCE_BACKED_CORRECTION_EXAMPLE.md).

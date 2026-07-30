@@ -13,6 +13,6 @@ determined or estimated algorithmically; the source `accuracy` field is
 preserved by this project.
 
 Historical files under `legacy/` do not contribute to the v2 canonical
-dataset, derived formats, release candidate or GitHub Pages data. They are
+dataset, derived formats, published release or GitHub Pages data. They are
 used only for a bounded investigative comparison, which cannot establish
 their original provenance.

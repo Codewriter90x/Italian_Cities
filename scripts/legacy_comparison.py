@@ -10,7 +10,6 @@ from pathlib import Path
 
 from dataset_common import normalize_name, sha256_file
 
-
 LEGACY_FIELDS = (
     "legacy_uuid",
     "name",

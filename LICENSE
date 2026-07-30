@@ -1,28 +1,37 @@
-Italian Cities licensing notice
+Italian Cities multi-license notice
 
 Repository code and original documentation
 ------------------------------------------
 
-The repository's original code and documentation are offered under CC0 1.0
-Universal to the extent that the repository owner holds the applicable rights.
-The complete legal text is available at:
+The repository's original code and documentation are dedicated under CC0 1.0
+Universal to the extent that the repository owner holds the applicable
+rights. The complete legal text is available at:
 
     LICENSES/CC0-1.0.txt
 
 Dataset and third-party inputs
 ------------------------------
 
-The CC0 dedication above does not apply to third-party source material or
-prove that legacy geographic and postal values may be relicensed under CC0.
-The canonical dataset combines:
+The CC0 dedication above does not apply to third-party source material or to
+the canonical dataset derived from it. Italian Cities v2 combines:
 
-- legacy values whose upstream provenance and rights are not fully known;
-- ISTAT-derived classifications and codes that require attribution under
-  CC BY 4.0.
+- ISTAT municipality classifications and codes, licensed under CC BY 4.0;
+- GeoNames Postal Codes for Italy, licensed under CC BY 4.0.
 
-The dataset is therefore distributed with provisional licensing status and
-must not be represented as entirely CC0. Read DATA_LICENSE.md, NOTICE.md and
-DATA_SOURCES.md before reuse or redistribution.
+Reuse of the canonical dataset therefore requires attribution to both ISTAT
+and GeoNames under CC BY 4.0. It must not be represented as entirely CC0.
+Read DATA_LICENSE.md, NOTICE.md and DATA_SOURCES.md before reuse or
+redistribution.
+
+Historical material
+-------------------
+
+Files under legacy/ are retained only as a historical archive and bounded
+comparison input. They do not contribute to the v2 canonical dataset,
+derived formats, GitHub Pages or release assets. Their upstream provenance
+and rights have not been independently established by the current pipeline;
+their presence does not extend the repository CC0 dedication to their
+contents.
 
 No warranty
 -----------

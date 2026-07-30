@@ -7,7 +7,6 @@ import re
 
 from validators.common import QualityChecks, add_quality_error
 
-
 ITALY_BOUNDS = {
     "latitude_min": 35.0,
     "latitude_max": 48.0,

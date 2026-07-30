@@ -15,7 +15,6 @@ from typing import Any
 
 from dataset_common import ROOT, SOURCE_MANIFEST, normalize_name, sha256_file
 
-
 DEFAULT_ISTAT = (
     ROOT
     / "sources/snapshots/istat/Elenco-comuni-italiani-2026-02-21.xlsx"

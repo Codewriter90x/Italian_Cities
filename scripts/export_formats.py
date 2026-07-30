@@ -4,17 +4,16 @@
 from __future__ import annotations
 
 import argparse
-from datetime import datetime, timezone
 import json
 import os
 import re
 import sqlite3
 import tempfile
 import zipfile
+from datetime import UTC, datetime
 from pathlib import Path
 
 import xlsxwriter
-
 from dataset_common import (
     GENERATED_PATHS,
     ITALIAN_LOCATION_FIELDS,
@@ -33,7 +32,6 @@ from project_metadata import (
     STRUCTURAL_QUALITY,
     version_number,
 )
-
 
 FIXED_XLSX_TIMESTAMP = f"{BUILD_DATE}T00:00:00Z"
 DEFAULT_REPORT = REPORTS_DIR / "export-manifest.json"
@@ -227,7 +225,7 @@ def export_xlsx(
             "author": "Codewriter90x",
             "comments": "Generated; do not edit manually.",
             "created": datetime.fromisoformat(BUILD_DATE).replace(
-                tzinfo=timezone.utc
+                tzinfo=UTC
             ),
         }
     )

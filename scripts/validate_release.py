@@ -25,7 +25,6 @@ from dataset_common import (
 )
 from project_metadata import DATASET_VERSION, SCHEMA_VERSION
 
-
 EXPECTED_ASSETS = {*RELEASE_ASSETS, SQL_ASSET, CHECKSUM_ASSET}
 
 
