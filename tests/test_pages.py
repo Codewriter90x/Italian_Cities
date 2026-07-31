@@ -117,6 +117,7 @@ class GitHubPagesBuildTests(unittest.TestCase):
                 if item["@type"] == "Dataset"
             )
             self.assertEqual("2.0.0", dataset["version"])
+            self.assertEqual("Italia", dataset["spatialCoverage"])
             self.assertEqual(6, len(dataset["distribution"]))
             self.assertIn('id="copy-filter-link"', source)
             self.assertNotIn(

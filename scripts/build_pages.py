@@ -113,11 +113,7 @@ def structured_data(stats: dict[str, Any]) -> str:
                     "CSV",
                     "GeoNames",
                 ],
-                "spatialCoverage": {
-                    "@type": "Country",
-                    "name": "Italia",
-                    "identifier": "IT",
-                },
+                "spatialCoverage": "Italia",
                 "creator": {
                     "@type": "Person",
                     "name": "Codewriter90x",
