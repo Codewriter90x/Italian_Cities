@@ -1,2 +1,2 @@
-XlsxWriter==3.2.9
+XlsxWriter==3.3.1
 truststore==0.10.4
